@@ -1,5 +1,5 @@
 import { APP_CONFIG } from '@/lib/constants'
-import usePixi from '@/src/usePixi'
+import usePixi from '@/components/Tile/usePixi'
 import { Stage } from '@pixi/react'
 import { useEffect } from 'react'
 
@@ -18,6 +18,7 @@ const Start = () => (
     options={{ backgroundAlpha: 0, resolution: APP_CONFIG.resolution }}
     width={window.innerWidth}
     height={window.innerHeight}
+    className="fixed inset-0 overflow-hidden"
   >
     <StageInner />
   </Stage>

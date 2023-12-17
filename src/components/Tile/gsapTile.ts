@@ -29,6 +29,7 @@ const predefinedFXIn = tiles.map(tile => ({
 }))
 
 export const setupGsapTile = (tile: Sprite, id: number) => {
+  gsap.killTweensOf(tile) // for perfomance do not kill tweens
   gsap.set(tile, {
     pixi: {
       ...predefinedFXInitial[id],
@@ -104,5 +105,40 @@ export const animateIn = (tile: Sprite, id: number, originX: number, originY: nu
     onComplete: () => {
       animateOut(tile, id, originX, originY)
     },
+  })
+}
+
+export const animateIdle = (tile: Sprite, id: number, originX: number, originY: number) => {
+  // gsap.killTweensOf(tile)
+
+  const tl = gsap.timeline({ repeat: -1 })
+  tl.to(tile, {
+    duration: getRandom(0.1, 0.2),
+    pixi: {
+      ...predefinedFXIn[id],
+      tint: '#ffffff',
+      alpha: getRandom(0.5, 1),
+      rotation: getRandom(-30, 30),
+      x: originX + getRandom(-TILE_CONFIG.width * 0.2, TILE_CONFIG.width * 0.2),
+      y: originY + getRandom(-TILE_CONFIG.height * 0.2, TILE_CONFIG.height * 0.2),
+    },
+    // onInterrupt: () => {
+    //   gsap.killTweensOf(tile)
+    //   animateOut(tile, id, originX, originY)
+    // },
+  })
+  tl.to(tile, {
+    duration: getRandom(0.1, 0.2),
+    pixi: {
+      ...predefinedFXIn[id],
+      alpha: getRandom(0.5, 1),
+      rotation: getRandom(-90, 90),
+      x: tile.x + getRandom(-TILE_CONFIG.width * 0.2, TILE_CONFIG.width * 0.2),
+      y: tile.y + getRandom(-TILE_CONFIG.height * 0.2, TILE_CONFIG.height * 0.2),
+    },
+    // onInterrupt: () => {
+    //   gsap.killTweensOf(tile)
+    //   animateOut(tile, id, originX, originY)
+    // },
   })
 }
