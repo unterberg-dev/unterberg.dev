@@ -15,7 +15,10 @@ const StageInner = () => {
 
 const Start = () => (
   <Stage
-    options={{ backgroundAlpha: 0, resolution: APP_CONFIG.resolution }}
+    options={{
+      resolution: APP_CONFIG.resolution,
+      backgroundAlpha: 0,
+    }}
     width={window.innerWidth}
     height={window.innerHeight}
     className="fixed inset-0 overflow-hidden"

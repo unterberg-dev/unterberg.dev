@@ -1,7 +1,6 @@
 interface TileConfigValues {
   width: number
   height: number
-  gap: number
   windowWidth: number
   windowHeight: number
 }
@@ -14,9 +13,8 @@ export const APP_CONFIG = {
 }
 
 export const TILE_CONFIG: TileConfigValues = {
-  width: 25,
-  height: 25,
-  gap: 0,
+  width: 20,
+  height: 20,
   windowWidth: window.innerWidth,
   windowHeight: window.innerHeight,
 }

@@ -9,6 +9,7 @@ import { animateIn, setupGsapTile } from '@/components/Tile/gsapTile'
 import {
   Tile,
   checkHoveredRectangle,
+  colsCount,
   getAllNeighbors,
   getCalculateTilePositions,
 } from '@/components/Tile/tiles'
@@ -73,8 +74,8 @@ const usePixi = () => {
 
     tilesPos.forEach(({ id, x, y }) => {
       const sprite = createSprite({
-        texture: Texture.WHITE,
         // texture: 'https://pixijs.io/examples/examples/assets/bunny.png',
+        texture: Texture.WHITE,
         x,
         y,
         width: TILE_CONFIG.width,
@@ -126,55 +127,65 @@ const usePixi = () => {
 
   useEffect(() => {
     window.addEventListener('pointermove', handleMouseMove)
+    window.addEventListener('pointerdown', handleMouseMove)
 
     return () => {
       window.removeEventListener('pointermove', handleMouseMove)
+      window.removeEventListener('pointerdown', handleMouseMove)
     }
   }, [handleMouseMove, init])
 
-  // best working atm
   useEffect(() => {
-    let toggleTarget: number = 0
+    let toggleTarget = 0
 
     const toggleAnimation = () => {
-      if (!previouslyHoveredTileId.current) {
-        return
-      }
-      const target = previouslyHoveredTileId.current
+      const hoveredTileId = previouslyHoveredTileId.current
+      const noHoveredTile = !hoveredTileId
+
+      const target = noHoveredTile ? Math.floor(tilesRef.current.length / 2) : hoveredTileId
       const targets = [
-        tilesRef.current[target - 1],
-        tilesRef.current[target],
-        tilesRef.current[target + 1],
+        target - colsCount,
+        target - colsCount + 1,
+        target + 1,
+        target + colsCount + 1,
+        target + colsCount,
+        target + colsCount - 1,
+        target - 1,
+        target - colsCount - 1,
       ]
 
-      if (!targets[toggleTarget]) {
-        toggleTarget = 0 // Toggle between tile and tileBefore
+      const currentTarget = targets[toggleTarget % targets.length]
+      const current = tilesRef.current[currentTarget]
+
+      if (currentTarget < 0 || currentTarget > tilesRef.current.length - 1) {
+        toggleTarget += 1
+        return
       }
 
-      const current = targets[toggleTarget]
+      const posX = current ? tilesPos[current.id].x : window.innerWidth / 2
+      const posY = current ? tilesPos[current.id].y : window.innerHeight / 2
 
       const toggleTargetNeighbors = getAllNeighbors(
-        current ? tilesPos[current.id].x : window.innerWidth / 2,
-        current ? tilesPos[current.id].y : window.innerHeight / 2,
+        posX,
+        posY,
+        tilesPos[target].x,
+        tilesPos[target].y,
       )
 
       toggleTargetNeighbors.forEach(neighborId => {
         const tile = tilesRef.current[neighborId]
-
         animateIn(tile.sprite, tile.id, tilesPos[neighborId].x, tilesPos[neighborId].y)
       })
 
-      toggleTarget += 1 % targets.length // Toggle between tile and tileBefore
+      toggleTarget += 1
     }
 
-    const animationInterval = setInterval(toggleAnimation, 100) // Adjust the interval duration as needed (500ms in this case)
-
+    const animationInterval = setInterval(toggleAnimation, 100)
     if (isCursorMoving) {
-      clearInterval(animationInterval) // Clear the interval if the cursor is moving
+      clearInterval(animationInterval)
     }
-    return () => {
-      clearInterval(animationInterval) // Cleanup: clear the interval on component unmount
-    }
+
+    return () => clearInterval(animationInterval)
   }, [isCursorMoving, tilesPos])
 
   return {

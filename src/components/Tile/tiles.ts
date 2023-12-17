@@ -13,16 +13,16 @@ export type TileBase = {
 }
 
 export const getCalculateTilePositions = (): TileBase[] => {
-  const { width, height, gap, windowWidth, windowHeight } = TILE_CONFIG
+  const { width, height, windowWidth, windowHeight } = TILE_CONFIG
 
-  const effectiveWidth = width + gap
-  const effectiveHeight = height + gap
+  const effectiveWidth = width
+  const effectiveHeight = height
 
-  const columns = Math.floor((windowWidth - gap) / effectiveWidth)
-  const rows = Math.floor((windowHeight - gap) / effectiveHeight)
+  const columns = Math.floor(windowWidth / effectiveWidth)
+  const rows = Math.floor(windowHeight / effectiveHeight)
 
-  const xOffset = (windowWidth - (columns * effectiveWidth - gap)) / 2
-  const yOffset = (windowHeight - (rows * effectiveHeight - gap)) / 2
+  const xOffset = (windowWidth - columns * effectiveWidth) / 2
+  const yOffset = (windowHeight - rows * effectiveHeight) / 2
 
   const tiles: TileBase[] = []
   for (let i = 0; i < rows; i += 1) {
@@ -37,11 +37,8 @@ export const getCalculateTilePositions = (): TileBase[] => {
   return tiles
 }
 
-// const rowsCount = Math.floor(TILE_CONFIG.windowHeight / (TILE_CONFIG.height + TILE_CONFIG.gap))
-export const colsCount = Math.floor(TILE_CONFIG.windowWidth / (TILE_CONFIG.width + TILE_CONFIG.gap))
-export const rowsCount = Math.floor(
-  TILE_CONFIG.windowHeight / (TILE_CONFIG.height + TILE_CONFIG.gap),
-)
+export const colsCount = Math.floor(TILE_CONFIG.windowWidth / TILE_CONFIG.width)
+export const rowsCount = Math.floor(TILE_CONFIG.windowHeight / TILE_CONFIG.height)
 
 export const checkHoveredRectangle = (
   mouseX: number,
@@ -65,29 +62,31 @@ export const checkHoveredRectangle = (
   return null
 }
 
-export const getAllNeighbors = (mouseX: number, mouseY: number): number[] => {
+export const getAllNeighbors = (
+  mouseX: number,
+  mouseY: number,
+  manualHitboxX?: number,
+  manualHitboxY?: number,
+): number[] => {
   const hitboxWidth = TILE_CONFIG.width * APP_CONFIG.hoverCircleCount * 2 * 2
   const hitboxHeight = TILE_CONFIG.height * APP_CONFIG.hoverCircleCount * 2 * 2
   const radius = APP_CONFIG.hoverCircleCount // Set the radius of your circle
 
-  const c = Math.floor(mouseX / (TILE_CONFIG.width + TILE_CONFIG.gap))
-  const d = Math.floor(mouseY / (TILE_CONFIG.height + TILE_CONFIG.gap))
+  const c = Math.floor(mouseX / TILE_CONFIG.width)
+  const d = Math.floor(mouseY / TILE_CONFIG.height)
+
+  const hitboxRefX = manualHitboxX || mouseX
+  const hitboxRefY = manualHitboxY || mouseY
 
   // move hitbox
-  const hitboxX = mouseX - TILE_CONFIG.width * radius
-  const hitboxY = mouseY - TILE_CONFIG.height * radius
+  const hitboxX = hitboxRefX - TILE_CONFIG.width * radius
+  const hitboxY = hitboxRefY - TILE_CONFIG.height * radius
 
   // Calculate the range of neighbors within the hitbox boundaries
-  const startCol = Math.max(0, Math.floor(hitboxX / (TILE_CONFIG.width + TILE_CONFIG.gap)))
-  const endCol = Math.min(
-    colsCount - 1,
-    Math.ceil((hitboxX + hitboxWidth) / (TILE_CONFIG.width + TILE_CONFIG.gap)),
-  )
-  const startRow = Math.max(0, Math.floor(hitboxY / (TILE_CONFIG.height + TILE_CONFIG.gap)))
-  const endRow = Math.min(
-    rowsCount - 1,
-    Math.ceil((hitboxY + hitboxHeight) / (TILE_CONFIG.height + TILE_CONFIG.gap)),
-  )
+  const startCol = Math.max(0, Math.floor(hitboxX / TILE_CONFIG.width))
+  const endCol = Math.min(colsCount - 1, Math.ceil((hitboxX + hitboxWidth) / TILE_CONFIG.width))
+  const startRow = Math.max(0, Math.floor(hitboxY / TILE_CONFIG.height))
+  const endRow = Math.min(rowsCount - 1, Math.ceil((hitboxY + hitboxHeight) / TILE_CONFIG.height))
 
   const neighbors: number[] = []
   for (let col = startCol; col <= endCol; col += 1) {

@@ -16,6 +16,14 @@ const predefinedFXInitial = tiles.map(tile => ({
   height: 0,
   x: tile.x + getRandom(-TILE_CONFIG.width * 1.2, TILE_CONFIG.width * 1.2),
   y: tile.y + getRandom(-TILE_CONFIG.height * 1.2, TILE_CONFIG.height * 1.2),
+  // alpha: 1,
+  // width: TILE_CONFIG.width,
+  // height: TILE_CONFIG.height,
+  // x: tile.x,
+  // y: tile.y,
+  //   skewX: 0,
+  // skewY:0,
+  // rotation: 0,
 }))
 
 const predefinedFXIn = tiles.map(tile => ({
@@ -105,40 +113,5 @@ export const animateIn = (tile: Sprite, id: number, originX: number, originY: nu
     onComplete: () => {
       animateOut(tile, id, originX, originY)
     },
-  })
-}
-
-export const animateIdle = (tile: Sprite, id: number, originX: number, originY: number) => {
-  // gsap.killTweensOf(tile)
-
-  const tl = gsap.timeline({ repeat: -1 })
-  tl.to(tile, {
-    duration: getRandom(0.1, 0.2),
-    pixi: {
-      ...predefinedFXIn[id],
-      tint: '#ffffff',
-      alpha: getRandom(0.5, 1),
-      rotation: getRandom(-30, 30),
-      x: originX + getRandom(-TILE_CONFIG.width * 0.2, TILE_CONFIG.width * 0.2),
-      y: originY + getRandom(-TILE_CONFIG.height * 0.2, TILE_CONFIG.height * 0.2),
-    },
-    // onInterrupt: () => {
-    //   gsap.killTweensOf(tile)
-    //   animateOut(tile, id, originX, originY)
-    // },
-  })
-  tl.to(tile, {
-    duration: getRandom(0.1, 0.2),
-    pixi: {
-      ...predefinedFXIn[id],
-      alpha: getRandom(0.5, 1),
-      rotation: getRandom(-90, 90),
-      x: tile.x + getRandom(-TILE_CONFIG.width * 0.2, TILE_CONFIG.width * 0.2),
-      y: tile.y + getRandom(-TILE_CONFIG.height * 0.2, TILE_CONFIG.height * 0.2),
-    },
-    // onInterrupt: () => {
-    //   gsap.killTweensOf(tile)
-    //   animateOut(tile, id, originX, originY)
-    // },
   })
 }
