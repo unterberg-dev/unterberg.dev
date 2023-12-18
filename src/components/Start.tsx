@@ -43,7 +43,7 @@ const Start = () => {
       </Stage>
       <div className="absolute inset-0 z-30">
         <div className="text-9xl text-white font-bold flex justify-center items-center h-full">
-          PIXR
+          grix
         </div>
       </div>
     </div>
