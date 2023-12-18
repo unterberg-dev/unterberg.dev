@@ -12,17 +12,25 @@ export type TileBase = {
   y: number
 }
 
-export const getCalculateTilePositions = (): TileBase[] => {
-  const { width, height, windowWidth, windowHeight } = TILE_CONFIG
+interface GetCalculateTilePositionsProps {
+  stageWidth: number
+  stageHeight: number
+}
+
+export const getCalculateTilePositions = ({
+  stageWidth,
+  stageHeight,
+}: GetCalculateTilePositionsProps): TileBase[] => {
+  const { width, height } = TILE_CONFIG
 
   const effectiveWidth = width
   const effectiveHeight = height
 
-  const columns = Math.floor(windowWidth / effectiveWidth)
-  const rows = Math.floor(windowHeight / effectiveHeight)
+  const columns = Math.floor(stageWidth / effectiveWidth)
+  const rows = Math.floor(stageHeight / effectiveHeight)
 
-  const xOffset = (windowWidth - columns * effectiveWidth) / 2
-  const yOffset = (windowHeight - rows * effectiveHeight) / 2
+  const xOffset = (stageWidth - columns * effectiveWidth) / 2
+  const yOffset = (stageHeight - rows * effectiveHeight) / 2
 
   const tiles: TileBase[] = []
   for (let i = 0; i < rows; i += 1) {
@@ -36,9 +44,6 @@ export const getCalculateTilePositions = (): TileBase[] => {
 
   return tiles
 }
-
-export const colsCount = Math.floor(TILE_CONFIG.windowWidth / TILE_CONFIG.width)
-export const rowsCount = Math.floor(TILE_CONFIG.windowHeight / TILE_CONFIG.height)
 
 export const checkHoveredRectangle = (
   mouseX: number,
@@ -62,12 +67,23 @@ export const checkHoveredRectangle = (
   return null
 }
 
-export const getAllNeighbors = (
-  mouseX: number,
-  mouseY: number,
-  manualHitboxX?: number,
-  manualHitboxY?: number,
-): number[] => {
+interface getAllNeighborsProps {
+  mouseX: number
+  mouseY: number
+  rowsCount: number
+  colsCount: number
+  manualHitboxX?: number
+  manualHitboxY?: number
+}
+
+export const getAllNeighbors = ({
+  mouseX,
+  mouseY,
+  rowsCount,
+  colsCount,
+  manualHitboxX,
+  manualHitboxY,
+}: getAllNeighborsProps): number[] => {
   const hitboxWidth = TILE_CONFIG.width * APP_CONFIG.hoverCircleCount * 2 * 2
   const hitboxHeight = TILE_CONFIG.height * APP_CONFIG.hoverCircleCount * 2 * 2
   const radius = APP_CONFIG.hoverCircleCount // Set the radius of your circle

@@ -5,17 +5,21 @@ import gsap from 'gsap'
 import PixiPlugin from 'gsap/PixiPlugin'
 import * as PIXI from 'pixi.js'
 import { TILE_CONFIG } from '@/lib/constants'
-import { animateIn, setupGsapTile } from '@/components/Tile/gsapTile'
 import {
   Tile,
   checkHoveredRectangle,
-  colsCount,
   getAllNeighbors,
   getCalculateTilePositions,
 } from '@/components/Tile/tiles'
 import debounce from 'lodash/debounce'
+import useTileFx from '@/components/Tile/useTileFx'
 
-const usePixi = () => {
+interface UsePixiProps {
+  stageWidth: number
+  stageHeight: number
+}
+
+const usePixi = ({ stageWidth, stageHeight }: UsePixiProps) => {
   const app = useApp()
   const tilesRef = useRef<Tile[]>([])
   const previouslyHoveredTileId = useRef<number | null>(null)
@@ -26,7 +30,22 @@ const usePixi = () => {
     setIsCursorMoving(false)
   }, 200)
 
-  const tilesPos = useMemo(() => getCalculateTilePositions(), [])
+  const colsCount = useMemo(() => Math.floor(stageWidth / TILE_CONFIG.width), [stageWidth])
+  const rowsCount = useMemo(() => Math.floor(stageHeight / TILE_CONFIG.height), [stageHeight])
+
+  const tilesPos = useMemo(
+    () =>
+      stageWidth && stageHeight
+        ? getCalculateTilePositions({
+            stageWidth,
+            stageHeight,
+          })
+        : [],
+    [stageHeight, stageWidth],
+  )
+
+  const { setupGsapTile, animateIn } = useTileFx({ tiles: tilesPos })
+
   interface createSpriteProps {
     texture: Texture | string
     x: number
@@ -85,12 +104,12 @@ const usePixi = () => {
       tilesRef.current[id] = { id, sprite }
       setupGsapTile(sprite, id)
     })
-  }, [app.stage, app.ticker, createSprite, tilesPos])
+  }, [app.stage, app.ticker, createSprite, setupGsapTile, tilesPos])
 
   const handleMouseMove = useCallback(
     (e: MouseEvent) => {
-      const mouseX = e.clientX
-      const mouseY = e.clientY
+      const mouseX = e.pageX
+      const mouseY = e.pageY
       const currentHoveredTileId = checkHoveredRectangle(mouseX, mouseY, tilesPos)
 
       if (currentHoveredTileId === null && previouslyHoveredTileId.current !== null) {
@@ -105,7 +124,12 @@ const usePixi = () => {
         currentHoveredTileId !== null &&
         currentHoveredTileId !== previouslyHoveredTileId.current
       ) {
-        const neighbors = getAllNeighbors(mouseX, mouseY)
+        const neighbors = getAllNeighbors({
+          mouseX,
+          mouseY,
+          rowsCount,
+          colsCount,
+        })
         neighbors.forEach(neighborId => {
           const tile = tilesRef.current[neighborId]
 
@@ -122,7 +146,7 @@ const usePixi = () => {
         previouslyHoveredTileId.current = currentHoveredTileId
       }
     },
-    [handleCursorMoveTimeout, tilesPos],
+    [animateIn, colsCount, handleCursorMoveTimeout, rowsCount, tilesPos],
   )
 
   useEffect(() => {
@@ -162,15 +186,17 @@ const usePixi = () => {
         return
       }
 
-      const posX = current ? tilesPos[current.id].x : window.innerWidth / 2
-      const posY = current ? tilesPos[current.id].y : window.innerHeight / 2
+      const posX = current ? tilesPos[current.id].x : stageWidth / 2
+      const posY = current ? tilesPos[current.id].y : stageHeight / 2
 
-      const toggleTargetNeighbors = getAllNeighbors(
-        posX,
-        posY,
-        tilesPos[target].x,
-        tilesPos[target].y,
-      )
+      const toggleTargetNeighbors = getAllNeighbors({
+        mouseX: posX,
+        mouseY: posY,
+        manualHitboxX: tilesPos[target].x,
+        manualHitboxY: tilesPos[target].y,
+        rowsCount,
+        colsCount,
+      })
 
       toggleTargetNeighbors.forEach(neighborId => {
         const tile = tilesRef.current[neighborId]
@@ -186,7 +212,7 @@ const usePixi = () => {
     }
 
     return () => clearInterval(animationInterval)
-  }, [isCursorMoving, tilesPos])
+  }, [animateIn, colsCount, isCursorMoving, rowsCount, stageHeight, stageWidth, tilesPos])
 
   return {
     init,
