@@ -1,8 +1,10 @@
 import { APP_CONFIG } from '@/lib/constants'
 import usePixi from '@/components/Tile/usePixi'
 import { Stage } from '@pixi/react'
-import { useEffect, useMemo } from 'react'
+import { lazy, useEffect, useMemo } from 'react'
 import { useResizeDetector } from 'react-resize-detector'
+
+const TileSettings = lazy(() => import('@/components/TileSettings'))
 
 interface StageInnerProps {
   stageWidth?: number
@@ -13,14 +15,18 @@ const StageInner = ({ stageWidth, stageHeight }: StageInnerProps) => {
   const stageWidthValue = useMemo(() => stageWidth || window.innerWidth, [stageWidth])
   const stageHeightValue = useMemo(() => stageHeight || window.innerHeight, [stageHeight])
 
-  const { app, init } = usePixi({
+  const { app, init, destroy } = usePixi({
     stageWidth: stageWidthValue,
     stageHeight: stageHeightValue,
   })
 
   useEffect(() => {
     init()
-  }, [app, init])
+
+    return () => {
+      destroy()
+    }
+  }, [app, destroy, init])
 
   return null
 }
@@ -42,8 +48,8 @@ const Start = () => {
         <StageInner stageWidth={width} stageHeight={height} />
       </Stage>
       <div className="absolute inset-0 z-30">
-        <div className="text-9xl text-white font-bold flex justify-center items-center h-full">
-          grix
+        <div className=" text-white flex justify-center items-center h-full">
+          <TileSettings />
         </div>
       </div>
     </div>

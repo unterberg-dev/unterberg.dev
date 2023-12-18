@@ -1,4 +1,3 @@
-import { APP_CONFIG, TILE_CONFIG } from '@/lib/constants'
 import { Sprite } from 'pixi.js'
 
 export type Tile = {
@@ -15,14 +14,16 @@ export type TileBase = {
 interface GetCalculateTilePositionsProps {
   stageWidth: number
   stageHeight: number
+  width: number
+  height: number
 }
 
 export const getCalculateTilePositions = ({
   stageWidth,
   stageHeight,
+  width,
+  height,
 }: GetCalculateTilePositionsProps): TileBase[] => {
-  const { width, height } = TILE_CONFIG
-
   const effectiveWidth = width
   const effectiveHeight = height
 
@@ -49,9 +50,9 @@ export const checkHoveredRectangle = (
   mouseX: number,
   mouseY: number,
   tiles: TileBase[],
+  width: number,
+  height: number,
 ): number | null => {
-  const { width, height } = TILE_CONFIG
-
   for (let i = 0; i < tiles.length; i += 1) {
     const tile = tiles[i]
     const tileLeft = tile.x
@@ -74,6 +75,9 @@ interface getAllNeighborsProps {
   colsCount: number
   manualHitboxX?: number
   manualHitboxY?: number
+  radius: number
+  width: number
+  height: number
 }
 
 export const getAllNeighbors = ({
@@ -83,26 +87,28 @@ export const getAllNeighbors = ({
   colsCount,
   manualHitboxX,
   manualHitboxY,
+  radius,
+  width,
+  height,
 }: getAllNeighborsProps): number[] => {
-  const hitboxWidth = TILE_CONFIG.width * APP_CONFIG.hoverCircleCount * 2 * 2
-  const hitboxHeight = TILE_CONFIG.height * APP_CONFIG.hoverCircleCount * 2 * 2
-  const radius = APP_CONFIG.hoverCircleCount // Set the radius of your circle
+  const hitboxWidth = width * radius * 2 * 2
+  const hitboxHeight = height * radius * 2 * 2
 
-  const c = Math.floor(mouseX / TILE_CONFIG.width)
-  const d = Math.floor(mouseY / TILE_CONFIG.height)
+  const c = Math.floor(mouseX / width)
+  const d = Math.floor(mouseY / height)
 
   const hitboxRefX = manualHitboxX || mouseX
   const hitboxRefY = manualHitboxY || mouseY
 
   // move hitbox
-  const hitboxX = hitboxRefX - TILE_CONFIG.width * radius
-  const hitboxY = hitboxRefY - TILE_CONFIG.height * radius
+  const hitboxX = hitboxRefX - width * radius
+  const hitboxY = hitboxRefY - height * radius
 
   // Calculate the range of neighbors within the hitbox boundaries
-  const startCol = Math.max(0, Math.floor(hitboxX / TILE_CONFIG.width))
-  const endCol = Math.min(colsCount - 1, Math.ceil((hitboxX + hitboxWidth) / TILE_CONFIG.width))
-  const startRow = Math.max(0, Math.floor(hitboxY / TILE_CONFIG.height))
-  const endRow = Math.min(rowsCount - 1, Math.ceil((hitboxY + hitboxHeight) / TILE_CONFIG.height))
+  const startCol = Math.max(0, Math.floor(hitboxX / width))
+  const endCol = Math.min(colsCount - 1, Math.ceil((hitboxX + hitboxWidth) / width))
+  const startRow = Math.max(0, Math.floor(hitboxY / height))
+  const endRow = Math.min(rowsCount - 1, Math.ceil((hitboxY + hitboxHeight) / height))
 
   const neighbors: number[] = []
   for (let col = startCol; col <= endCol; col += 1) {
