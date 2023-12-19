@@ -66,7 +66,7 @@ const TileSettings = () => {
           <input
             type="range"
             min={15}
-            max={80}
+            max={50}
             step={1}
             value={uiTileSize}
             className="w-full"
