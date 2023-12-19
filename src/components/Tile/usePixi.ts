@@ -87,9 +87,22 @@ const usePixi = ({ stageWidth, stageHeight }: UsePixiProps) => {
 
   const frameRef = useRef(0)
 
+  const getCenterTileId = useCallback(() => {
+    const centerID = checkHoveredRectangle(
+      stageWidth / 2,
+      stageHeight / 2,
+      tilesPos,
+      tileWidth,
+      tileHeight,
+    )
+    return centerID || 0
+  }, [stageHeight, stageWidth, tileHeight, tileWidth, tilesPos])
+
   const init = useCallback(() => {
     window.cancelAnimationFrame(frameRef.current)
     appRef.current.stage.removeChildren()
+    appRef.current.ticker.stop()
+    appRef.current.stage.sortableChildren = true
 
     gsap.ticker.remove(() => {
       appRef.current.ticker.update()
@@ -97,7 +110,9 @@ const usePixi = ({ stageWidth, stageHeight }: UsePixiProps) => {
 
     frameRef.current = window.requestAnimationFrame(() => {
       gsap.ticker.add(() => {
-        appRef.current.ticker.update()
+        if (appRef.current.ticker) {
+          appRef.current.ticker.update()
+        }
       })
     })
 
@@ -117,9 +132,10 @@ const usePixi = ({ stageWidth, stageHeight }: UsePixiProps) => {
   }, [createSprite, setupGsapTile, tileHeight, tileWidth, tilesPos])
 
   const destroy = useCallback(() => {
-    // window.cancelAnimationFrame(frameRef.current)
-    appRef.current.stage.removeChildren()
-    // wipe through cache
+    if (appRef.current.stage) {
+      appRef.current.stage.removeChildren()
+    }
+    window.cancelAnimationFrame(frameRef.current)
     if (PIXI.utils.TextureCache) {
       Object.keys(PIXI.utils.TextureCache).forEach(texture => {
         if (PIXI.utils.TextureCache[texture]) {
@@ -131,10 +147,9 @@ const usePixi = ({ stageWidth, stageHeight }: UsePixiProps) => {
 
   useEffect(() => {
     if (previewMode) {
-      const tileCenter = tilesPos[Math.floor(tilesPos.length / 2)]
-      previouslyHoveredTileId.current = tileCenter.id
+      previouslyHoveredTileId.current = getCenterTileId()
     }
-  }, [previewMode, tilesPos])
+  }, [getCenterTileId, previewMode])
 
   const handleMouseMove = useCallback(
     (e: MouseEvent) => {
@@ -144,6 +159,7 @@ const usePixi = ({ stageWidth, stageHeight }: UsePixiProps) => {
 
       const mouseX = e.pageX
       const mouseY = e.pageY
+      const lastKnownTileId = previouslyHoveredTileId.current
       const currentHoveredTileId = checkHoveredRectangle(
         mouseX,
         mouseY,
@@ -152,7 +168,7 @@ const usePixi = ({ stageWidth, stageHeight }: UsePixiProps) => {
         tileHeight,
       )
 
-      if (currentHoveredTileId === null && previouslyHoveredTileId.current !== null) {
+      if (currentHoveredTileId === null && lastKnownTileId !== null) {
         previouslyHoveredTileId.current = null
         return
       }
@@ -160,10 +176,7 @@ const usePixi = ({ stageWidth, stageHeight }: UsePixiProps) => {
       setIsCursorMoving(true)
       handleCursorMoveTimeout()
 
-      if (
-        currentHoveredTileId !== null &&
-        currentHoveredTileId !== previouslyHoveredTileId.current
-      ) {
+      if (currentHoveredTileId !== null && currentHoveredTileId !== lastKnownTileId) {
         const neighbors = getAllNeighbors({
           mouseX,
           mouseY,
@@ -212,75 +225,167 @@ const usePixi = ({ stageWidth, stageHeight }: UsePixiProps) => {
     }
   }, [handleMouseMove, init])
 
-  useEffect(() => {
-    let toggleTarget = 0
+  // const getTargetsInMargin = useCallback(
+  //   (center: number, colsCountDirect: number, margin: number) => {
+  //     const targets = []
+  //     const x0 = center % colsCountDirect
+  //     const y0 = Math.floor(center / colsCountDirect)
 
-    const toggleAnimation = () => {
-      const hoveredTileId = previouslyHoveredTileId.current
-      const noHoveredTile = !hoveredTileId
+  //     for (let dx = -margin; dx <= margin; dx += 1) {
+  //       for (let dy = -margin; dy <= margin; dy += 1) {
+  //         const isOnBorder = Math.abs(dx) === margin || Math.abs(dy) === margin // Check if it's on the border
 
-      const target = noHoveredTile ? Math.floor(tilesRef.current.length / 2) : hoveredTileId
-      const targets = [
-        target - colsCount,
-        target - colsCount + 1,
-        target + 1,
-        target + colsCount + 1,
-        target + colsCount,
-        target + colsCount - 1,
-        target - 1,
-        target - colsCount - 1,
-      ]
+  //         const isInnerTile = Math.abs(dx) < margin && Math.abs(dy) < margin // Check if it's an inner tile
 
-      const currentTarget = targets[toggleTarget % targets.length]
-      const current = tilesRef.current[currentTarget]
+  //         if (
+  //           (isOnBorder && !isInnerTile) ||
+  //           (isInnerTile && dx * dx + dy * dy === margin * margin)
+  //         ) {
+  //           const x = x0 + dx
+  //           const y = y0 + dy
 
-      if (currentTarget < 0 || currentTarget > tilesRef.current.length - 1) {
-        toggleTarget += 1
-        return
+  //           if (
+  //             x >= 0 &&
+  //             x < colsCountDirect &&
+  //             y >= 0 &&
+  //             y < Math.ceil(center / colsCountDirect)
+  //           ) {
+  //             targets.push(x + y * colsCountDirect)
+  //           }
+  //         }
+  //       }
+  //     }
+
+  //     // Reverse the generated upper half to get the lower half
+  //     const upperHalfLength = targets.length
+  //     for (let i = upperHalfLength - 1; i >= 0; i -= 1) {
+  //       const tileId: number = targets[i] // Define the type explicitly as number
+  //       const tileX = tileId % colsCountDirect
+  //       const tileY = Math.floor(tileId / colsCountDirect)
+  //       const mirroredY = 2 * y0 - tileY // Mirror the y-coordinate
+
+  //       // Calculate the tile ID for the lower half
+  //       const lowerHalfTileId = tileX + mirroredY * colsCountDirect
+  //       targets.push(lowerHalfTileId)
+  //     }
+
+  //     return targets
+  //   },
+  //   [],
+  // )
+
+  const getTargetsInMargin = useCallback(
+    (center: number, colsCountDirect: number, margin: number) => {
+      const targets = []
+      const x0 = center % colsCountDirect
+      const y0 = Math.floor(center / colsCountDirect)
+
+      for (let dx = -margin; dx <= margin; dx += 1) {
+        for (let dy = -margin; dy <= margin; dy += 1) {
+          const isOnBorder = Math.abs(dx) === margin || Math.abs(dy) === margin // Check if it's on the border
+
+          const isInnerTile = Math.abs(dx) < margin && Math.abs(dy) < margin // Check if it's an inner tile
+
+          if (
+            (isOnBorder && !isInnerTile) ||
+            (isInnerTile && dx * dx + dy * dy === margin * margin)
+          ) {
+            const x = x0 + dx
+            const y = y0 + dy
+
+            if (
+              x >= 0 &&
+              x < colsCountDirect &&
+              y >= 0 &&
+              y < Math.ceil(center / colsCountDirect)
+            ) {
+              targets.push(x + y * colsCountDirect)
+            }
+          }
+        }
       }
 
-      const posX = current ? tilesPos[current.id].x : stageWidth / 2
-      const posY = current ? tilesPos[current.id].y : stageHeight / 2
+      // Reverse the generated upper half to get the lower half
+      const upperHalfLength = targets.length
+      for (let i = upperHalfLength - 1; i >= 0; i -= 1) {
+        const tileId: number = targets[i]
+        const tileX = tileId % colsCountDirect
+        const tileY = Math.floor(tileId / colsCountDirect)
+        const mirroredY = 2 * y0 - tileY
 
-      const toggleTargetNeighbors = getAllNeighbors({
-        mouseX: posX,
-        mouseY: posY,
-        manualHitboxX: tilesPos[target].x,
-        manualHitboxY: tilesPos[target].y,
-        rowsCount,
-        colsCount,
-        radius: cursorRadius,
-        width: tileWidth,
-        height: tileHeight,
+        // Calculate the tile ID for the lower half
+        const lowerHalfTileId = tileX + mirroredY * colsCountDirect
+
+        if (!targets.includes(lowerHalfTileId)) {
+          targets.push(lowerHalfTileId)
+        }
+      }
+
+      // Sort the targets in clockwise order
+      targets.sort((idA, idB) => {
+        const tileA = { x: idA % colsCountDirect, y: Math.floor(idA / colsCountDirect) }
+        const tileB = { x: idB % colsCountDirect, y: Math.floor(idB / colsCountDirect) }
+
+        // Calculate angles and compare for sorting clockwise
+        const angleA = Math.atan2(tileA.y - y0, tileA.x - x0)
+        const angleB = Math.atan2(tileB.y - y0, tileB.x - x0)
+
+        return angleA - angleB
       })
 
-      toggleTargetNeighbors.forEach(neighborId => {
-        const tile = tilesRef.current[neighborId]
-        animateIn(tile.sprite, tile.id, tilesPos[neighborId].x, tilesPos[neighborId].y)
-      })
+      return targets
+    },
+    [],
+  )
 
-      toggleTarget += 1
-    }
+  const toggleTargetRef = useRef(0) // Store toggleTarget as a ref
+  const toggleAnimation = useCallback(() => {
+    const target = !previouslyHoveredTileId.current
+      ? getCenterTileId()
+      : previouslyHoveredTileId.current
 
+    const radius = !previewMode ? 1 : cursorRadius
+
+    const newTargets = getTargetsInMargin(target, colsCount, radius)
+    const currentTarget = newTargets[toggleTargetRef.current % newTargets.length]
+
+    const toggleTargetNeighbors = getAllNeighbors({
+      mouseX: tilesPos[currentTarget].x,
+      mouseY: tilesPos[currentTarget].y,
+      rowsCount,
+      colsCount,
+      radius: cursorRadius,
+      width: tileWidth,
+      height: tileHeight,
+    })
+
+    toggleTargetNeighbors.forEach(neighborId => {
+      const tile = tilesRef.current[neighborId]
+      animateIn(tile.sprite, tile.id, tilesPos[neighborId].x, tilesPos[neighborId].y)
+    })
+
+    toggleTargetRef.current += 1 % newTargets.length
+  }, [
+    animateIn,
+    colsCount,
+    cursorRadius,
+    getCenterTileId,
+    getTargetsInMargin,
+    previewMode,
+    rowsCount,
+    tileHeight,
+    tileWidth,
+    tilesPos,
+  ])
+
+  useEffect(() => {
     const animationInterval = setInterval(toggleAnimation, idleLoopDuration)
     if (isCursorMoving) {
       clearInterval(animationInterval)
     }
 
     return () => clearInterval(animationInterval)
-  }, [
-    animateIn,
-    colsCount,
-    cursorRadius,
-    idleLoopDuration,
-    isCursorMoving,
-    rowsCount,
-    stageHeight,
-    stageWidth,
-    tileHeight,
-    tileWidth,
-    tilesPos,
-  ])
+  }, [idleLoopDuration, isCursorMoving, toggleAnimation])
 
   return {
     init,

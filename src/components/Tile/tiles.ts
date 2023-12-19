@@ -91,8 +91,8 @@ export const getAllNeighbors = ({
   width,
   height,
 }: getAllNeighborsProps): number[] => {
-  const hitboxWidth = width * radius * 2 * 2
-  const hitboxHeight = height * radius * 2 * 2
+  const hitboxWidth = width * radius * 2 * 3
+  const hitboxHeight = height * radius * 2 * 3
 
   const c = Math.floor(mouseX / width)
   const d = Math.floor(mouseY / height)

@@ -1,6 +1,9 @@
 import { create } from 'zustand'
 
 interface UseTileStoreGetter {
+  tileStartColor: string
+  tileTailColor: string
+  tileEndColor: string
   previewMode: boolean
   tileWidth: number
   tileHeight: number
@@ -15,6 +18,9 @@ interface UseTileStoreGetter {
 }
 
 interface UseTileStoreSetter {
+  setTileStartColor: (payload: string) => void
+  setTileTailColor: (payload: string) => void
+  setTileEndColor: (payload: string) => void
   setPreviewMode: (payload: boolean) => void
   setTileWidth: (payload: number) => void
   setTileHeight: (payload: number) => void
@@ -31,6 +37,9 @@ interface UseTileStoreSetter {
 type UseTileStoreProps = UseTileStoreGetter & UseTileStoreSetter
 
 const tileStoreDefaults: UseTileStoreGetter = {
+  tileStartColor: '#ff0000',
+  tileTailColor: '#ff9000',
+  tileEndColor: '#ff0000',
   previewMode: false,
   tileWidth: 20,
   tileHeight: 20,
@@ -46,6 +55,9 @@ const tileStoreDefaults: UseTileStoreGetter = {
 
 const useTileStore = create<UseTileStoreProps>()(set => ({
   ...tileStoreDefaults,
+  setTileStartColor: payload => set(() => ({ tileStartColor: payload })),
+  setTileTailColor: payload => set(() => ({ tileTailColor: payload })),
+  setTileEndColor: payload => set(() => ({ tileEndColor: payload })),
   setPreviewMode: payload => set(() => ({ previewMode: payload })),
   setTileWidth: payload => set(() => ({ tileWidth: payload })),
   setTileHeight: payload => set(() => ({ tileHeight: payload })),
