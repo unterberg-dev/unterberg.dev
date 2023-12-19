@@ -227,7 +227,7 @@ const usePixi = ({ stageWidth, stageHeight }: UsePixiProps) => {
     }
   }, [handleMouseMove, init])
 
-  const getTargetsInCircle = useCallback(
+  const getOutlineTargets = useCallback(
     (center: number, colsCountDirect: number, margin: number) => {
       const targets = []
       const x0 = center % colsCountDirect
@@ -317,7 +317,7 @@ const usePixi = ({ stageWidth, stageHeight }: UsePixiProps) => {
 
     const radius = idleIntervalPreviewMode || !previewMode ? 1 : cursorRadius * 2
 
-    const newTargets = getTargetsInCircle(target, colsCount, radius)
+    const newTargets = getOutlineTargets(target, colsCount, radius)
     const currentTarget = newTargets[toggleTargetRef.current % newTargets.length]
 
     const toggleTargetNeighbors = getAllNeighbors({
@@ -341,7 +341,7 @@ const usePixi = ({ stageWidth, stageHeight }: UsePixiProps) => {
     colsCount,
     cursorRadius,
     getCenterTileId,
-    getTargetsInCircle,
+    getOutlineTargets,
     idleIntervalPreviewMode,
     previewMode,
     rowsCount,
