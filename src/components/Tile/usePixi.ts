@@ -315,7 +315,8 @@ const usePixi = ({ stageWidth, stageHeight }: UsePixiProps) => {
       ? getCenterTileId()
       : previouslyHoveredTileId.current
 
-    const radius = idleIntervalPreviewMode || !previewMode ? 1 : cursorRadius * 2
+    const radius =
+      idleIntervalPreviewMode || !previewMode ? 1 : Math.min(Math.max(cursorRadius * 2, 10), 20)
 
     const newTargets = getOutlineTargets(target, colsCount, radius)
     const currentTarget = newTargets[toggleTargetRef.current % newTargets.length]
@@ -325,7 +326,7 @@ const usePixi = ({ stageWidth, stageHeight }: UsePixiProps) => {
       mouseY: tilesPos[currentTarget].y,
       rowsCount,
       colsCount,
-      radius: cursorRadius,
+      radius: cursorRadius - 1,
       width: tileWidth,
       height: tileHeight,
     })
