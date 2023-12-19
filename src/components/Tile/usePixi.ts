@@ -29,9 +29,11 @@ const usePixi = ({ stageWidth, stageHeight }: UsePixiProps) => {
   const previouslyHoveredTileId = useRef<number | null>(null)
   const cursorRadius = useTileStore(state => state.cursorRadius)
   const idleLoopDuration = useTileStore(state => state.idleLoopDuration)
+  const previewLoopDuration = useTileStore(state => state.previewLoopDuration)
   const tileWidth = useTileStore(state => state.tileWidth)
   const tileHeight = useTileStore(state => state.tileHeight)
   const previewMode = useTileStore(state => state.previewMode)
+  const idleIntervalPreviewMode = useTileStore(state => state.idleIntervalPreviewMode)
 
   const [isCursorMoving, setIsCursorMoving] = useState(false)
 
@@ -225,87 +227,56 @@ const usePixi = ({ stageWidth, stageHeight }: UsePixiProps) => {
     }
   }, [handleMouseMove, init])
 
-  // const getTargetsInMargin = useCallback(
-  //   (center: number, colsCountDirect: number, margin: number) => {
-  //     const targets = []
-  //     const x0 = center % colsCountDirect
-  //     const y0 = Math.floor(center / colsCountDirect)
-
-  //     for (let dx = -margin; dx <= margin; dx += 1) {
-  //       for (let dy = -margin; dy <= margin; dy += 1) {
-  //         const isOnBorder = Math.abs(dx) === margin || Math.abs(dy) === margin // Check if it's on the border
-
-  //         const isInnerTile = Math.abs(dx) < margin && Math.abs(dy) < margin // Check if it's an inner tile
-
-  //         if (
-  //           (isOnBorder && !isInnerTile) ||
-  //           (isInnerTile && dx * dx + dy * dy === margin * margin)
-  //         ) {
-  //           const x = x0 + dx
-  //           const y = y0 + dy
-
-  //           if (
-  //             x >= 0 &&
-  //             x < colsCountDirect &&
-  //             y >= 0 &&
-  //             y < Math.ceil(center / colsCountDirect)
-  //           ) {
-  //             targets.push(x + y * colsCountDirect)
-  //           }
-  //         }
-  //       }
-  //     }
-
-  //     // Reverse the generated upper half to get the lower half
-  //     const upperHalfLength = targets.length
-  //     for (let i = upperHalfLength - 1; i >= 0; i -= 1) {
-  //       const tileId: number = targets[i] // Define the type explicitly as number
-  //       const tileX = tileId % colsCountDirect
-  //       const tileY = Math.floor(tileId / colsCountDirect)
-  //       const mirroredY = 2 * y0 - tileY // Mirror the y-coordinate
-
-  //       // Calculate the tile ID for the lower half
-  //       const lowerHalfTileId = tileX + mirroredY * colsCountDirect
-  //       targets.push(lowerHalfTileId)
-  //     }
-
-  //     return targets
-  //   },
-  //   [],
-  // )
-
-  const getTargetsInMargin = useCallback(
+  const getTargetsInCircle = useCallback(
     (center: number, colsCountDirect: number, margin: number) => {
       const targets = []
       const x0 = center % colsCountDirect
       const y0 = Math.floor(center / colsCountDirect)
 
-      for (let dx = -margin; dx <= margin; dx += 1) {
-        for (let dy = -margin; dy <= margin; dy += 1) {
-          const isOnBorder = Math.abs(dx) === margin || Math.abs(dy) === margin // Check if it's on the border
+      // circluar
+      for (let x = x0 - margin; x <= x0 + margin; x += 1) {
+        for (let y = y0 - margin; y <= y0 + margin; y += 1) {
+          const distance = Math.sqrt((x - x0) ** 2 + (y - y0) ** 2)
 
-          const isInnerTile = Math.abs(dx) < margin && Math.abs(dy) < margin // Check if it's an inner tile
-
-          if (
-            (isOnBorder && !isInnerTile) ||
-            (isInnerTile && dx * dx + dy * dy === margin * margin)
-          ) {
-            const x = x0 + dx
-            const y = y0 + dy
-
+          if (distance > margin - 1 && distance < margin + 1) {
             if (
               x >= 0 &&
               x < colsCountDirect &&
               y >= 0 &&
               y < Math.ceil(center / colsCountDirect)
             ) {
-              targets.push(x + y * colsCountDirect)
+              const tileId = x + y * colsCountDirect
+              targets.push(tileId)
             }
           }
         }
       }
 
-      // Reverse the generated upper half to get the lower half
+      // rectangular
+      // for (let dx = -margin; dx <= margin; dx += 1) {
+      //   for (let dy = -margin; dy <= margin; dy += 1) {
+      //     const isOnBorder = Math.abs(dx) === margin || Math.abs(dy) === margin
+      //     const isInnerTile = Math.abs(dx) < margin && Math.abs(dy) < margin
+
+      //     if (
+      //       (isOnBorder && !isInnerTile) ||
+      //       (isInnerTile && dx * dx + dy * dy === margin * margin)
+      //     ) {
+      //       const x = x0 + dx
+      //       const y = y0 + dy
+
+      //       if (
+      //         x >= 0 &&
+      //         x < colsCountDirect &&
+      //         y >= 0 &&
+      //         y < Math.ceil(center / colsCountDirect)
+      //       ) {
+      //         targets.push(x + y * colsCountDirect)
+      //       }
+      //     }
+      //   }
+      // }
+
       const upperHalfLength = targets.length
       for (let i = upperHalfLength - 1; i >= 0; i -= 1) {
         const tileId: number = targets[i]
@@ -344,9 +315,9 @@ const usePixi = ({ stageWidth, stageHeight }: UsePixiProps) => {
       ? getCenterTileId()
       : previouslyHoveredTileId.current
 
-    const radius = !previewMode ? 1 : cursorRadius
+    const radius = idleIntervalPreviewMode || !previewMode ? 1 : cursorRadius * 2
 
-    const newTargets = getTargetsInMargin(target, colsCount, radius)
+    const newTargets = getTargetsInCircle(target, colsCount, radius)
     const currentTarget = newTargets[toggleTargetRef.current % newTargets.length]
 
     const toggleTargetNeighbors = getAllNeighbors({
@@ -370,7 +341,8 @@ const usePixi = ({ stageWidth, stageHeight }: UsePixiProps) => {
     colsCount,
     cursorRadius,
     getCenterTileId,
-    getTargetsInMargin,
+    getTargetsInCircle,
+    idleIntervalPreviewMode,
     previewMode,
     rowsCount,
     tileHeight,
@@ -379,13 +351,23 @@ const usePixi = ({ stageWidth, stageHeight }: UsePixiProps) => {
   ])
 
   useEffect(() => {
-    const animationInterval = setInterval(toggleAnimation, idleLoopDuration)
+    const animationInterval = setInterval(
+      toggleAnimation,
+      previewMode && !idleIntervalPreviewMode ? previewLoopDuration : idleLoopDuration,
+    )
     if (isCursorMoving) {
       clearInterval(animationInterval)
     }
 
     return () => clearInterval(animationInterval)
-  }, [idleLoopDuration, isCursorMoving, toggleAnimation])
+  }, [
+    idleIntervalPreviewMode,
+    idleLoopDuration,
+    isCursorMoving,
+    previewLoopDuration,
+    previewMode,
+    toggleAnimation,
+  ])
 
   return {
     init,

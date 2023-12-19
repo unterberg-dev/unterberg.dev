@@ -23,6 +23,7 @@ const TileSettings = () => {
   const setTileWidth = useTileStore(state => state.setTileWidth)
   const setTileHeight = useTileStore(state => state.setTileHeight)
   const setPreviewMode = useTileStore(state => state.setPreviewMode)
+  const setIdleIntervalPreviewMode = useTileStore(state => state.setIdleIntervalPreviewMode)
   const tileStartColor = useTileStore(state => state.tileStartColor)
   const setTileStartColor = useTileStore(state => state.setTileStartColor)
   const tileTailColor = useTileStore(state => state.tileTailColor)
@@ -89,7 +90,11 @@ const TileSettings = () => {
             onChange={e => setCursorRadius(parseFloat(e.target.value))}
           />
         </label>
-        <label className="text-white">
+        <label
+          className="text-white"
+          onPointerEnter={() => setIdleIntervalPreviewMode(true)}
+          onPointerLeave={() => setIdleIntervalPreviewMode(false)}
+        >
           <p>idle movement interval: {(idleLoopDuration / 1000).toFixed(2)}s</p>
           <input
             type="range"
