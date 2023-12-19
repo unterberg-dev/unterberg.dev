@@ -1,9 +1,9 @@
 import { getRandom } from '@/lib/utils'
 import { Sprite } from 'pixi.js'
 import gsap from 'gsap'
-import { Tile, TileBase } from '@/components/Tile/tiles'
 import { useCallback, useEffect, useMemo, useRef } from 'react'
 import useTileStore from '@/src/zustand/useTileStore'
+import { Tile, TileBase } from '@/lib/types'
 
 interface useTileFxProps {
   tiles: TileBase[]
