@@ -41,16 +41,16 @@ interface UseTileStoreSetter {
 type UseTileStoreProps = UseTileStoreGetter & UseTileStoreSetter
 
 const tileStoreDefaults: UseTileStoreGetter = {
-  tileStartColor: '#ff0000',
-  tileTailColor: '#ff9000',
-  tileEndColor: '#ff0000',
+  tileStartColor: '#216afd',
+  tileTailColor: '#9b3680',
+  tileEndColor: '#d93a3a',
   previewMode: false,
   idleIntervalPreviewMode: false,
   tileWidth: 20,
   tileHeight: 20,
   cursorRadius: 4,
   idleLoopDuration: 150,
-  previewLoopDuration: 10,
+  previewLoopDuration: 25,
   fadeInDurationMin: 0.1,
   fadeInDurationMax: 0.3,
   tailInDurationMin: 0.2,
