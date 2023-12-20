@@ -124,6 +124,7 @@ const useTileFx = ({ tiles, tilesRef }: useTileFxProps) => {
           tint: tileTailColor,
           rotation: getRandom(-30, 30),
           skewX: getRandom(-40, 40),
+          alpha: getRandom(0.2, 1),
           skewY: getRandom(-50, 50),
           width: tileWidthRef.current / getRandom(1.2, 1.5),
           height: tileHeightRef.current / getRandom(1.2, 1.5),

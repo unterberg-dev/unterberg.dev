@@ -9,9 +9,9 @@ import {
   getAllNeighbors,
   getCalculateTilePositions,
   getOutlineTargets,
-} from '@/components/Tile/grid-fnc'
+} from '@/components/pixi/gridFnc'
 import debounce from 'lodash/debounce'
-import useTileFx from '@/components/Tile/useTileFx'
+import useTileFx from '@/components/pixi/useTileFx'
 import useTileStore from '@/src/zustand/useTileStore'
 import { Tile } from '@/lib/types'
 
@@ -92,7 +92,8 @@ const usePixi = ({ stageWidth, stageHeight }: UsePixiProps) => {
 
   const getCenterTileId = useCallback(() => {
     const centerID = checkHoveredRectangle(
-      stageWidth / 2,
+      // +1 because we wanna select the next tile
+      stageWidth / 2 + 1,
       stageHeight / 2,
       tilesPos,
       tileWidth,
@@ -201,8 +202,8 @@ const usePixi = ({ stageWidth, stageHeight }: UsePixiProps) => {
         return
       }
 
-      const mouseX = e.pageX
-      const mouseY = e.pageY
+      const mouseX = e.clientX
+      const mouseY = e.clientY
       const lastKnownTileId = previouslyHoveredTileId.current
       const currentHoveredTileId = checkHoveredRectangle(
         mouseX,

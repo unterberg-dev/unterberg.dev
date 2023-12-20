@@ -10,3 +10,11 @@ export type TileBase = {
   x: number
   y: number
 }
+
+type HitboxType = {
+  name: string
+  x: number
+  y: number
+  width: number
+  height: number
+}

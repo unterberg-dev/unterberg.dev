@@ -17,21 +17,18 @@ module.exports = {
       gray: colors.slate[400],
       grayLight: colors.slate[300],
       light: colors.slate[200],
-      primary: colors.sky[600],
+      primary: '#33abe8',
       success: '#27C485',
       warning: '#F1B650',
-      error: colors.red[800],
+      error: '#d93a3a',
     },
     extend: {
       fontSize: {
-        base: ['18px', '24px'],
-        small: ['16px', '20px'],
+        base: ['10px', '24px'],
+        small: ['100px', '20px'],
       },
       fontFamily: {
         sans: ['inter', ...fontFamily.sans],
-      },
-      animation: {
-        'pulse-fast': 'pulse 0.6s linear infinite',
       },
     },
   },

@@ -6,6 +6,9 @@ interface UseTileStoreGetter {
   tileEndColor: string
   previewMode: boolean
   idleIntervalPreviewMode: boolean
+  scrollPosY: number
+  isScrolling: boolean
+  stageBlur: number
   tileWidth: number
   tileHeight: number
   cursorRadius: number
@@ -25,6 +28,9 @@ interface UseTileStoreSetter {
   setTileEndColor: (payload: string) => void
   setPreviewMode: (payload: boolean) => void
   setIdleIntervalPreviewMode: (payload: boolean) => void
+  setScrollPosY: (payload: number) => void
+  setIsScrolling: (payload: boolean) => void
+  setStageBlur: (payload: number) => void
   setTileWidth: (payload: number) => void
   setTileHeight: (payload: number) => void
   setCursorRadius: (payload: number) => void
@@ -41,11 +47,14 @@ interface UseTileStoreSetter {
 type UseTileStoreProps = UseTileStoreGetter & UseTileStoreSetter
 
 const tileStoreDefaults: UseTileStoreGetter = {
-  tileStartColor: '#216afd',
-  tileTailColor: '#9b3680',
-  tileEndColor: '#d93a3a',
+  tileStartColor: '#d93a3a',
+  tileTailColor: '#610f4f',
+  tileEndColor: '#F1B650',
   previewMode: false,
   idleIntervalPreviewMode: false,
+  scrollPosY: 0,
+  isScrolling: false,
+  stageBlur: 0,
   tileWidth: 20,
   tileHeight: 20,
   cursorRadius: 3,
@@ -66,6 +75,9 @@ const useTileStore = create<UseTileStoreProps>()(set => ({
   setTileEndColor: payload => set(() => ({ tileEndColor: payload })),
   setPreviewMode: payload => set(() => ({ previewMode: payload })),
   setIdleIntervalPreviewMode: payload => set(() => ({ idleIntervalPreviewMode: payload })),
+  setScrollPosY: payload => set(() => ({ scrollPosY: payload })),
+  setIsScrolling: payload => set(() => ({ isScrolling: payload })),
+  setStageBlur: payload => set(() => ({ stageBlur: payload })),
   setTileWidth: payload => set(() => ({ tileWidth: payload })),
   setTileHeight: payload => set(() => ({ tileHeight: payload })),
   setCursorRadius: payload => set(() => ({ cursorRadius: payload })),

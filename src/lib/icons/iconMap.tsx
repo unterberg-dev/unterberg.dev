@@ -12,6 +12,8 @@ import {
   PackageCheck,
   PencilRuler,
   Sailboat,
+  SlidersHorizontal,
+  Rabbit,
 } from 'lucide-react'
 
 import { ICON_ID } from '@/lib/icons/iconID'
@@ -32,6 +34,8 @@ const APP_ICON: ICON_TYPE = {
   [ICON_ID.PackageCheck]: { component: PackageCheck },
   [ICON_ID.PencilRuler]: { component: PencilRuler },
   [ICON_ID.Sailboat]: { component: Sailboat },
+  [ICON_ID.SlidersHorizontal]: { component: SlidersHorizontal },
+  [ICON_ID.Rabbit]: { component: Rabbit },
 }
 
 export default APP_ICON
