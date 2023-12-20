@@ -33,13 +33,13 @@ const PageContent = () => {
               </h1>
               <br />
               <h2 className="relative text-5xl font-thin text-center text-gray">
-                Grid based animation system for ts react made with pixi.js
+                Grid based animation system for ts react made with pixi.js and gsap ✌️
               </h2>
             </Hitbox>
           </div>
           <div className="h-20" />
           <Hitbox name="main-cta" inset>
-            <div className="grid grid-cols-3 text-xl gap-4">
+            <div className="grid grid-cols-3 gap-4 text-gray">
               <div>
                 <Icon icon={ICON_ID.Rabbit} className="w-12 h-12 text-error mx-auto mb-6" />
                 <p>
@@ -69,7 +69,7 @@ const PageContent = () => {
         <div className="grid grid-cols-2 text-xl ">
           <div className="flex flex-col justify-center">
             <Hitbox name="grid-1" inset>
-              <h3 className="text-4xl inline-block mb-6">Another headline yes</h3>
+              <h3 className="text-4xl inline-block mb-10">Another headline yes</h3>
               <p>
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem corporis qui
                 aliquam! Voluptatum totam omnis beatae. Aut in rerum nisi optio pariatur, aperiam
