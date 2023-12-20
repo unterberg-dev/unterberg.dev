@@ -1,3 +1,4 @@
+import { HitboxType } from '@/lib/types'
 import { create } from 'zustand'
 
 interface UseTileStoreGetter {
@@ -6,6 +7,7 @@ interface UseTileStoreGetter {
   tileEndColor: string
   previewMode: boolean
   idleIntervalPreviewMode: boolean
+  hitboxes: HitboxType[]
   scrollPosY: number
   isScrolling: boolean
   stageBlur: number
@@ -28,6 +30,7 @@ interface UseTileStoreSetter {
   setTileEndColor: (payload: string) => void
   setPreviewMode: (payload: boolean) => void
   setIdleIntervalPreviewMode: (payload: boolean) => void
+  setHitboxes: (fn: (prev: HitboxType[]) => HitboxType[]) => void
   setScrollPosY: (payload: number) => void
   setIsScrolling: (payload: boolean) => void
   setStageBlur: (payload: number) => void
@@ -52,6 +55,7 @@ const tileStoreDefaults: UseTileStoreGetter = {
   tileEndColor: '#F1B650',
   previewMode: false,
   idleIntervalPreviewMode: false,
+  hitboxes: [],
   scrollPosY: 0,
   isScrolling: false,
   stageBlur: 0,
@@ -75,6 +79,9 @@ const useTileStore = create<UseTileStoreProps>()(set => ({
   setTileEndColor: payload => set(() => ({ tileEndColor: payload })),
   setPreviewMode: payload => set(() => ({ previewMode: payload })),
   setIdleIntervalPreviewMode: payload => set(() => ({ idleIntervalPreviewMode: payload })),
+  setHitboxes: (fn: (prev: HitboxType[]) => HitboxType[]) => {
+    set(state => ({ hitboxes: fn(state.hitboxes) }))
+  },
   setScrollPosY: payload => set(() => ({ scrollPosY: payload })),
   setIsScrolling: payload => set(() => ({ isScrolling: payload })),
   setStageBlur: payload => set(() => ({ stageBlur: payload })),

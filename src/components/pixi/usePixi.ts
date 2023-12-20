@@ -2,6 +2,7 @@ import { useApp } from '@pixi/react'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Sprite, Texture } from 'pixi.js'
 import gsap from 'gsap'
+import debounce from 'lodash/debounce'
 import PixiPlugin from 'gsap/PixiPlugin'
 import * as PIXI from 'pixi.js'
 import {
@@ -10,7 +11,6 @@ import {
   getCalculateTilePositions,
   getOutlineTargets,
 } from '@/components/pixi/gridFnc'
-import debounce from 'lodash/debounce'
 import useTileFx from '@/components/pixi/useTileFx'
 import useTileStore from '@/src/zustand/useTileStore'
 import { Tile } from '@/lib/types'
@@ -35,6 +35,9 @@ const usePixi = ({ stageWidth, stageHeight }: UsePixiProps) => {
   const tileHeight = useTileStore(state => state.tileHeight)
   const previewMode = useTileStore(state => state.previewMode)
   const idleIntervalPreviewMode = useTileStore(state => state.idleIntervalPreviewMode)
+  const hitboxes = useTileStore(state => state.hitboxes)
+  const scrollPosY = useTileStore(state => state.scrollPosY)
+  const isScrolling = useTileStore(state => state.isScrolling)
 
   const [isCursorMoving, setIsCursorMoving] = useState(false)
 
@@ -54,7 +57,10 @@ const usePixi = ({ stageWidth, stageHeight }: UsePixiProps) => {
     [stageHeight, stageWidth, tileHeight, tileWidth],
   )
 
-  const { setupGsapTile, animateIn } = useTileFx({ tiles: tilesPos, tilesRef: tilesRef.current })
+  const { setupGsapTile, animateIn, animateHitboxIn, animateHitboxInAlt } = useTileFx({
+    tiles: tilesPos,
+    tilesRef: tilesRef.current,
+  })
 
   const handleCursorMoveTimeout = debounce(() => {
     setIsCursorMoving(false)
@@ -104,7 +110,7 @@ const usePixi = ({ stageWidth, stageHeight }: UsePixiProps) => {
 
   const init = useCallback(() => {
     window.cancelAnimationFrame(frameRef.current)
-    appRef.current.stage.removeChildren()
+    // appRef.current.stage.removeChildren()
     appRef.current.ticker.stop()
     appRef.current.stage.sortableChildren = true
 
@@ -151,6 +157,9 @@ const usePixi = ({ stageWidth, stageHeight }: UsePixiProps) => {
 
   const animateNeighbors = useCallback(
     (currentTarget: number) => {
+      if (!stageWidth) {
+        return
+      }
       const toggleTargetNeighbors = getAllNeighbors({
         mouseX: tilesPos[currentTarget].x,
         mouseY: tilesPos[currentTarget].y,
@@ -162,11 +171,54 @@ const usePixi = ({ stageWidth, stageHeight }: UsePixiProps) => {
       })
 
       toggleTargetNeighbors.forEach(neighborId => {
-        const tile = tilesRef.current[neighborId]
-        animateIn(tile.sprite, tile.id, tilesPos[neighborId].x, tilesPos[neighborId].y)
+        const neighborPos = tilesPos[neighborId]
+        const tile = tilesRef.current[neighborPos.id]
+
+        if (isScrolling) {
+          return
+        }
+
+        // Check if the neighbor is within any hitbox
+        const isInHitbox = hitboxes.some(
+          hitbox =>
+            neighborPos.x >= hitbox.x &&
+            neighborPos.x <= hitbox.x + hitbox.width &&
+            neighborPos.y >= hitbox.y - scrollPosY &&
+            neighborPos.y <= hitbox.y - scrollPosY + hitbox.height,
+        )
+
+        if (isInHitbox && !previewMode) {
+          const randomAlt = Math.random() < 0.4
+          if (randomAlt) {
+            animateHitboxInAlt(tile.sprite, tile.id, tilesPos[neighborId].x, tilesPos[neighborId].y)
+            return
+          }
+          animateHitboxIn(tile.sprite, tile.id, tilesPos[neighborId].x, tilesPos[neighborId].y)
+          return
+        }
+
+        const random2 = Math.random() < 0.8
+        if (random2) {
+          animateIn(tile.sprite, tile.id, tilesPos[neighborId].x, tilesPos[neighborId].y)
+        }
       })
     },
-    [animateIn, colsCount, cursorRadius, rowsCount, tileHeight, tileWidth, tilesPos],
+    [
+      stageWidth,
+      tilesPos,
+      rowsCount,
+      colsCount,
+      cursorRadius,
+      tileWidth,
+      tileHeight,
+      isScrolling,
+      hitboxes,
+      previewMode,
+      scrollPosY,
+      animateHitboxIn,
+      animateHitboxInAlt,
+      animateIn,
+    ],
   )
 
   const idleAnimationMotionRefId = useRef(0)

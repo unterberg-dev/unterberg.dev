@@ -7,7 +7,7 @@ const useScrollPos = () => {
   const [lastScrollTop, setLastScrollTop] = useState(0)
 
   const onScroll = useCallback(() => {
-    if (isScrolling) {
+    if (!isScrolling) {
       setIsScrolling(true)
     }
   }, [isScrolling, setIsScrolling])

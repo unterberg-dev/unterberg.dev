@@ -18,7 +18,7 @@ const PageContent = () => {
     >
       <div className="backdrop-blur-md fixed bg-primary bg-opacity-10 w-full top-0 h-20 z-20">
         <div className="container max-w-screen-lg mx-auto h-full flex items-center">
-          <Hitbox name="logo">
+          <Hitbox name="logo" inset>
             <Icon icon={ICON_ID.Rabbit} className="w-12 h-12 p-3 text-dark bg-error rounded-full" />
           </Hitbox>
         </div>
@@ -26,66 +26,56 @@ const PageContent = () => {
       <div className="flex">
         <div className="container px-5 mx-auto max-w-screen-lg h-screen max-h-[400] flex flex-col pb-10 justify-between">
           <div className="h-20" />
-
-          <div className="inline-block mx-auto relative">
-            <div className="absolute -inset-44">
-              <svg
-                viewBox="0 0 200 200"
-                className="absolute top-0 w-full left-0 h-full opacity-10"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fill={color('primary')}
-                  d="M23.5,-39.8C29.8,-37.2,33.5,-29.3,43.8,-21.8C54.1,-14.3,71,-7.2,69.9,-0.6C68.8,5.9,49.7,11.8,38.2,17.3C26.7,22.7,22.8,27.7,17.7,34C12.6,40.3,6.3,47.9,-0.7,49.1C-7.7,50.3,-15.3,45.1,-20.6,38.9C-25.9,32.7,-28.7,25.5,-40.3,18.8C-51.9,12.2,-72.1,6.1,-77.5,-3.1C-82.9,-12.3,-73.3,-24.6,-64.2,-35.4C-55.1,-46.3,-46.4,-55.8,-35.7,-55.8C-25.1,-55.9,-12.6,-46.5,-1.9,-43.1C8.7,-39.8,17.3,-42.4,23.5,-39.8Z"
-                  transform="translate(100 100)"
-                />
-              </svg>
-            </div>
-            <Hitbox name="main-teaser">
+          <div className="inline-block mx-20 relative">
+            <Hitbox name="main-teaser" inset>
               <h1 className="relative text-4xl md:text-6xl xl:text-8xl font-bold w-full text-center text-light">
-                Deliver on time
+                GRIX
               </h1>
               <br />
-              <h2 className="relative text-5xl font-thin w-full text-center text-gray">
-                Another catchy phrase omg
+              <h2 className="relative text-5xl font-thin text-center text-gray">
+                Grid based animation system for ts react made with pixi.js
               </h2>
             </Hitbox>
           </div>
           <div className="h-20" />
-          <div className="grid grid-cols-3 mt-24 text-xl gap-4">
-            <div>
-              <Icon icon={ICON_ID.Rabbit} className="w-12 h-12 text-error mx-auto mb-6" />
-              <p>
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Magni rem quibusdam iste
-                vel ex quaerat blanditiis vitae unde illum.
-              </p>
+          <Hitbox name="main-cta" inset>
+            <div className="grid grid-cols-3 text-xl gap-4">
+              <div>
+                <Icon icon={ICON_ID.Rabbit} className="w-12 h-12 text-error mx-auto mb-6" />
+                <p>
+                  Lorem ipsum, dolor sit amet consectetur adipisicing elit. Magni rem quibusdam iste
+                  vel ex quaerat blanditiis vitae unde illum.
+                </p>
+              </div>
+              <div>
+                <Icon icon={ICON_ID.MagnetIcon} className="w-12 h-12 text-error mx-auto mb-6" />
+                <p>
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur error dolor
+                  sequi facere laboriosam quasi ab, rem sint rerum ratione?
+                </p>
+              </div>
+              <div>
+                <Icon icon={ICON_ID.MonitorDown} className="w-12 h-12 text-error mx-auto mb-6" />
+                <p>
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit debitis inventore
+                  suscipit ipsam eum dolores
+                </p>
+              </div>
             </div>
-            <div>
-              <Icon icon={ICON_ID.MagnetIcon} className="w-12 h-12 text-error mx-auto mb-6" />
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur error dolor sequi
-                facere laboriosam quasi ab, rem sint rerum ratione?
-              </p>
-            </div>
-            <div>
-              <Icon icon={ICON_ID.MonitorDown} className="w-12 h-12 text-error mx-auto mb-6" />
-              <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit debitis inventore
-                suscipit ipsam eum dolores
-              </p>
-            </div>
-          </div>
+          </Hitbox>
         </div>
       </div>
       <div className="container px-5 mt-8 mx-auto max-w-screen-lg">
         <div className="grid grid-cols-2 text-xl ">
           <div className="flex flex-col justify-center">
-            <h3 className="text-4xl inline-block mb-6">Another headline yes</h3>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem corporis qui aliquam!
-              Voluptatum totam omnis beatae. Aut in rerum nisi optio pariatur, aperiam non mollitia!
-              Ratione commodi minima sed provident.
-            </p>
+            <Hitbox name="grid-1" inset>
+              <h3 className="text-4xl inline-block mb-6">Another headline yes</h3>
+              <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem corporis qui
+                aliquam! Voluptatum totam omnis beatae. Aut in rerum nisi optio pariatur, aperiam
+                non mollitia! Ratione commodi minima sed provident.
+              </p>
+            </Hitbox>
           </div>
           <div className="flex justify-end relative">
             <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" className="opacity-10">

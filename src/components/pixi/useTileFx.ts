@@ -157,9 +157,76 @@ const useTileFx = ({ tiles, tilesRef }: useTileFxProps) => {
     [fadeInDurationMax, fadeInDurationMin, predefinedFXIn, tailIn],
   )
 
+  const animateHitboxOut = useCallback(
+    (tile: Sprite, _id: number, originX: number, originY: number) => {
+      tile.zIndex = 50
+      gsap.to(tile, {
+        duration: getRandom(fadeInDurationMin, fadeInDurationMax),
+        ease: 'power2.out',
+        pixi: {
+          alpha: 0,
+          rotation: getRandom(-30, 30),
+        },
+        x: originX + getRandom(tileWidthRef.current * 2, tileWidthRef.current),
+        y: originY + getRandom(tileHeightRef.current * 2, tileHeightRef.current),
+      })
+    },
+    [fadeInDurationMax, fadeInDurationMin],
+  )
+
+  const animateHitboxIn = useCallback(
+    (tile: Sprite, id: number, originX: number, originY: number) => {
+      gsap.killTweensOf(tile)
+      tile.zIndex = 100
+      gsap.to(tile, {
+        duration: getRandom(fadeInDurationMin, fadeInDurationMax),
+        ease: 'power2.out',
+        pixi: {
+          ...predefinedFXIn[id],
+          alpha: getRandom(0.2, 0.4),
+          rotation: getRandom(-30, 30),
+          width: tileWidthRef.current * getRandom(0.1, 0.2),
+          height: tileHeightRef.current * getRandom(0.1, 0.2),
+          x: originX + getRandom(tileWidthRef.current * 2, tileWidthRef.current),
+          y: originY + getRandom(tileHeightRef.current * 2, tileHeightRef.current),
+        },
+        onComplete: () => {
+          animateHitboxOut(tile, id, originX, originY)
+        },
+      })
+    },
+    [animateHitboxOut, fadeInDurationMax, fadeInDurationMin, predefinedFXIn],
+  )
+
+  const animateHitboxInAlt = useCallback(
+    (tile: Sprite, id: number, originX: number, originY: number) => {
+      gsap.killTweensOf(tile)
+      tile.zIndex = 90
+      gsap.to(tile, {
+        duration: getRandom(fadeInDurationMin, fadeInDurationMax),
+        ease: 'power2.out',
+        pixi: {
+          alpha: getRandom(0.2, 4),
+          tint: '#ffffff',
+          rotation: getRandom(-30, 30),
+          width: 0,
+          height: 0,
+          x: originX + getRandom(tileWidthRef.current * 2, tileWidthRef.current),
+          y: originY + getRandom(tileHeightRef.current * 2, tileHeightRef.current),
+        },
+        onComplete: () => {
+          tailIn(tile, id, originX, originY)
+        },
+      })
+    },
+    [fadeInDurationMax, fadeInDurationMin, tailIn],
+  )
+
   return {
     setupGsapTile,
     animateIn,
+    animateHitboxIn,
+    animateHitboxInAlt,
   }
 }
 
