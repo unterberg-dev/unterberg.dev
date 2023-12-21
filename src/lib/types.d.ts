@@ -1,8 +1,13 @@
-import { Sprite } from 'pixi.js'
+import { Graphics, Sprite } from 'pixi.js'
 
 export type Tile = {
   id: number
   sprite: Sprite
+}
+
+export type Line = {
+  id: string
+  graphics: Graphics
 }
 
 export type TileBase = {

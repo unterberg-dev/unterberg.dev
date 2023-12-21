@@ -206,8 +206,8 @@ const useTileFx = ({ tiles, tilesRef }: useTileFxProps) => {
         duration: getRandom(fadeInDurationMin, fadeInDurationMax),
         ease: 'power2.out',
         pixi: {
+          tint: tileEndColor,
           alpha: getRandom(0.2, 4),
-          tint: '#ffffff',
           rotation: getRandom(-30, 30),
           width: 0,
           height: 0,
@@ -219,7 +219,7 @@ const useTileFx = ({ tiles, tilesRef }: useTileFxProps) => {
         },
       })
     },
-    [fadeInDurationMax, fadeInDurationMin, tailIn],
+    [fadeInDurationMax, fadeInDurationMin, tailIn, tileEndColor],
   )
 
   return {

@@ -1,6 +1,6 @@
 import { useApp } from '@pixi/react'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { Sprite, Texture } from 'pixi.js'
+import { Sprite, Texture, Graphics } from 'pixi.js'
 import gsap from 'gsap'
 import debounce from 'lodash/debounce'
 import PixiPlugin from 'gsap/PixiPlugin'
@@ -13,7 +13,10 @@ import {
 } from '@/components/pixi/gridFnc'
 import useTileFx from '@/components/pixi/useTileFx'
 import useTileStore from '@/src/zustand/useTileStore'
-import { Tile } from '@/lib/types'
+import { Line, Tile } from '@/lib/types'
+import { range } from 'lodash'
+import useAppTheme from '@/lib/useTheme'
+import { getRandom } from '@/lib/utils'
 
 gsap.registerPlugin(PixiPlugin)
 PixiPlugin.registerPIXI(PIXI)
@@ -27,6 +30,8 @@ const usePixi = ({ stageWidth, stageHeight }: UsePixiProps) => {
   const app = useApp()
   const appRef = useRef(app)
   const tilesRef = useRef<Tile[]>([])
+  const bgTilesRef = useRef<Tile[]>([])
+  const linesRef = useRef<Line[]>([])
   const previouslyHoveredTileId = useRef<number | null>(null)
   const cursorRadius = useTileStore(state => state.cursorRadius)
   const idleLoopDuration = useTileStore(state => state.idleLoopDuration)
@@ -48,13 +53,13 @@ const usePixi = ({ stageWidth, stageHeight }: UsePixiProps) => {
     () =>
       stageWidth && stageHeight
         ? getCalculateTilePositions({
-            stageWidth,
-            stageHeight,
+            stageWidth: colsCount * tileWidth,
+            stageHeight: rowsCount * tileHeight,
             width: tileWidth,
             height: tileHeight,
           })
         : [],
-    [stageHeight, stageWidth, tileHeight, tileWidth],
+    [colsCount, rowsCount, stageHeight, stageWidth, tileHeight, tileWidth],
   )
 
   const { setupGsapTile, animateIn, animateHitboxIn, animateHitboxInAlt } = useTileFx({
@@ -72,27 +77,31 @@ const usePixi = ({ stageWidth, stageHeight }: UsePixiProps) => {
     y: number
     width: number
     height: number
+    origin?: number
   }
 
-  const createSprite = useCallback(({ texture, x, y, width, height }: createSpriteProps) => {
-    let sprite: Sprite
+  const createSprite = useCallback(
+    ({ texture, x, y, width, height, origin = 0.5 }: createSpriteProps) => {
+      let sprite: Sprite
 
-    if (!texture) {
-      sprite = new Sprite()
-    } else if (typeof texture === 'string') {
-      sprite = new Sprite(Texture.from(texture as string))
-    } else {
-      sprite = Sprite.from(texture as Texture)
-    }
-
-    sprite.x = x
-    sprite.y = y
-    sprite.width = width
-    sprite.height = height
-    sprite.anchor.set(0.5)
-    appRef.current.stage.addChild(sprite)
-    return sprite
-  }, [])
+      if (!texture) {
+        sprite = new Sprite()
+      } else if (typeof texture === 'string') {
+        sprite = new Sprite(Texture.from(texture as string))
+      } else {
+        sprite = Sprite.from(texture as Texture)
+      }
+      sprite.alpha = 0
+      sprite.x = x
+      sprite.y = y
+      sprite.width = width
+      sprite.height = height
+      sprite.anchor.set(origin)
+      appRef.current.stage.addChild(sprite)
+      return sprite
+    },
+    [],
+  )
 
   const frameRef = useRef(0)
 
@@ -108,9 +117,79 @@ const usePixi = ({ stageWidth, stageHeight }: UsePixiProps) => {
     return centerID || 0
   }, [stageHeight, stageWidth, tileHeight, tileWidth, tilesPos])
 
+  const { color } = useAppTheme()
+  const colorVariationsDark = useMemo(
+    () => [
+      `0x${color('dark').substring(1)}`,
+      `0x${color('darkLightBorder').substring(1)}`,
+      `0x${color('darkLight').substring(1)}`,
+    ],
+    [color],
+  )
+
+  const drawLines = useCallback(() => {
+    const colCoordsDef = range(colsCount).map(col => ({
+      x: (col + 1) * tileWidth,
+      height: rowsCount * tileHeight,
+    }))
+    const rowCoordsDef = range(rowsCount).map(row => ({
+      y: (row + 1) * tileHeight,
+      width: colsCount * tileWidth,
+    }))
+
+    colCoordsDef.forEach(({ x, height }) => {
+      const randomColorIndex = Math.floor(Math.random() * colorVariationsDark.length)
+      const selectedColor = colorVariationsDark[randomColorIndex]
+
+      const line = new Graphics()
+      line.lineStyle(1, selectedColor)
+      line.moveTo(x, 0)
+      line.lineTo(x, height)
+      line.alpha = getRandom(0.1, 0.3)
+      line.pivot.set(0, 0)
+      line.closePath()
+      appRef.current.stage.addChild(line)
+      linesRef.current.push({ id: `line-v-${x}`, graphics: line })
+    })
+
+    rowCoordsDef.forEach(({ y, width }) => {
+      const randomColorIndex = Math.floor(Math.random() * colorVariationsDark.length)
+      const selectedColor = colorVariationsDark[randomColorIndex]
+
+      const line = new Graphics()
+      line.lineStyle(1, selectedColor)
+      line.moveTo(0, y)
+      line.lineTo(width, y)
+      line.alpha = getRandom(0.1, 0.3)
+      line.pivot.set(0, 0)
+      line.closePath()
+      appRef.current.stage.addChild(line)
+      linesRef.current.push({ id: `line-h-${y}`, graphics: line })
+    })
+  }, [colorVariationsDark, colsCount, rowsCount, tileHeight, tileWidth])
+
+  const drawBGTiles = useCallback(() => {
+    tilesPos.forEach(({ id, x, y }) => {
+      const randomColorIndex = Math.floor(Math.random() * colorVariationsDark.length)
+      const selectedColor = colorVariationsDark[randomColorIndex]
+      const tile = createSprite({
+        texture: Texture.WHITE,
+        x,
+        y,
+        width: tileWidth,
+        height: tileHeight,
+        origin: 0,
+      })
+      tile.tint = selectedColor
+      tile.alpha = getRandom(0.1, 0.3)
+
+      bgTilesRef.current.push({ id, sprite: tile })
+    })
+  }, [createSprite, tileHeight, tileWidth, tilesPos, colorVariationsDark])
+
   const init = useCallback(() => {
     window.cancelAnimationFrame(frameRef.current)
-    // appRef.current.stage.removeChildren()
+    appRef.current.stage.removeChildren()
     appRef.current.ticker.stop()
     appRef.current.stage.sortableChildren = true
 
@@ -139,7 +218,10 @@ const usePixi = ({ stageWidth, stageHeight }: UsePixiProps) => {
       tilesRef.current[id] = { id, sprite }
       setupGsapTile(sprite, id)
     })
-  }, [createSprite, setupGsapTile, tileHeight, tileWidth, tilesPos])
+
+    drawLines()
+    drawBGTiles()
+  }, [createSprite, drawBGTiles, drawLines, setupGsapTile, tileHeight, tileWidth, tilesPos])
 
   const destroy = useCallback(() => {
     if (appRef.current.stage) {
@@ -170,9 +252,18 @@ const usePixi = ({ stageWidth, stageHeight }: UsePixiProps) => {
         height: tileHeight,
       })
 
+      const isInOuterHitbox = (posX: number, posY: number) =>
+        hitboxes.some(
+          hitbox =>
+            posX >= hitbox.x - 80 &&
+            posX <= hitbox.x + hitbox.width + 80 &&
+            posY >= hitbox.y - scrollPosY - 80 &&
+            posY <= hitbox.y - scrollPosY + hitbox.height + 80,
+        )
+
       toggleTargetNeighbors.forEach(neighborId => {
-        const neighborPos = tilesPos[neighborId]
-        const tile = tilesRef.current[neighborPos.id]
+        const currentPos = tilesPos[neighborId]
+        const tile = tilesRef.current[currentPos.id]
 
         if (isScrolling) {
           return
@@ -181,15 +272,22 @@ const usePixi = ({ stageWidth, stageHeight }: UsePixiProps) => {
         // Check if the neighbor is within any hitbox
         const isInHitbox = hitboxes.some(
           hitbox =>
-            neighborPos.x >= hitbox.x &&
-            neighborPos.x <= hitbox.x + hitbox.width &&
-            neighborPos.y >= hitbox.y - scrollPosY &&
-            neighborPos.y <= hitbox.y - scrollPosY + hitbox.height,
+            currentPos.x >= hitbox.x &&
+            currentPos.x <= hitbox.x + hitbox.width &&
+            currentPos.y >= hitbox.y - scrollPosY &&
+            currentPos.y <= hitbox.y - scrollPosY + hitbox.height,
         )
 
-        if (isInHitbox && !previewMode) {
-          const randomAlt = Math.random() < 0.4
-          if (randomAlt) {
+        const isNeighborInOuterHitbox = isInOuterHitbox(currentPos.x, currentPos.y)
+
+        if (isNeighborInOuterHitbox && !isInHitbox) {
+          const random40 = Math.random() < 0.4
+          if (random40) {
+            animateIn(tile.sprite, tile.id, tilesPos[neighborId].x, tilesPos[neighborId].y)
+            return
+          }
+          const random85 = Math.random() < 0.85
+          if (random85) {
             animateHitboxInAlt(tile.sprite, tile.id, tilesPos[neighborId].x, tilesPos[neighborId].y)
             return
           }
@@ -197,8 +295,18 @@ const usePixi = ({ stageWidth, stageHeight }: UsePixiProps) => {
           return
         }
 
-        const random2 = Math.random() < 0.8
-        if (random2) {
+        if (isInHitbox && !previewMode) {
+          const random40 = Math.random() < 0.4
+          if (random40) {
+            animateHitboxInAlt(tile.sprite, tile.id, tilesPos[neighborId].x, tilesPos[neighborId].y)
+            return
+          }
+          animateHitboxIn(tile.sprite, tile.id, tilesPos[neighborId].x, tilesPos[neighborId].y)
+          return
+        }
+
+        const random85 = Math.random() < 0.85
+        if (random85) {
           animateIn(tile.sprite, tile.id, tilesPos[neighborId].x, tilesPos[neighborId].y)
         }
       })

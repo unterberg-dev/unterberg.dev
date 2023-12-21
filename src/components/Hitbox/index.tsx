@@ -40,7 +40,7 @@ const Hitbox = ({ children, className, name, inset }: HitboxProps) => {
     <div className={`${className || ''} relative`}>
       <div
         className={`absolute pointer-events-none ${
-          inset ? '-left-16 -right-16 -top-16 -bottom-16' : 'left-0 top-0 h-full w-full'
+          inset ? '-left-4 -right-4 -top-4 -bottom-4' : 'left-0 top-0 h-full w-full'
         }  z-10`}
         ref={ref}
       />

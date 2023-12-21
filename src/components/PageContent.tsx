@@ -41,21 +41,21 @@ const PageContent = () => {
           <Hitbox name="main-cta" inset>
             <div className="grid grid-cols-3 gap-4 text-gray">
               <div>
-                <Icon icon={ICON_ID.Rabbit} className="w-12 h-12 text-error mx-auto mb-6" />
+                <Icon icon={ICON_ID.Rabbit} className="w-12 h-12 text-white mx-auto mb-6" />
                 <p>
                   Lorem ipsum, dolor sit amet consectetur adipisicing elit. Magni rem quibusdam iste
                   vel ex quaerat blanditiis vitae unde illum.
                 </p>
               </div>
               <div>
-                <Icon icon={ICON_ID.MagnetIcon} className="w-12 h-12 text-error mx-auto mb-6" />
+                <Icon icon={ICON_ID.MagnetIcon} className="w-12 h-12 text-white mx-auto mb-6" />
                 <p>
                   Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur error dolor
                   sequi facere laboriosam quasi ab, rem sint rerum ratione?
                 </p>
               </div>
               <div>
-                <Icon icon={ICON_ID.MonitorDown} className="w-12 h-12 text-error mx-auto mb-6" />
+                <Icon icon={ICON_ID.MonitorDown} className="w-12 h-12 text-white mx-auto mb-6" />
                 <p>
                   Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit debitis inventore
                   suscipit ipsam eum dolores
