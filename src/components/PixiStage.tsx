@@ -50,7 +50,7 @@ const PixiStage = () => {
     >
       <Stage
         options={{
-          resolution: 2,
+          resolution: window.devicePixelRatio,
           backgroundAlpha: 0,
         }}
         width={width}
