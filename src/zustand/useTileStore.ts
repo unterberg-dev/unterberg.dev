@@ -64,7 +64,7 @@ const tileStoreDefaults: UseTileStoreGetter = {
   cursorRadius: 3,
   idleLoopDuration: 150,
   previewLoopDuration: 25,
-  fadeInDurationMin: 0.1,
+  fadeInDurationMin: 0.2,
   fadeInDurationMax: 0.3,
   tailInDurationMin: 0.2,
   tailInDurationMax: 0.4,

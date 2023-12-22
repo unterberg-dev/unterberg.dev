@@ -3,7 +3,6 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Sprite, Texture, Graphics } from 'pixi.js'
 import gsap from 'gsap'
 import debounce from 'lodash/debounce'
-import PixiPlugin from 'gsap/PixiPlugin'
 import * as PIXI from 'pixi.js'
 import {
   checkHoveredRectangle,
@@ -17,9 +16,6 @@ import { Line, Tile } from '@/lib/types'
 import { range } from 'lodash'
 import useAppTheme from '@/lib/useTheme'
 import { getRandom } from '@/lib/utils'
-
-gsap.registerPlugin(PixiPlugin)
-PixiPlugin.registerPIXI(PIXI)
 
 interface UsePixiProps {
   stageWidth: number
@@ -62,9 +58,15 @@ const usePixi = ({ stageWidth, stageHeight }: UsePixiProps) => {
     [colsCount, rowsCount, stageHeight, stageWidth, tileHeight, tileWidth],
   )
 
-  const { setupGsapTile, animateIn, animateHitboxIn, animateHitboxInAlt } = useTileFx({
+  const {
+    setupGsapTile,
+    setupGsapBgTile,
+    animateIn,
+    animateBgTileIn,
+    animateHitboxIn,
+    animateHitboxInAlt,
+  } = useTileFx({
     tiles: tilesPos,
-    tilesRef: tilesRef.current,
   })
 
   const handleCursorMoveTimeout = debounce(() => {
@@ -143,10 +145,9 @@ const usePixi = ({ stageWidth, stageHeight }: UsePixiProps) => {
 
       const line = new Graphics()
       line.lineStyle(1, selectedColor)
-      line.moveTo(x, 0)
-      line.lineTo(x, height)
+      line.moveTo(x - tileWidth / 2, 0)
+      line.lineTo(x - tileWidth / 2, height)
       line.alpha = getRandom(0.1, 0.3)
-      line.pivot.set(0, 0)
       line.closePath()
       appRef.current.stage.addChild(line)
       linesRef.current.push({ id: `line-v-${x}`, graphics: line })
@@ -158,10 +159,9 @@ const usePixi = ({ stageWidth, stageHeight }: UsePixiProps) => {
 
       const line = new Graphics()
       line.lineStyle(1, selectedColor)
-      line.moveTo(0, y)
-      line.lineTo(width, y)
+      line.moveTo(0, y - tileHeight / 2)
+      line.lineTo(width, y - tileHeight / 2)
       line.alpha = getRandom(0.1, 0.3)
-      line.pivot.set(0, 0)
       line.closePath()
       appRef.current.stage.addChild(line)
       linesRef.current.push({ id: `line-h-${y}`, graphics: line })
@@ -174,18 +174,17 @@ const usePixi = ({ stageWidth, stageHeight }: UsePixiProps) => {
       const selectedColor = colorVariationsDark[randomColorIndex]
       const tile = createSprite({
         texture: Texture.WHITE,
+        // texture: 'https://pixijs.io/examples/examples/assets/bunny.png',
         x,
         y,
         width: tileWidth,
         height: tileHeight,
-        origin: 0,
       })
       tile.tint = selectedColor
-      tile.alpha = getRandom(0.1, 0.3)
-
       bgTilesRef.current.push({ id, sprite: tile })
+      setupGsapBgTile(tile)
     })
-  }, [createSprite, tileHeight, tileWidth, tilesPos, colorVariationsDark])
+  }, [tilesPos, colorVariationsDark, createSprite, tileWidth, tileHeight, setupGsapBgTile])
 
   const init = useCallback(() => {
     window.cancelAnimationFrame(frameRef.current)
@@ -207,7 +206,6 @@ const usePixi = ({ stageWidth, stageHeight }: UsePixiProps) => {
 
     tilesPos.forEach(({ id, x, y }) => {
       const sprite = createSprite({
-        // texture: 'https://pixijs.io/examples/examples/assets/bunny.png',
         texture: Texture.WHITE,
         x,
         y,
@@ -242,6 +240,16 @@ const usePixi = ({ stageWidth, stageHeight }: UsePixiProps) => {
       if (!stageWidth) {
         return
       }
+
+      const toggleBgTargetNeighbors = getAllNeighbors({
+        mouseX: tilesPos[currentTarget].x,
+        mouseY: tilesPos[currentTarget].y,
+        rowsCount,
+        colsCount,
+        radius: cursorRadius * 1.5,
+        width: tileWidth,
+        height: tileHeight,
+      })
       const toggleTargetNeighbors = getAllNeighbors({
         mouseX: tilesPos[currentTarget].x,
         mouseY: tilesPos[currentTarget].y,
@@ -250,6 +258,19 @@ const usePixi = ({ stageWidth, stageHeight }: UsePixiProps) => {
         radius: cursorRadius,
         width: tileWidth,
         height: tileHeight,
+      })
+
+      // Convert toggleTargetNeighbors to a Set for faster lookup
+      const targetSet = new Set(toggleTargetNeighbors)
+
+      // Filter out numbers from toggleBgTargetNeighbors that exist in toggleTargetNeighbors
+      const filteredArray = toggleBgTargetNeighbors.filter(number => !targetSet.has(number))
+
+      filteredArray.forEach(bgTileId => {
+        const currentPos = tilesPos[bgTileId]
+        const tile = bgTilesRef.current[currentPos.id]
+
+        animateBgTileIn(tile.sprite)
       })
 
       const isInOuterHitbox = (posX: number, posY: number) =>
@@ -280,13 +301,13 @@ const usePixi = ({ stageWidth, stageHeight }: UsePixiProps) => {
 
         const isNeighborInOuterHitbox = isInOuterHitbox(currentPos.x, currentPos.y)
 
-        if (isNeighborInOuterHitbox && !isInHitbox) {
+        if (isNeighborInOuterHitbox && !isInHitbox && !previewMode) {
           const random40 = Math.random() < 0.4
           if (random40) {
             animateIn(tile.sprite, tile.id, tilesPos[neighborId].x, tilesPos[neighborId].y)
             return
           }
-          const random85 = Math.random() < 0.85
+          const random85 = Math.random() < 0.5
           if (random85) {
             animateHitboxInAlt(tile.sprite, tile.id, tilesPos[neighborId].x, tilesPos[neighborId].y)
             return
@@ -306,7 +327,11 @@ const usePixi = ({ stageWidth, stageHeight }: UsePixiProps) => {
         }
 
         const random85 = Math.random() < 0.85
-        if (random85) {
+        if (previewMode) {
+          if (random85) {
+            animateIn(tile.sprite, tile.id, tilesPos[neighborId].x, tilesPos[neighborId].y)
+          }
+        } else if (!isNeighborInOuterHitbox && !isInHitbox && random85) {
           animateIn(tile.sprite, tile.id, tilesPos[neighborId].x, tilesPos[neighborId].y)
         }
       })
@@ -319,13 +344,14 @@ const usePixi = ({ stageWidth, stageHeight }: UsePixiProps) => {
       cursorRadius,
       tileWidth,
       tileHeight,
-      isScrolling,
       hitboxes,
-      previewMode,
       scrollPosY,
+      isScrolling,
+      previewMode,
       animateHitboxIn,
-      animateHitboxInAlt,
       animateIn,
+      animateHitboxInAlt,
+      animateBgTileIn,
     ],
   )
 

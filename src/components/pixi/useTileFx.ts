@@ -3,14 +3,18 @@ import { Sprite } from 'pixi.js'
 import gsap from 'gsap'
 import { useCallback, useEffect, useMemo, useRef } from 'react'
 import useTileStore from '@/src/zustand/useTileStore'
-import { Tile, TileBase } from '@/lib/types'
+import { TileBase } from '@/lib/types'
+import PixiPlugin from 'gsap/PixiPlugin'
+import * as PIXI from 'pixi.js'
 
 interface useTileFxProps {
   tiles: TileBase[]
-  tilesRef: Tile[]
 }
 
-const useTileFx = ({ tiles, tilesRef }: useTileFxProps) => {
+gsap.registerPlugin(PixiPlugin)
+PixiPlugin.registerPIXI(PIXI)
+
+const useTileFx = ({ tiles }: useTileFxProps) => {
   const fadeInDurationMin = useTileStore(state => state.fadeInDurationMin)
   const fadeInDurationMax = useTileStore(state => state.fadeInDurationMax)
   const tailInDurationMin = useTileStore(state => state.tailInDurationMin)
@@ -31,14 +35,6 @@ const useTileFx = ({ tiles, tilesRef }: useTileFxProps) => {
     tileWidthRef.current = tileWidth
     tileHeightRef.current = tileHeight
   }, [tileHeight, tileWidth])
-
-  useEffect(() => {
-    if (tiles.length && tilesRef && tilesRef.length) {
-      tilesRef.forEach(tile => {
-        gsap.killTweensOf(tile.sprite)
-      })
-    }
-  }, [tiles, tiles.length, tilesRef])
 
   const predefinedFXInitial = useMemo(
     () =>
@@ -72,7 +68,6 @@ const useTileFx = ({ tiles, tilesRef }: useTileFxProps) => {
 
   const setupGsapTile = useCallback(
     (tile: Sprite, id: number) => {
-      gsap.killTweensOf(tile) // for perfomance do not kill tweens
       gsap.set(tile, {
         pixi: {
           ...predefinedFXInitial[id],
@@ -80,6 +75,54 @@ const useTileFx = ({ tiles, tilesRef }: useTileFxProps) => {
       })
     },
     [predefinedFXInitial],
+  )
+
+  const setupGsapBgTile = useCallback((tile: Sprite) => {
+    gsap.set(tile, {
+      zIndex: 5,
+      pixi: {
+        skewX: 0,
+        skewY: 0,
+        alpha: getRandom(0.1, 0.3),
+      },
+    })
+  }, [])
+
+  const animateBgTileOut = useCallback(
+    (tile: Sprite) => {
+      gsap.to(tile, {
+        duration: getRandom(fadeInDurationMin * 2, fadeInDurationMax * 2),
+        ease: 'power2.out',
+        pixi: {
+          alpha: getRandom(0.1, 0.3),
+          skewY: 0,
+          skewX: 0,
+          width: tileWidthRef.current,
+          height: tileHeightRef.current,
+        },
+      })
+    },
+    [fadeInDurationMax, fadeInDurationMin],
+  )
+
+  const animateBgTileIn = useCallback(
+    (tile: Sprite) => {
+      // gsap.killTweensOf(tile)
+      tile.zIndex = 10
+      gsap.to(tile, {
+        duration: getRandom(fadeInDurationMin * 2, fadeInDurationMax * 2),
+        ease: 'power2.out',
+        pixi: {
+          alpha: getRandom(0.4, 0.5),
+          width: tileWidthRef.current * getRandom(1.1, 1.7),
+          height: tileHeightRef.current * getRandom(1.1, 1.7),
+        },
+        onComplete: () => {
+          animateBgTileOut(tile)
+        },
+      })
+    },
+    [animateBgTileOut, fadeInDurationMax, fadeInDurationMin],
   )
 
   const animateOut = useCallback(
@@ -158,10 +201,10 @@ const useTileFx = ({ tiles, tilesRef }: useTileFxProps) => {
   )
 
   const animateHitboxOut = useCallback(
-    (tile: Sprite, _id: number, originX: number, originY: number) => {
+    (tile: Sprite, id: number, originX: number, originY: number) => {
       tile.zIndex = 50
       gsap.to(tile, {
-        duration: getRandom(fadeInDurationMin, fadeInDurationMax),
+        duration: getRandom(fadeOutDurationMin, fadeOutDurationMax),
         ease: 'power2.out',
         pixi: {
           alpha: 0,
@@ -169,9 +212,12 @@ const useTileFx = ({ tiles, tilesRef }: useTileFxProps) => {
         },
         x: originX + getRandom(tileWidthRef.current * 2, tileWidthRef.current),
         y: originY + getRandom(tileHeightRef.current * 2, tileHeightRef.current),
+        onComplete: () => {
+          setupGsapTile(tile, id)
+        },
       })
     },
-    [fadeInDurationMax, fadeInDurationMin],
+    [fadeOutDurationMax, fadeOutDurationMin, setupGsapTile],
   )
 
   const animateHitboxIn = useCallback(
@@ -183,6 +229,42 @@ const useTileFx = ({ tiles, tilesRef }: useTileFxProps) => {
         ease: 'power2.out',
         pixi: {
           ...predefinedFXIn[id],
+          alpha: getRandom(0, 0.3),
+          rotation: getRandom(-70, 70),
+          width: tileWidthRef.current * getRandom(0.1, 0.3),
+          height: tileHeightRef.current * getRandom(0.1, 0.3),
+          x: originX + getRandom(tileWidthRef.current * 2, tileWidthRef.current),
+          y: originY + getRandom(tileHeightRef.current * 2, tileHeightRef.current),
+        },
+        onComplete: () => {
+          gsap.to(tile, {
+            duration: getRandom(0.5, 1.3),
+            ease: 'power2.out',
+            delay: getRandom(1.1, 2.3),
+            pixi: {
+              alpha: 0,
+              y: tiles[id].y + getRandom(100, 600),
+              skewY: getRandom(-170, 170),
+            },
+            onComplete: () => {
+              setupGsapTile(tile, id)
+            },
+          })
+        },
+      })
+    },
+    [fadeInDurationMax, fadeInDurationMin, predefinedFXIn, setupGsapTile, tiles],
+  )
+
+  const animateHitboxInAlt = useCallback(
+    (tile: Sprite, id: number, originX: number, originY: number) => {
+      gsap.killTweensOf(tile)
+      tile.zIndex = 90
+      gsap.to(tile, {
+        duration: getRandom(fadeInDurationMin * 2, fadeInDurationMax * 2),
+        ease: 'power2.out',
+        pixi: {
+          tint: tileEndColor,
           alpha: getRandom(0.2, 0.4),
           rotation: getRandom(-30, 30),
           width: tileWidthRef.current * getRandom(0.1, 0.2),
@@ -195,31 +277,7 @@ const useTileFx = ({ tiles, tilesRef }: useTileFxProps) => {
         },
       })
     },
-    [animateHitboxOut, fadeInDurationMax, fadeInDurationMin, predefinedFXIn],
-  )
-
-  const animateHitboxInAlt = useCallback(
-    (tile: Sprite, id: number, originX: number, originY: number) => {
-      gsap.killTweensOf(tile)
-      tile.zIndex = 90
-      gsap.to(tile, {
-        duration: getRandom(fadeInDurationMin, fadeInDurationMax),
-        ease: 'power2.out',
-        pixi: {
-          tint: tileEndColor,
-          alpha: getRandom(0.2, 4),
-          rotation: getRandom(-30, 30),
-          width: 0,
-          height: 0,
-          x: originX + getRandom(tileWidthRef.current * 2, tileWidthRef.current),
-          y: originY + getRandom(tileHeightRef.current * 2, tileHeightRef.current),
-        },
-        onComplete: () => {
-          tailIn(tile, id, originX, originY)
-        },
-      })
-    },
-    [fadeInDurationMax, fadeInDurationMin, tailIn, tileEndColor],
+    [animateHitboxOut, fadeInDurationMax, fadeInDurationMin, tileEndColor],
   )
 
   return {
@@ -227,6 +285,8 @@ const useTileFx = ({ tiles, tilesRef }: useTileFxProps) => {
     animateIn,
     animateHitboxIn,
     animateHitboxInAlt,
+    setupGsapBgTile,
+    animateBgTileIn,
   }
 }
 
