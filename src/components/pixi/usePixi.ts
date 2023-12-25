@@ -13,7 +13,7 @@ import {
 import useTileFx from '@/components/pixi/useTileFx'
 import useTileStore from '@/src/zustand/useTileStore'
 import { Line, Tile } from '@/lib/types'
-import { range } from 'lodash'
+import range from 'lodash/range'
 import useAppTheme from '@/lib/useTheme'
 import { getRandom } from '@/lib/utils'
 
@@ -41,6 +41,7 @@ const usePixi = ({ stageWidth, stageHeight }: UsePixiProps) => {
   const isScrolling = useTileStore(state => state.isScrolling)
 
   const [isCursorMoving, setIsCursorMoving] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
 
   const colsCount = useMemo(() => Math.floor(stageWidth / tileWidth), [stageWidth, tileWidth])
   const rowsCount = useMemo(() => Math.floor(stageHeight / tileHeight), [stageHeight, tileHeight])
@@ -110,7 +111,7 @@ const usePixi = ({ stageWidth, stageHeight }: UsePixiProps) => {
   const getCenterTileId = useCallback(() => {
     const centerID = checkHoveredRectangle(
       // +1 because we wanna select the next tile
-      stageWidth / 2 + 1,
+      stageWidth / 2,
       stageHeight / 2,
       tilesPos,
       tileWidth,
@@ -144,13 +145,24 @@ const usePixi = ({ stageWidth, stageHeight }: UsePixiProps) => {
       const selectedColor = colorVariationsDark[randomColorIndex]
 
       const line = new Graphics()
+      line.alpha = 0
       line.lineStyle(1, selectedColor)
       line.moveTo(x - tileWidth / 2, 0)
       line.lineTo(x - tileWidth / 2, height)
-      line.alpha = getRandom(0.1, 0.3)
       line.closePath()
       appRef.current.stage.addChild(line)
       linesRef.current.push({ id: `line-v-${x}`, graphics: line })
+
+      gsap.to(line, {
+        zIndex: 5,
+        delay: getRandom(0.5, 1),
+        duration: getRandom(0.5, 1),
+        pixi: {
+          skewX: 0,
+          skewY: 0,
+          alpha: getRandom(0.1, 0.3),
+        },
+      })
     })
 
     rowCoordsDef.forEach(({ y, width }) => {
@@ -158,13 +170,24 @@ const usePixi = ({ stageWidth, stageHeight }: UsePixiProps) => {
       const selectedColor = colorVariationsDark[randomColorIndex]
 
       const line = new Graphics()
+      line.alpha = 0
       line.lineStyle(1, selectedColor)
       line.moveTo(0, y - tileHeight / 2)
       line.lineTo(width, y - tileHeight / 2)
-      line.alpha = getRandom(0.1, 0.3)
       line.closePath()
       appRef.current.stage.addChild(line)
       linesRef.current.push({ id: `line-h-${y}`, graphics: line })
+
+      gsap.to(line, {
+        zIndex: 5,
+        duration: getRandom(0.5, 1),
+        delay: getRandom(0.5, 1),
+        pixi: {
+          skewX: 0,
+          skewY: 0,
+          alpha: getRandom(0.1, 0.3),
+        },
+      })
     })
   }, [colorVariationsDark, colsCount, rowsCount, tileHeight, tileWidth])
 
@@ -181,8 +204,17 @@ const usePixi = ({ stageWidth, stageHeight }: UsePixiProps) => {
         height: tileHeight,
       })
       tile.tint = selectedColor
+      tile.alpha = 0
       bgTilesRef.current.push({ id, sprite: tile })
       setupGsapBgTile(tile)
+
+      // gsap.killTweensOf(tile)
+      // gsap.to(tile, {
+      //   duration: getRandom(0.5, 1),
+      //   pixi: {
+      //     y,
+      //   },
+      // })
     })
   }, [tilesPos, colorVariationsDark, createSprite, tileWidth, tileHeight, setupGsapBgTile])
 
@@ -219,6 +251,7 @@ const usePixi = ({ stageWidth, stageHeight }: UsePixiProps) => {
 
     drawLines()
     drawBGTiles()
+    setIsLoading(false)
   }, [createSprite, drawBGTiles, drawLines, setupGsapTile, tileHeight, tileWidth, tilesPos])
 
   const destroy = useCallback(() => {
@@ -241,6 +274,7 @@ const usePixi = ({ stageWidth, stageHeight }: UsePixiProps) => {
         return
       }
 
+      // todo: this must be improved!
       const toggleBgTargetNeighbors = getAllNeighbors({
         mouseX: tilesPos[currentTarget].x,
         mouseY: tilesPos[currentTarget].y,
@@ -270,7 +304,9 @@ const usePixi = ({ stageWidth, stageHeight }: UsePixiProps) => {
         const currentPos = tilesPos[bgTileId]
         const tile = bgTilesRef.current[currentPos.id]
 
-        animateBgTileIn(tile.sprite)
+        if (Math.random() < 0.5) {
+          animateBgTileIn(tile.sprite)
+        }
       })
 
       const isInOuterHitbox = (posX: number, posY: number) =>
@@ -326,7 +362,7 @@ const usePixi = ({ stageWidth, stageHeight }: UsePixiProps) => {
           return
         }
 
-        const random85 = Math.random() < 0.85
+        const random85 = Math.random() < 0.5
         if (previewMode) {
           if (random85) {
             animateIn(tile.sprite, tile.id, tilesPos[neighborId].x, tilesPos[neighborId].y)
@@ -455,6 +491,7 @@ const usePixi = ({ stageWidth, stageHeight }: UsePixiProps) => {
   return {
     init,
     destroy,
+    isLoading,
     app: appRef.current,
   } as const
 }

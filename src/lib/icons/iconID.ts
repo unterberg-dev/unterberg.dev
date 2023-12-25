@@ -9,4 +9,6 @@ export enum ICON_ID {
   Sailboat,
   SlidersHorizontal,
   Rabbit,
+  Linkedin,
+  Copyright,
 }

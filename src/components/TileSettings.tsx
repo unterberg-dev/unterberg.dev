@@ -1,7 +1,7 @@
 import Icon from '@/components/common/Icon'
 import { ICON_ID } from '@/lib/icons/iconID'
 import useTileStore from '@/src/zustand/useTileStore'
-import { debounce } from 'lodash'
+import debounce from 'lodash/debounce'
 import { useCallback, useState } from 'react'
 
 const TileSettings = () => {
@@ -58,11 +58,11 @@ const TileSettings = () => {
 
   return (
     <div
-      className="fixed left-0 top-0 h-full z-50 max-w-xs w-1/2 text-white flex items-center"
-      onPointerEnter={handleSettingsMouseIn}
+      className="fixed left-0 top-0 hidden h-full z-50 max-w-xs w-1/2 text-white xl:flex items-center"
       onPointerLeave={handleSettingsMouseOut}
     >
       <div
+        onPointerEnter={handleSettingsMouseIn}
         className={`absolute pl-10 transition-transform pr-6 py-6 flex items-center bg-warning z-20 ${
           !previewMode ? '-translate-x-0' : '-translate-x-full'
         }`}

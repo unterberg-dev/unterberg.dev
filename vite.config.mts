@@ -4,7 +4,7 @@ import { defineConfig } from 'vite'
 import tsconfigPaths from 'vite-tsconfig-paths'
 
 export default defineConfig({
-  base: '/grix/', // remove for using root
+  base: '', // remove for using root
   plugins: [react(), tsconfigPaths()],
   resolve: {
     alias: {

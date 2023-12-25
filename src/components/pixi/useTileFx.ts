@@ -78,12 +78,13 @@ const useTileFx = ({ tiles }: useTileFxProps) => {
   )
 
   const setupGsapBgTile = useCallback((tile: Sprite) => {
-    gsap.set(tile, {
+    gsap.to(tile, {
       zIndex: 5,
+      duration: getRandom(0.5, 1),
       pixi: {
         skewX: 0,
         skewY: 0,
-        alpha: getRandom(0.1, 0.3),
+        alpha: getRandom(0.1, 0.2),
       },
     })
   }, [])
@@ -94,7 +95,7 @@ const useTileFx = ({ tiles }: useTileFxProps) => {
         duration: getRandom(fadeInDurationMin * 2, fadeInDurationMax * 2),
         ease: 'power2.out',
         pixi: {
-          alpha: getRandom(0.1, 0.3),
+          alpha: getRandom(0.1, 0.2),
           skewY: 0,
           skewX: 0,
           width: tileWidthRef.current,

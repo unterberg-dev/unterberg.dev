@@ -14,6 +14,8 @@ import {
   Sailboat,
   SlidersHorizontal,
   Rabbit,
+  Linkedin,
+  Copyright,
 } from 'lucide-react'
 
 import { ICON_ID } from '@/lib/icons/iconID'
@@ -36,6 +38,8 @@ const APP_ICON: ICON_TYPE = {
   [ICON_ID.Sailboat]: { component: Sailboat },
   [ICON_ID.SlidersHorizontal]: { component: SlidersHorizontal },
   [ICON_ID.Rabbit]: { component: Rabbit },
+  [ICON_ID.Linkedin]: { component: Linkedin },
+  [ICON_ID.Copyright]: { component: Copyright },
 }
 
 export default APP_ICON

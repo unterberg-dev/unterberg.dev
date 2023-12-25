@@ -4,6 +4,7 @@
 
 body {
   background-color: var(--tw-dark);
+  overflow:hidden
 }
 
 /* define components if needed
