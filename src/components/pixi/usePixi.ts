@@ -41,7 +41,6 @@ const usePixi = ({ stageWidth, stageHeight }: UsePixiProps) => {
   const isScrolling = useTileStore(state => state.isScrolling)
 
   const [isCursorMoving, setIsCursorMoving] = useState(false)
-  const [isLoading, setIsLoading] = useState(true)
 
   const colsCount = useMemo(() => Math.floor(stageWidth / tileWidth), [stageWidth, tileWidth])
   const rowsCount = useMemo(() => Math.floor(stageHeight / tileHeight), [stageHeight, tileHeight])
@@ -156,7 +155,6 @@ const usePixi = ({ stageWidth, stageHeight }: UsePixiProps) => {
       gsap.to(line, {
         zIndex: 5,
         delay: getRandom(0.5, 1),
-        duration: getRandom(0.5, 1),
         pixi: {
           skewX: 0,
           skewY: 0,
@@ -181,7 +179,6 @@ const usePixi = ({ stageWidth, stageHeight }: UsePixiProps) => {
       gsap.to(line, {
         zIndex: 5,
         duration: getRandom(0.5, 1),
-        delay: getRandom(0.5, 1),
         pixi: {
           skewX: 0,
           skewY: 0,
@@ -203,18 +200,10 @@ const usePixi = ({ stageWidth, stageHeight }: UsePixiProps) => {
         width: tileWidth,
         height: tileHeight,
       })
-      tile.tint = selectedColor
       tile.alpha = 0
+      tile.tint = selectedColor
       bgTilesRef.current.push({ id, sprite: tile })
       setupGsapBgTile(tile)
-
-      // gsap.killTweensOf(tile)
-      // gsap.to(tile, {
-      //   duration: getRandom(0.5, 1),
-      //   pixi: {
-      //     y,
-      //   },
-      // })
     })
   }, [tilesPos, colorVariationsDark, createSprite, tileWidth, tileHeight, setupGsapBgTile])
 
@@ -246,12 +235,11 @@ const usePixi = ({ stageWidth, stageHeight }: UsePixiProps) => {
       })
 
       tilesRef.current[id] = { id, sprite }
-      setupGsapTile(sprite, id)
+      setupGsapTile(sprite)
     })
 
     drawLines()
     drawBGTiles()
-    setIsLoading(false)
   }, [createSprite, drawBGTiles, drawLines, setupGsapTile, tileHeight, tileWidth, tilesPos])
 
   const destroy = useCallback(() => {
@@ -304,7 +292,13 @@ const usePixi = ({ stageWidth, stageHeight }: UsePixiProps) => {
         const currentPos = tilesPos[bgTileId]
         const tile = bgTilesRef.current[currentPos.id]
 
-        if (Math.random() < 0.5) {
+        if (cursorRadius < 2) {
+          if (Math.random() < 0.3) {
+            animateBgTileIn(tile.sprite)
+          }
+          return
+        }
+        if (Math.random() < 0.05) {
           animateBgTileIn(tile.sprite)
         }
       })
@@ -491,7 +485,6 @@ const usePixi = ({ stageWidth, stageHeight }: UsePixiProps) => {
   return {
     init,
     destroy,
-    isLoading,
     app: appRef.current,
   } as const
 }

@@ -82,8 +82,8 @@ const TileSettings = () => {
             <p>cursor radius: {cursorRadius} tiles</p>
             <input
               type="range"
-              min={1}
-              max={5}
+              min={0}
+              max={3}
               step={1}
               value={cursorRadius}
               className="w-full"
@@ -250,8 +250,8 @@ const TileSettings = () => {
             <p>grid tile size: {uiTileSize} px</p>
             <input
               type="range"
-              min={15}
-              max={50}
+              min={20}
+              max={35}
               step={1}
               value={uiTileSize}
               className="w-full"

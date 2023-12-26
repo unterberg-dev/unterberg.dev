@@ -48,18 +48,20 @@ const PixiStage = () => {
       style={{ filter: `blur(${stageBlur}px)` }}
       ref={ref}
     >
-      <Stage
-        options={{
-          resolution: window.devicePixelRatio,
-          backgroundAlpha: 0,
-        }}
-        width={width}
-        height={height}
-        className="fixed"
-        key={`${width}x${height}x${tileWidth}x${tileHeight}}`}
-      >
-        {width && height && <StageInner stageWidth={width} stageHeight={height} />}
-      </Stage>
+      {width && height && (
+        <Stage
+          options={{
+            resolution: window.devicePixelRatio,
+            backgroundAlpha: 0,
+          }}
+          width={width}
+          height={height}
+          className="fixed"
+          key={`${width}x${height}x${tileWidth}x${tileHeight}}`}
+        >
+          {width && height && <StageInner stageWidth={width} stageHeight={height} />}
+        </Stage>
+      )}
     </div>
   )
 }
