@@ -117,8 +117,8 @@ const useTileFx = ({ tiles }: useTileFxProps) => {
         alpha: 0,
         width: 0,
         height: 0,
-        x: tile.x + getRandom(-tileWidthRef.current * 4.2, tileWidthRef.current * 4.2),
-        y: tile.y + getRandom(-tileHeightRef.current * 4.2, tileHeightRef.current * 4.2),
+        x: tile.x + getRandom(-tileWidthRef.current * 2.2, tileWidthRef.current * 2.2),
+        y: tile.y + getRandom(-tileHeightRef.current * 2.2, tileHeightRef.current * 2.2),
       },
     })
   }, [])
@@ -165,7 +165,11 @@ const useTileFx = ({ tiles }: useTileFxProps) => {
   const animateIn = useCallback(
     (tile: Sprite, id: number, originX: number, originY: number) => {
       gsap.killTweensOf(tile)
-      const tl = gsap.timeline()
+      const tl = gsap.timeline({
+        onComplete: () => {
+          setupGsapTile(tile)
+        },
+      })
       // START
       tl.to(tile, {
         duration: getRandom(fadeInDurationMinRef.current, fadeInDurationMaxRef.current),
@@ -218,9 +222,6 @@ const useTileFx = ({ tiles }: useTileFxProps) => {
       tl.to(tile, {
         duration: getRandom(fadeOutDurationMinRef.current, fadeOutDurationMaxRef.current),
         ease: 'power2.out',
-        onComplete: () => {
-          setupGsapTile(tile)
-        },
         pixi: {
           ...predefinedFXInitial[id],
           tint: tileEndColorRef.current,

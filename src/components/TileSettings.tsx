@@ -83,7 +83,7 @@ const TileSettings = () => {
             <input
               type="range"
               min={0}
-              max={3}
+              max={2}
               step={1}
               value={cursorRadius}
               className="w-full"
