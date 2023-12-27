@@ -22,11 +22,12 @@ const PageContent = () => {
               className="inline-flex flex-col mx-auto p-5 my-5 md:my-20"
               inset
             >
-              <h2 className="relative text-4xl md:text-7xl font-bold text-center text-light inline-block mb-8">
+              <h2 className="relative text-4xl md:text-7xl font-bold text-center text-light inline-block mb-10">
                 Hello
               </h2>
               <h2 className="relative text-2xl md:text-4xl font-thin text-center text-gray inline-block">
-                I love to create modern websites and interfaces. Let me know, if you need help ✌️
+                I love to create modern websites and interfaces. Let&apos;s build something together
+                ✌️
               </h2>
             </Hitbox>
             <Hitbox name="main-links" className="inline-flex mx-auto p-5 gap-8" inset>

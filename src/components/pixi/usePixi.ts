@@ -145,6 +145,7 @@ const usePixi = ({ stageWidth, stageHeight }: UsePixiProps) => {
 
       const line = new Graphics()
       line.alpha = 0
+      line.zIndex = 15
       line.lineStyle(1, selectedColor)
       line.moveTo(x - tileWidth / 2, 0)
       line.lineTo(x - tileWidth / 2, height)
@@ -155,6 +156,7 @@ const usePixi = ({ stageWidth, stageHeight }: UsePixiProps) => {
       gsap.to(line, {
         zIndex: 5,
         delay: getRandom(0.5, 1),
+        duration: getRandom(0.5, 1),
         pixi: {
           skewX: 0,
           skewY: 0,
@@ -169,6 +171,7 @@ const usePixi = ({ stageWidth, stageHeight }: UsePixiProps) => {
 
       const line = new Graphics()
       line.alpha = 0
+      line.zIndex = 15
       line.lineStyle(1, selectedColor)
       line.moveTo(0, y - tileHeight / 2)
       line.lineTo(width, y - tileHeight / 2)
@@ -178,6 +181,7 @@ const usePixi = ({ stageWidth, stageHeight }: UsePixiProps) => {
 
       gsap.to(line, {
         zIndex: 5,
+        delay: getRandom(0.5, 1),
         duration: getRandom(0.5, 1),
         pixi: {
           skewX: 0,
@@ -235,7 +239,7 @@ const usePixi = ({ stageWidth, stageHeight }: UsePixiProps) => {
       })
 
       tilesRef.current[id] = { id, sprite }
-      setupGsapTile(sprite)
+      setupGsapTile(sprite, x, y)
     })
 
     drawLines()
@@ -356,13 +360,24 @@ const usePixi = ({ stageWidth, stageHeight }: UsePixiProps) => {
           return
         }
 
-        const random85 = Math.random() < 0.5
         if (previewMode) {
-          if (random85) {
+          if (Math.random() < 0.5) {
+            animateIn(tile.sprite, tile.id, tilesPos[neighborId].x, tilesPos[neighborId].y)
+            return
+          }
+        }
+        if (!isNeighborInOuterHitbox && !isInHitbox) {
+          if (cursorRadius < 1 && Math.random() < 1) {
+            animateIn(tile.sprite, tile.id, tilesPos[neighborId].x, tilesPos[neighborId].y)
+            return
+          }
+          if (cursorRadius < 2 && Math.random() < 0.75) {
+            animateIn(tile.sprite, tile.id, tilesPos[neighborId].x, tilesPos[neighborId].y)
+            return
+          }
+          if (cursorRadius >= 2 && Math.random() < 0.4) {
             animateIn(tile.sprite, tile.id, tilesPos[neighborId].x, tilesPos[neighborId].y)
           }
-        } else if (!isNeighborInOuterHitbox && !isInHitbox && random85) {
-          animateIn(tile.sprite, tile.id, tilesPos[neighborId].x, tilesPos[neighborId].y)
         }
       })
     },
