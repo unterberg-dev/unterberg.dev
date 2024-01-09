@@ -8,7 +8,7 @@ interface DrawTilesParams {
   tileHeight: number
   tilesRef: React.MutableRefObject<Tile[]>
   appRef: React.MutableRefObject<Application>
-  setupGsapTile: (sprite: Sprite, id: number) => void
+  setupGsapTile: (tile: Sprite, originX: number, originY: number) => void
 }
 
 const drawTiles = ({
@@ -30,7 +30,7 @@ const drawTiles = ({
     })
 
     tilesRef.current[id] = { id, sprite }
-    setupGsapTile(sprite, id)
+    setupGsapTile(sprite, x, y)
   })
 }
 

@@ -41,7 +41,6 @@ const usePixi = ({ stageWidth, stageHeight }: UsePixiProps) => {
   const isScrolling = useTileStore(state => state.isScrolling)
 
   const [isCursorMoving, setIsCursorMoving] = useState(false)
-  const [isLoading, setIsLoading] = useState(true)
 
   const colsCount = useMemo(() => Math.floor(stageWidth / tileWidth), [stageWidth, tileWidth])
   const rowsCount = useMemo(() => Math.floor(stageHeight / tileHeight), [stageHeight, tileHeight])
@@ -156,7 +155,6 @@ const usePixi = ({ stageWidth, stageHeight }: UsePixiProps) => {
       tilesPos,
       appRef,
     })
-    setIsLoading(false)
   }, [
     colorVariationsDark,
     colsCount,
@@ -204,7 +202,13 @@ const usePixi = ({ stageWidth, stageHeight }: UsePixiProps) => {
         const currentPos = tilesPos[bgTileId]
         const tile = bgTilesRef.current[currentPos.id]
 
-        if (Math.random() < 0.5) {
+        if (cursorRadius < 2) {
+          if (Math.random() < 0.3) {
+            animateBgTileIn(tile.sprite)
+          }
+          return
+        }
+        if (Math.random() < 0.05) {
           animateBgTileIn(tile.sprite)
         }
       })
@@ -262,13 +266,24 @@ const usePixi = ({ stageWidth, stageHeight }: UsePixiProps) => {
           return
         }
 
-        const random85 = Math.random() < 0.5
         if (previewMode) {
-          if (random85) {
+          if (Math.random() < 0.5) {
+            animateIn(tile.sprite, tile.id, tilesPos[neighborId].x, tilesPos[neighborId].y)
+            return
+          }
+        }
+        if (!isNeighborInOuterHitbox && !isInHitbox) {
+          if (cursorRadius < 1 && Math.random() < 1) {
+            animateIn(tile.sprite, tile.id, tilesPos[neighborId].x, tilesPos[neighborId].y)
+            return
+          }
+          if (cursorRadius < 2 && Math.random() < 0.75) {
+            animateIn(tile.sprite, tile.id, tilesPos[neighborId].x, tilesPos[neighborId].y)
+            return
+          }
+          if (cursorRadius >= 2 && Math.random() < 0.4) {
             animateIn(tile.sprite, tile.id, tilesPos[neighborId].x, tilesPos[neighborId].y)
           }
-        } else if (!isNeighborInOuterHitbox && !isInHitbox && random85) {
-          animateIn(tile.sprite, tile.id, tilesPos[neighborId].x, tilesPos[neighborId].y)
         }
       })
     },
@@ -391,7 +406,6 @@ const usePixi = ({ stageWidth, stageHeight }: UsePixiProps) => {
   return {
     init,
     destroy,
-    isLoading,
     app: appRef.current,
   } as const
 }

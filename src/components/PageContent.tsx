@@ -22,11 +22,12 @@ const PageContent = () => {
               className="inline-flex flex-col mx-auto p-5 my-5 md:my-20"
               inset
             >
-              <h2 className="relative text-4xl md:text-7xl font-bold text-center text-light inline-block mb-8">
+              <h2 className="relative text-4xl md:text-7xl font-bold text-center text-light inline-block mb-10">
                 Hello
               </h2>
               <h2 className="relative text-2xl md:text-4xl font-thin text-center text-gray inline-block">
-                I create websites and interfaces. Let me know, if you need one ✌️
+                I love to create modern websites and interfaces. Let&apos;s build something together
+                ✌️
               </h2>
             </Hitbox>
             <Hitbox name="main-links" className="inline-flex mx-auto p-5 gap-8" inset>
@@ -41,9 +42,9 @@ const PageContent = () => {
           <Hitbox name="main-copy" className="inline-flex flex-col mx-auto p-5 pb-16 md:pb-0" inset>
             <div className="grid text-gray">
               <div className="font-light text-light">
-                <p className="text-center">&copy; 2023</p>
                 <p className="text-center">Nightworks Richard Unterberg</p>
-                <p className="text-center"> mail@richardunterberg.de</p>
+                <p className="text-center mb-3"> mail@richardunterberg.de</p>
+                <p className="text-center">&copy; 2024</p>
               </div>
             </div>
           </Hitbox>
