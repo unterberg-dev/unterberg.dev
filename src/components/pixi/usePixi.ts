@@ -1,9 +1,7 @@
 import { useApp } from '@pixi/react'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { Sprite, Texture, Graphics } from 'pixi.js'
 import gsap from 'gsap'
 import debounce from 'lodash/debounce'
-import * as PIXI from 'pixi.js'
 import {
   checkHoveredRectangle,
   getAllNeighbors,
@@ -13,9 +11,11 @@ import {
 import useTileFx from '@/components/pixi/useTileFx'
 import useTileStore from '@/src/zustand/useTileStore'
 import { Line, Tile } from '@/lib/types'
-import range from 'lodash/range'
 import useAppTheme from '@/lib/useTheme'
-import { getRandom } from '@/lib/utils'
+import drawBGTiles from '@/components/pixi/drawBgTiles'
+import drawLines from '@/components/pixi/drawLines'
+import drawTiles from '@/components/pixi/drawTiles'
+import { utils } from 'pixi.js'
 
 interface UsePixiProps {
   stageWidth: number
@@ -73,38 +73,6 @@ const usePixi = ({ stageWidth, stageHeight }: UsePixiProps) => {
     setIsCursorMoving(false)
   }, idleLoopDuration)
 
-  interface createSpriteProps {
-    texture: Texture | string
-    x: number
-    y: number
-    width: number
-    height: number
-    origin?: number
-  }
-
-  const createSprite = useCallback(
-    ({ texture, x, y, width, height, origin = 0.5 }: createSpriteProps) => {
-      let sprite: Sprite
-
-      if (!texture) {
-        sprite = new Sprite()
-      } else if (typeof texture === 'string') {
-        sprite = new Sprite(Texture.from(texture as string))
-      } else {
-        sprite = Sprite.from(texture as Texture)
-      }
-      sprite.alpha = 0
-      sprite.x = x
-      sprite.y = y
-      sprite.width = width
-      sprite.height = height
-      sprite.anchor.set(origin)
-      appRef.current.stage.addChild(sprite)
-      return sprite
-    },
-    [],
-  )
-
   const frameRef = useRef(0)
 
   const getCenterTileId = useCallback(() => {
@@ -129,87 +97,19 @@ const usePixi = ({ stageWidth, stageHeight }: UsePixiProps) => {
     [color],
   )
 
-  const drawLines = useCallback(() => {
-    const colCoordsDef = range(colsCount).map(col => ({
-      x: (col + 1) * tileWidth,
-      height: rowsCount * tileHeight,
-    }))
-    const rowCoordsDef = range(rowsCount).map(row => ({
-      y: (row + 1) * tileHeight,
-      width: colsCount * tileWidth,
-    }))
-
-    colCoordsDef.forEach(({ x, height }) => {
-      const randomColorIndex = Math.floor(Math.random() * colorVariationsDark.length)
-      const selectedColor = colorVariationsDark[randomColorIndex]
-
-      const line = new Graphics()
-      line.alpha = 0
-      line.zIndex = 15
-      line.lineStyle(1, selectedColor)
-      line.moveTo(x - tileWidth / 2, 0)
-      line.lineTo(x - tileWidth / 2, height)
-      line.closePath()
-      appRef.current.stage.addChild(line)
-      linesRef.current.push({ id: `line-v-${x}`, graphics: line })
-
-      gsap.to(line, {
-        zIndex: 5,
-        delay: getRandom(0.5, 1),
-        duration: getRandom(0.5, 1),
-        pixi: {
-          skewX: 0,
-          skewY: 0,
-          alpha: getRandom(0.1, 0.3),
-        },
+  const destroy = useCallback(() => {
+    if (appRef.current.stage) {
+      appRef.current.stage.removeChildren()
+    }
+    window.cancelAnimationFrame(frameRef.current)
+    if (utils.TextureCache) {
+      Object.keys(utils.TextureCache).forEach(texture => {
+        if (utils.TextureCache[texture]) {
+          utils.TextureCache[texture].destroy(true)
+        }
       })
-    })
-
-    rowCoordsDef.forEach(({ y, width }) => {
-      const randomColorIndex = Math.floor(Math.random() * colorVariationsDark.length)
-      const selectedColor = colorVariationsDark[randomColorIndex]
-
-      const line = new Graphics()
-      line.alpha = 0
-      line.zIndex = 15
-      line.lineStyle(1, selectedColor)
-      line.moveTo(0, y - tileHeight / 2)
-      line.lineTo(width, y - tileHeight / 2)
-      line.closePath()
-      appRef.current.stage.addChild(line)
-      linesRef.current.push({ id: `line-h-${y}`, graphics: line })
-
-      gsap.to(line, {
-        zIndex: 5,
-        delay: getRandom(0.5, 1),
-        duration: getRandom(0.5, 1),
-        pixi: {
-          skewX: 0,
-          skewY: 0,
-          alpha: getRandom(0.1, 0.3),
-        },
-      })
-    })
-  }, [colorVariationsDark, colsCount, rowsCount, tileHeight, tileWidth])
-
-  const drawBGTiles = useCallback(() => {
-    tilesPos.forEach(({ id, x, y }) => {
-      const randomColorIndex = Math.floor(Math.random() * colorVariationsDark.length)
-      const selectedColor = colorVariationsDark[randomColorIndex]
-      const tile = createSprite({
-        texture: Texture.WHITE,
-        // texture: 'https://pixijs.io/examples/examples/assets/bunny.png',
-        x,
-        y,
-        width: tileWidth,
-        height: tileHeight,
-      })
-      tile.alpha = 0
-      tile.tint = selectedColor
-      bgTilesRef.current.push({ id, sprite: tile })
-      setupGsapBgTile(tile)
-    })
-  }, [tilesPos, colorVariationsDark, createSprite, tileWidth, tileHeight, setupGsapBgTile])
+    }
+  }, [])
 
   const init = useCallback(() => {
     window.cancelAnimationFrame(frameRef.current)
@@ -229,36 +129,42 @@ const usePixi = ({ stageWidth, stageHeight }: UsePixiProps) => {
       })
     })
 
-    tilesPos.forEach(({ id, x, y }) => {
-      const sprite = createSprite({
-        texture: Texture.WHITE,
-        x,
-        y,
-        width: tileWidth,
-        height: tileHeight,
-      })
-
-      tilesRef.current[id] = { id, sprite }
-      setupGsapTile(sprite, x, y)
+    drawTiles({
+      tilesPos,
+      tileWidth,
+      tileHeight,
+      tilesRef,
+      appRef,
+      setupGsapTile,
     })
-
-    drawLines()
-    drawBGTiles()
-  }, [createSprite, drawBGTiles, drawLines, setupGsapTile, tileHeight, tileWidth, tilesPos])
-
-  const destroy = useCallback(() => {
-    if (appRef.current.stage) {
-      appRef.current.stage.removeChildren()
-    }
-    window.cancelAnimationFrame(frameRef.current)
-    if (PIXI.utils.TextureCache) {
-      Object.keys(PIXI.utils.TextureCache).forEach(texture => {
-        if (PIXI.utils.TextureCache[texture]) {
-          PIXI.utils.TextureCache[texture].destroy(true)
-        }
-      })
-    }
-  }, [])
+    drawLines({
+      linesRef,
+      colorVariationsDark,
+      tileWidth,
+      tileHeight,
+      colsCount,
+      rowsCount,
+      appRef,
+    })
+    drawBGTiles({
+      bgTilesRef,
+      colorVariationsDark,
+      setupGsapBgTile,
+      tileWidth,
+      tileHeight,
+      tilesPos,
+      appRef,
+    })
+  }, [
+    colorVariationsDark,
+    colsCount,
+    rowsCount,
+    setupGsapBgTile,
+    setupGsapTile,
+    tileHeight,
+    tileWidth,
+    tilesPos,
+  ])
 
   const animateNeighbors = useCallback(
     (currentTarget: number) => {
