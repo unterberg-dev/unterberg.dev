@@ -1,10 +1,10 @@
 import { lazy } from 'react'
 
-import useTileStore from '@/src/zustand/useTileStore'
-import Icon from '@/components/common/Icon'
-import { ICON_ID } from '@/lib/icons/iconID'
+import Icon from '#components/common/Icon'
+import { ICON_ID } from '#lib/icons/iconID'
+import useTileStore from '#zustand/useTileStore'
 
-const Hitbox = lazy(() => import('@/components/Hitbox'))
+const Hitbox = lazy(() => import('#components/Hitbox'))
 
 const PageContent = () => {
   const previewMode = useTileStore(state => state.previewMode)

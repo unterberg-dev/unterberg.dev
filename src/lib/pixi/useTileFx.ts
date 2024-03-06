@@ -1,20 +1,21 @@
-import { getRandom } from '@/lib/utils'
-import { Sprite } from 'pixi.js'
 import gsap from 'gsap'
-import { useCallback, useEffect, useMemo, useRef } from 'react'
-import useTileStore from '@/src/zustand/useTileStore'
-import { TileBase } from '@/lib/types'
 import PixiPlugin from 'gsap/PixiPlugin'
+import { Sprite } from 'pixi.js'
 import * as PIXI from 'pixi.js'
+import { useCallback, useEffect, useMemo, useRef } from 'react'
 
-interface useTileFxProps {
+import { TileBase } from '#lib/types'
+import { getRandom } from '#lib/utils'
+import useTileStore from '#zustand/useTileStore'
+
+interface UseTileFxParams {
   tiles: TileBase[]
 }
 
 gsap.registerPlugin(PixiPlugin)
 PixiPlugin.registerPIXI(PIXI)
 
-const useTileFx = ({ tiles }: useTileFxProps) => {
+const useTileFx = ({ tiles }: UseTileFxParams) => {
   const cursorRadius = useTileStore(state => state.cursorRadius)
   const cursorRadiusRef = useRef(cursorRadius)
 

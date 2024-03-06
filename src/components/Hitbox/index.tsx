@@ -1,7 +1,8 @@
-import useHitbox from '@/components/Hitbox/useHitbox'
-import useTileStore from '@/src/zustand/useTileStore'
 import { useEffect, useRef } from 'react'
 import { useResizeDetector } from 'react-resize-detector'
+
+import useHitbox from '#components/Hitbox/useHitbox'
+import useTileStore from '#zustand/useTileStore'
 
 interface HitboxProps {
   name: string

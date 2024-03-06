@@ -4,21 +4,21 @@
  * todo: "minimize", "maximize", "close" icons
  */
 import {
+  Copyright,
   ExternalLink,
   Github,
+  Linkedin,
   LucideProps,
   MagnetIcon,
   MonitorDown,
   PackageCheck,
   PencilRuler,
+  Rabbit,
   Sailboat,
   SlidersHorizontal,
-  Rabbit,
-  Linkedin,
-  Copyright,
 } from 'lucide-react'
 
-import { ICON_ID } from '@/lib/icons/iconID'
+import { ICON_ID } from '#lib/icons/iconID'
 
 type ICON_TYPE = {
   [key in ICON_ID]: {

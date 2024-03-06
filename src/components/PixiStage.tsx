@@ -1,10 +1,10 @@
-import usePixi from '@/components/pixi/usePixi'
 import { Stage } from '@pixi/react'
 import { useEffect, useMemo } from 'react'
 import { useResizeDetector } from 'react-resize-detector'
 
-import useScrollPos from '@/lib/hooks/useScrollPos'
-import useTileStore from '@/src/zustand/useTileStore'
+import useScrollPos from '#hooks/useScrollPos'
+import usePixi from '#pixi/usePixi'
+import useTileStore from '#zustand/useTileStore'
 
 interface StageInnerProps {
   stageWidth?: number
@@ -40,14 +40,9 @@ const PixiStage = () => {
 
   const tileWidth = useTileStore(state => state.tileWidth)
   const tileHeight = useTileStore(state => state.tileHeight)
-  const stageBlur = useTileStore(state => state.stageBlur)
 
   return (
-    <div
-      className="fixed top-0 left-0 w-full h-screen pointer-events-none z-20"
-      style={{ filter: `blur(${stageBlur}px)` }}
-      ref={ref}
-    >
+    <div className="fixed top-0 left-0 w-full h-screen pointer-events-none z-20" ref={ref}>
       {width && height && (
         <Stage
           options={{

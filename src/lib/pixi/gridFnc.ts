@@ -1,4 +1,4 @@
-import { TileBase } from '@/lib/types'
+import { TileBase } from '#lib/types'
 
 interface GetCalculateTilePositionsProps {
   stageWidth: number

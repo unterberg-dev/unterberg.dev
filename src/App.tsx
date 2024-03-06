@@ -1,11 +1,10 @@
-import '@fontsource/inter/latin-100.css'
 import '@fontsource/inter/latin-400.css'
 import '@fontsource/inter/latin-700.css'
+import '@unocss/reset/tailwind.css'
+import 'virtual:uno.css'
+import '#src/globals.css'
 
-import './globals.css'
-import { lazy } from 'react'
-
-const Start = lazy(() => import('@/components/Start'))
+import Start from '#components/Start'
 
 const App = () => <Start />
 

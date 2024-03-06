@@ -1,5 +1,6 @@
-import useTileStore from '@/src/zustand/useTileStore'
 import { useCallback, useEffect, useState } from 'react'
+
+import useTileStore from '#zustand/useTileStore'
 
 const useScrollPos = () => {
   const { setScrollPosY } = useTileStore()

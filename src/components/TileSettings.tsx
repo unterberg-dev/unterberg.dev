@@ -1,8 +1,9 @@
-import Icon from '@/components/common/Icon'
-import { ICON_ID } from '@/lib/icons/iconID'
-import useTileStore from '@/src/zustand/useTileStore'
 import debounce from 'lodash/debounce'
 import { useCallback, useState } from 'react'
+
+import Icon from '#components/common/Icon'
+import { ICON_ID } from '#lib/icons/iconID'
+import useTileStore from '#zustand/useTileStore'
 
 const TileSettings = () => {
   const fadeInDurationMin = useTileStore(state => state.fadeInDurationMin)
@@ -33,8 +34,6 @@ const TileSettings = () => {
   const setTileTailColor = useTileStore(state => state.setTileTailColor)
   const tileEndColor = useTileStore(state => state.tileEndColor)
   const setTileEndColor = useTileStore(state => state.setTileEndColor)
-  const setStageBlur = useTileStore(state => state.setStageBlur)
-  const stageBlur = useTileStore(state => state.stageBlur)
 
   const handleSettingsMouseIn = useCallback(() => {
     setPreviewMode(true)
@@ -150,7 +149,7 @@ const TileSettings = () => {
         </div>
         <div className="relative mb-5">
           <div className="absolute top-0 left-full bottom-0 flex items-center ml-10">
-            <h2 className=" font-thin text-grayLight">Tail Tween</h2>
+            <h2 className=" font-thin text-grayLight">Mid Tween</h2>
           </div>
           <label className="text-white">
             <p>min duration: {tailInDurationMin}s</p>
@@ -234,18 +233,6 @@ const TileSettings = () => {
           <div className="absolute top-0 left-full bottom-0 flex items-center ml-10">
             <h2 className=" font-thin text-grayLight">Stage</h2>
           </div>
-          <label>
-            <p>blur fx: {stageBlur} px</p>
-            <input
-              type="range"
-              min={0}
-              max={48}
-              step={4}
-              value={stageBlur}
-              className="w-full"
-              onChange={e => setStageBlur(parseFloat(e.target.value))}
-            />
-          </label>
           <label>
             <p>grid tile size: {uiTileSize} px</p>
             <input

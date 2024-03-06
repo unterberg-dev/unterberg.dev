@@ -1,21 +1,17 @@
 import { useApp } from '@pixi/react'
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import gsap from 'gsap'
 import debounce from 'lodash/debounce'
-import {
-  checkHoveredRectangle,
-  getAllNeighbors,
-  getCalculateTilePositions,
-  getOutlineTargets,
-} from '@/components/pixi/gridFnc'
-import useTileFx from '@/components/pixi/useTileFx'
-import useTileStore from '@/src/zustand/useTileStore'
-import { Line, Tile } from '@/lib/types'
-import useAppTheme from '@/lib/useTheme'
-import drawBGTiles from '@/components/pixi/drawBgTiles'
-import drawLines from '@/components/pixi/drawLines'
-import drawTiles from '@/components/pixi/drawTiles'
 import { utils } from 'pixi.js'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+
+import { Line, Tile } from '#lib/types'
+import drawBGTiles from '#pixi/drawBgTiles'
+import drawLines from '#pixi/drawLines'
+import drawTiles from '#pixi/drawTiles'
+import { checkHoveredRectangle, getCalculateTilePositions, getOutlineTargets } from '#pixi/gridFnc'
+import usePointer from '#pixi/usePointer'
+import useTileFx from '#pixi/useTileFx'
+import useTileStore from '#zustand/useTileStore'
 
 interface UsePixiProps {
   stageWidth: number
@@ -37,8 +33,6 @@ const usePixi = ({ stageWidth, stageHeight }: UsePixiProps) => {
   const previewMode = useTileStore(state => state.previewMode)
   const idleIntervalPreviewMode = useTileStore(state => state.idleIntervalPreviewMode)
   const hitboxes = useTileStore(state => state.hitboxes)
-  const scrollPosY = useTileStore(state => state.scrollPosY)
-  const isScrolling = useTileStore(state => state.isScrolling)
 
   const [isCursorMoving, setIsCursorMoving] = useState(false)
 
@@ -58,15 +52,17 @@ const usePixi = ({ stageWidth, stageHeight }: UsePixiProps) => {
     [colsCount, rowsCount, stageHeight, stageWidth, tileHeight, tileWidth],
   )
 
-  const {
-    setupGsapTile,
-    setupGsapBgTile,
-    animateIn,
-    animateBgTileIn,
-    animateHitboxIn,
-    animateHitboxInAlt,
-  } = useTileFx({
+  const { setupGsapTile, setupGsapBgTile } = useTileFx({
     tiles: tilesPos,
+  })
+
+  const { animateNeighbors } = usePointer({
+    tilesPos,
+    colsCount,
+    rowsCount,
+    bgTilesRef,
+    tilesRef,
+    hitboxes,
   })
 
   const handleCursorMoveTimeout = debounce(() => {
@@ -77,7 +73,6 @@ const usePixi = ({ stageWidth, stageHeight }: UsePixiProps) => {
 
   const getCenterTileId = useCallback(() => {
     const centerID = checkHoveredRectangle(
-      // +1 because we wanna select the next tile
       stageWidth / 2,
       stageHeight / 2,
       tilesPos,
@@ -87,15 +82,7 @@ const usePixi = ({ stageWidth, stageHeight }: UsePixiProps) => {
     return centerID || 0
   }, [stageHeight, stageWidth, tileHeight, tileWidth, tilesPos])
 
-  const { color } = useAppTheme()
-  const colorVariationsDark = useMemo(
-    () => [
-      `0x${color('dark').substring(1)}`,
-      `0x${color('darkLightBorder').substring(1)}`,
-      `0x${color('darkLight').substring(1)}`,
-    ],
-    [color],
-  )
+  const colorVariationsDark = useMemo(() => [`0x111`, `0x202020`, `0x252525`], [])
 
   const destroy = useCallback(() => {
     if (appRef.current.stage) {
@@ -166,146 +153,6 @@ const usePixi = ({ stageWidth, stageHeight }: UsePixiProps) => {
     tilesPos,
   ])
 
-  const animateNeighbors = useCallback(
-    (currentTarget: number) => {
-      if (!stageWidth) {
-        return
-      }
-
-      // todo: this must be improved!
-      const toggleBgTargetNeighbors = getAllNeighbors({
-        mouseX: tilesPos[currentTarget].x,
-        mouseY: tilesPos[currentTarget].y,
-        rowsCount,
-        colsCount,
-        radius: cursorRadius * 1.5,
-        width: tileWidth,
-        height: tileHeight,
-      })
-      const toggleTargetNeighbors = getAllNeighbors({
-        mouseX: tilesPos[currentTarget].x,
-        mouseY: tilesPos[currentTarget].y,
-        rowsCount,
-        colsCount,
-        radius: cursorRadius,
-        width: tileWidth,
-        height: tileHeight,
-      })
-
-      // Convert toggleTargetNeighbors to a Set for faster lookup
-      const targetSet = new Set(toggleTargetNeighbors)
-
-      // Filter out numbers from toggleBgTargetNeighbors that exist in toggleTargetNeighbors
-      const filteredArray = toggleBgTargetNeighbors.filter(number => !targetSet.has(number))
-
-      filteredArray.forEach(bgTileId => {
-        const currentPos = tilesPos[bgTileId]
-        const tile = bgTilesRef.current[currentPos.id]
-
-        if (cursorRadius < 2) {
-          if (Math.random() < 0.3) {
-            animateBgTileIn(tile.sprite)
-          }
-          return
-        }
-        if (Math.random() < 0.05) {
-          animateBgTileIn(tile.sprite)
-        }
-      })
-
-      const isInOuterHitbox = (posX: number, posY: number) =>
-        hitboxes.some(
-          hitbox =>
-            posX >= hitbox.x - 80 &&
-            posX <= hitbox.x + hitbox.width + 80 &&
-            posY >= hitbox.y - scrollPosY - 80 &&
-            posY <= hitbox.y - scrollPosY + hitbox.height + 80,
-        )
-
-      toggleTargetNeighbors.forEach(neighborId => {
-        const currentPos = tilesPos[neighborId]
-        const tile = tilesRef.current[currentPos.id]
-
-        if (isScrolling) {
-          return
-        }
-
-        // Check if the neighbor is within any hitbox
-        const isInHitbox = hitboxes.some(
-          hitbox =>
-            currentPos.x >= hitbox.x &&
-            currentPos.x <= hitbox.x + hitbox.width &&
-            currentPos.y >= hitbox.y - scrollPosY &&
-            currentPos.y <= hitbox.y - scrollPosY + hitbox.height,
-        )
-
-        const isNeighborInOuterHitbox = isInOuterHitbox(currentPos.x, currentPos.y)
-
-        if (isNeighborInOuterHitbox && !isInHitbox && !previewMode) {
-          const random40 = Math.random() < 0.4
-          if (random40) {
-            animateIn(tile.sprite, tile.id, tilesPos[neighborId].x, tilesPos[neighborId].y)
-            return
-          }
-          const random85 = Math.random() < 0.5
-          if (random85) {
-            animateHitboxInAlt(tile.sprite, tile.id, tilesPos[neighborId].x, tilesPos[neighborId].y)
-            return
-          }
-          animateHitboxIn(tile.sprite, tile.id, tilesPos[neighborId].x, tilesPos[neighborId].y)
-          return
-        }
-
-        if (isInHitbox && !previewMode) {
-          const random40 = Math.random() < 0.4
-          if (random40) {
-            animateHitboxInAlt(tile.sprite, tile.id, tilesPos[neighborId].x, tilesPos[neighborId].y)
-            return
-          }
-          animateHitboxIn(tile.sprite, tile.id, tilesPos[neighborId].x, tilesPos[neighborId].y)
-          return
-        }
-
-        if (previewMode) {
-          if (Math.random() < 0.5) {
-            animateIn(tile.sprite, tile.id, tilesPos[neighborId].x, tilesPos[neighborId].y)
-            return
-          }
-        }
-        if (!isNeighborInOuterHitbox && !isInHitbox) {
-          if (cursorRadius < 1 && Math.random() < 1) {
-            animateIn(tile.sprite, tile.id, tilesPos[neighborId].x, tilesPos[neighborId].y)
-            return
-          }
-          if (cursorRadius < 2 && Math.random() < 0.75) {
-            animateIn(tile.sprite, tile.id, tilesPos[neighborId].x, tilesPos[neighborId].y)
-            return
-          }
-          if (cursorRadius >= 2 && Math.random() < 0.4) {
-            animateIn(tile.sprite, tile.id, tilesPos[neighborId].x, tilesPos[neighborId].y)
-          }
-        }
-      })
-    },
-    [
-      stageWidth,
-      tilesPos,
-      rowsCount,
-      colsCount,
-      cursorRadius,
-      tileWidth,
-      tileHeight,
-      hitboxes,
-      scrollPosY,
-      isScrolling,
-      previewMode,
-      animateHitboxIn,
-      animateIn,
-      animateHitboxInAlt,
-      animateBgTileIn,
-    ],
-  )
-
   const idleAnimationMotionRefId = useRef(0)
   const toggleIdleAnimation = useCallback(() => {
     const target = !previouslyHoveredTileId.current
@@ -324,9 +171,9 @@ const usePixi = ({ stageWidth, stageHeight }: UsePixiProps) => {
 
     idleAnimationMotionRefId.current += 1 % newTargets.length
   }, [
-    animateNeighbors,
     colsCount,
     cursorRadius,
+    animateNeighbors,
     getCenterTileId,
     idleIntervalPreviewMode,
     previewMode,

@@ -1,7 +1,8 @@
-import { getRandom } from '@/lib/utils'
+import gsap from 'gsap'
 import range from 'lodash/range'
 import { Application, Graphics } from 'pixi.js'
-import gsap from 'gsap'
+
+import { getRandom } from '#lib/utils'
 
 interface DrawLinesParams {
   colorVariationsDark: string[]

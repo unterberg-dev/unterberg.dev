@@ -1,7 +1,7 @@
 import { useCallback } from 'react'
 
-import { HitboxType } from '@/lib/types'
-import useTileStore from '@/src/zustand/useTileStore'
+import { HitboxType } from '#lib/types'
+import useTileStore from '#src/zustand/useTileStore'
 
 const useHitbox = () => {
   const setHitboxes = useTileStore(state => state.setHitboxes)

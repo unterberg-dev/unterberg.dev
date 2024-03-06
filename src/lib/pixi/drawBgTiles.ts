@@ -1,6 +1,7 @@
-import createSprite from '@/components/pixi/createSprite'
-import { Tile, TileBase } from '@/lib/types'
 import { Application, Sprite, Texture } from 'pixi.js'
+
+import { Tile, TileBase } from '#lib/types'
+import createSprite from '#pixi/createSprite'
 
 interface DrawBGTilesParams {
   tilesPos: TileBase[]

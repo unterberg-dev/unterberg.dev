@@ -1,5 +1,6 @@
-import { HitboxType } from '@/lib/types'
 import { create } from 'zustand'
+
+import { HitboxType } from '#lib/types'
 
 interface UseTileStoreGetter {
   tileStartColor: string
@@ -10,7 +11,6 @@ interface UseTileStoreGetter {
   hitboxes: HitboxType[]
   scrollPosY: number
   isScrolling: boolean
-  stageBlur: number
   tileWidth: number
   tileHeight: number
   cursorRadius: number
@@ -33,7 +33,6 @@ interface UseTileStoreSetter {
   setHitboxes: (fn: (prev: HitboxType[]) => HitboxType[]) => void
   setScrollPosY: (payload: number) => void
   setIsScrolling: (payload: boolean) => void
-  setStageBlur: (payload: number) => void
   setTileWidth: (payload: number) => void
   setTileHeight: (payload: number) => void
   setCursorRadius: (payload: number) => void
@@ -58,7 +57,6 @@ const tileStoreDefaults: UseTileStoreGetter = {
   hitboxes: [],
   scrollPosY: 0,
   isScrolling: false,
-  stageBlur: 0,
   tileWidth: 25,
   tileHeight: 25,
   cursorRadius: 1,
@@ -84,7 +82,6 @@ const useTileStore = create<UseTileStoreProps>()(set => ({
   },
   setScrollPosY: payload => set(() => ({ scrollPosY: payload })),
   setIsScrolling: payload => set(() => ({ isScrolling: payload })),
-  setStageBlur: payload => set(() => ({ stageBlur: payload })),
   setTileWidth: payload => set(() => ({ tileWidth: payload })),
   setTileHeight: payload => set(() => ({ tileHeight: payload })),
   setCursorRadius: payload => set(() => ({ cursorRadius: payload })),
