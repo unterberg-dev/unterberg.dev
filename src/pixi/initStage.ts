@@ -41,7 +41,7 @@ export const initStage = async (stage: HTMLDivElement | null) => {
 
   const tileCounElement = document.querySelector<HTMLDivElement>('#tileCount')
   if (tileCounElement) {
-    tileCounElement.textContent = `currently ${tiles.length} sprites generated.`
+    tileCounElement.textContent = `${tiles.length} sprites generated.`
   }
 
   // eslint-disable-next-line no-console

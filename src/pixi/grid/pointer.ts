@@ -22,7 +22,7 @@ export const triggerAnimateHover = ({
     const { timelines, setPosition } = tiles[id]
 
     // only fire n% of the time
-    const debounce = Math.random() > 0.4
+    const debounce = Math.random() > 0.45
     if (debounce) return
 
     const movementX = event.movementX || 0

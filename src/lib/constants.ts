@@ -3,14 +3,15 @@ export enum TIMELINE {
   HOVER_OUT,
   HITBOX_IN,
   HITBOX_OUT,
+  IDLE,
 }
 
 export const PixiConfig = {
-  configMaxDivider: 110,
-  configMinDivider: 23,
+  configMaxDivider: 90,
+  configMinDivider: 25,
   configMinDividerThreshold: 500,
   configMaxDividerThreshold: 1700,
-  configCursorRadius: 4,
+  configCursorRadius: 2,
   configTileIcons: [
     '😄',
     '🌞',
@@ -39,5 +40,8 @@ export const PixiConfig = {
     '😁',
     '😄',
     '😃',
+    '😀',
+    '😊',
+    '😉',
   ],
 }
