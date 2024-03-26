@@ -1,11 +1,17 @@
+![alt text](https://github.com/richard-unterberg/richard-unterberg.github.io/blob/master/public/preview.png?raw=true)
+
+
 # Pixi Starter Template with Vite and TypeScript
 
 This Pixi.js starter template offers a solid foundation for your web graphics projects. Utilizing Vite for fast development, TypeScript for type safety, and Pixi.js for WebGL rendering, this template simplifies the setup process for building interactive web applications.
+
+<img src="https://github.com/richard-unterberg/richard-unterberg.github.io/blob/master/public/preview.gif?raw=true" alt="drawing" width="480"/>
 
 ## Key Features
 
 - **Vite**: Provides rapid development and hot module replacement for a seamless workflow.
 - **TypeScript**: Enhances code navigation and maintains type safety throughout your project.
+- **gsap**: Offers a powerful animation library for creating dynamic and engaging user experiences.
 - **Pixi.js**: Leverages the powerful WebGL renderer for creating dynamic and visually appealing graphics.
 - **ESLint**: Ensures code consistency and quality by detecting and fixing errors early on.
 - **Unocss**: Streamlines styling with utility-first CSS, keeping your codebase lightweight and efficient.
