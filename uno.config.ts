@@ -4,6 +4,18 @@ import { defineConfig, presetUno } from 'unocss'
 
 export default defineConfig({
   presets: [presetUno()],
+  content: {
+    pipeline: {
+      include: [
+        // the default
+        /\.(vue|svelte|[jt]sx|mdx?|astro|elm|php|phtml|html)($|\?)/,
+        // include js/ts files
+        'src/**/*.{js,ts}',
+      ],
+      // exclude files
+      // exclude: []
+    },
+  },
   theme: {
     colors: {
       transparent: 'transparent',
@@ -18,7 +30,6 @@ export default defineConfig({
       grayLight: colors.slate[300],
       light: colors.slate[200],
       primary: colors.sky[600],
-      strava: '#fc4c02',
       success: '#27C485',
       warning: '#F1B650',
       error: colors.red[500],
@@ -29,23 +40,9 @@ export default defineConfig({
       micro: ['10px', '12px'],
     },
     fontFamily: {
-      sans: 'Noto Sans, sans-serif',
+      sans: 'Inter, sans-serif',
     },
   },
-  rules: [
-    [
-      'spin-slow',
-      {
-        animation: 'spin 6s linear infinite',
-      },
-    ],
-    [
-      'spin-fast',
-      {
-        animation: 'spin 2s linear infinite',
-      },
-    ],
-  ],
   preflights: [
     {
       getCSS: ({ theme }) => {
@@ -62,18 +59,11 @@ export default defineConfig({
         return `
           body, html {
             background-color: ${theme.colors?.dark};
+            color: ${theme.colors?.light};
+            font-family: ${theme.fontFamily?.sans};
           }
           :root {
             ${cssVariables}
-          }
-
-          @keyframes spin {
-            from {
-              transform: rotate(360deg);
-            }
-            to {
-              transform: rotate(0deg);
-            }
           }
         `
       },
