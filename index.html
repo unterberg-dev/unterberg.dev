@@ -1,16 +1,69 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="I love to create modern websites and interfaces. Let's build something together ✌️">
-    <meta name="robots" content="index, follow">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>web dev & engineer | richard unterberg</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="I love to create modern websites and interfaces. Let's build something together ✌️">
+  <meta name="robots" content="index, follow">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>web dev & engineer | richard unterberg</title>
+</head>
+
+<body class="sm:overflow-hidden">
+  <div
+    class="container relative px-5 mx-auto max-w-screen-lg h-[100dvh] flex flex-col justify-between z-10 overflow-hidden">
+    <div class="inline-flex flex-col relative max-w-xl mx-auto">
+      <div class="absolute -inset-40 opacity-50 " style="background: url(blurDot.svg) no-repeat center center;"></div>
+
+      <div name="main-teaser" class="hitbox  pointer-events-none relative z-10 inline-flex flex-col mx-auto mt-5 md:mt-10 xl:mt-20">
+        <h2 class="relative text-4xl md:text-7xl font-bold text-center text-light inline-block mb-4 md:mb-10">
+          Hello
+        </h2>
+        <h2 class="relative text-2xl md:text-4xl md:font-thin text-center text-gray inline-block">
+          I love to create modern websites and interfaces. Let&apos;s build something together
+          ✌️
+        </h2>
+      </div>
+      <div name="main-links" class="relative z-10 inline-flex mx-auto gap-3 lg:gap-6 mt-5 md:mt-10 xl:mt-14">
+        <a class="relative overflow-hidden flex flex-col text-light items-center gap-3 border-1 border-darkLightBorder shadow-dark shadow-lg bg-dark bg-opacity-70 backdrop-blur rounded-xl py-5 px-5 sm:px-7 flex-1 md:px-10 transition-all scale-100 duration-500 md:hover-scale-130 md:hover-mr-4 hover-text-warning"
+          href="https://github.com/richard-unterberg" aria-label="Github Icon">
+          <div class="absolute inset-0 opacity-30"
+            style="background: url(blurDot.svg) no-repeat center 0; background-size: 200%;"></div>
+          <i data-lucide="github" class="w-8 h-8 md:w-16 md:h-16"></i>
+          <span>Github</span>
+        </a>
+        <a class="relative overflow-hidden flex flex-col text-light items-center gap-3 border-1 border-darkLightBorder shadow-dark shadow-lg bg-dark bg-opacity-70 backdrop-blur rounded-xl py-5 px-5 sm:px-7 flex-1 md:px-10 transition-all scale-100 duration-500 md:hover-scale-130 md:hover-mx-4 hover-text-warning"
+          href=" https://www.linkedin.com/in/richard-unterberg" aria-label="LinkedIn Icon">
+          <div class="absolute inset-0 opacity-30"
+            style="background: url(blurDot.svg) no-repeat center 0; background-size: 200%;"></div>
+          <i data-lucide="linkedin" class="w-8 h-8 md:w-16 md:h-16"></i>
+          <p class="text-center">LinkedIn</p>
+        </a>
+        <a class="relative overflow-hidden flex flex-col text-light items-center gap-3 border-1 border-darkLightBorder shadow-dark shadow-lg bg-dark bg-opacity-70 backdrop-blur rounded-xl py-5 px-5 sm:px-7 flex-1 md:px-10 transition-all scale-100 duration-500 md:hover-scale-130 md:hover-ml-4 hover-text-warning"
+          href=" https://www.linkedin.com/in/richard-unterberg" aria-label="LinkedIn Icon">
+          <div class="absolute inset-0 opacity-30"
+            style="background: url(blurDot.svg) no-repeat center 0; background-size: 200%;"></div>
+          <i data-lucide="mail" class="w-8 h-8 md:w-16 md:h-16"></i>
+          <p class="text-center">Mail</p>
+        </a>
+      </div>
+    </div>
+    <div name="main-copy" class="hitbox pointer-events-none relative inline-flex flex-col mx-auto pb-5 md:pb-7">
+      <div class="absolute -inset-40 opacity-30" style="background: url(blurDot.svg) no-repeat center center;"></div>
+      <div class="grid text-gray relative z-10">
+        <div class="text-light">
+          <p class="text-center mb-2">2024, Richard Unterberg</p>
+          <p class="text-center text-xs">hilarious emoji code is <a class="text-primary"
+              href="https://github.com/richard-unterberg/richard-unterberg.github.io">available here</a></p>
+          <p class="text-center text-xs" id="tileCount"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="app" class="z-1 fixed inset-0"></div>
+  <script type="module" src="/src/main.ts"></script>
+</body>
+
 </html>

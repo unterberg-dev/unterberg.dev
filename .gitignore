@@ -6,9 +6,6 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
-.vscode
-
-bundle-analyze.html
 
 node_modules
 dist
@@ -25,3 +22,5 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+node_modules/
