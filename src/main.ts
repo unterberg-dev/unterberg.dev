@@ -1,13 +1,10 @@
 import { initStage } from '#pixi/initStage'
 
-import '@fontsource/inter/latin-300.css'
-import '@fontsource/inter/latin-400.css'
-import '@fontsource/inter/latin-700.css'
 import '@unocss/reset/tailwind.css'
 import 'virtual:uno.css'
 import './style.css'
 
-import { createIcons, Github, Globe, Linkedin, Mail } from 'lucide'
+import { createIcons, Github, Linkedin, Mail } from 'lucide'
 
 document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
   <div id="stage" class="fixed inset-0"></div>
@@ -18,7 +15,6 @@ createIcons({
     Github,
     Linkedin,
     Mail,
-    Globe,
   },
 })
 

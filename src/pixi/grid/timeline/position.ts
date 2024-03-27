@@ -11,6 +11,7 @@ interface RegisterSetPositionProps {
   outEase: string
 }
 
+// todo: convert to be a timeline -> autoRemoveChildren: true
 export const registerSetPosition = ({
   tile,
   inDuration,
