@@ -43,8 +43,8 @@ export const registerTileIdleTimeline = ({
       ease: inEase,
       alpha: R(0.1, 0.6),
       duration: outDuration * R(1.4, 2.1),
-      x: tile.x + (getPercentChance(0.1) ? R(-100, 100) : 0),
-      y: tile.y + (getPercentChance(0.1) ? R(-100, 100) : 0),
+      x: tile.x + (getPercentChance(0.1) ? R(-10, 10) : 0),
+      y: tile.y + (getPercentChance(0.1) ? R(-10, 10) : 0),
     },
     '>',
   )
@@ -61,8 +61,8 @@ export const registerTileIdleTimeline = ({
   timeline.to(
     tile.container,
     {
-      x: tile.x + (getPercentChance(0.1) ? R(-100, 100) : 0),
-      y: tile.y + (getPercentChance(0.1) ? R(-100, 100) : 0),
+      x: tile.x + (getPercentChance(0.1) ? R(-10, 10) : 0),
+      y: tile.y + (getPercentChance(0.1) ? R(-10, 10) : 0),
       ease: outEase,
       duration: outDuration * R(1.4, 2.1),
       alpha: 0,
