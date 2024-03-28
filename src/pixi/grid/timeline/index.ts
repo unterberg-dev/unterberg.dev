@@ -40,10 +40,7 @@ export const createTileTimelines = ({ tiles }: CreateTileTimelinesProps) => {
       [TILE_TIMELINE.IDLE]: gsap.timeline({
         repeat: -1,
         repeatRefresh: true,
-        repeatDelay: R(0.5, 1.5),
-        onComplete: () => {
-          timelines[TILE_TIMELINE.IDLE].restart()
-        },
+        repeatDelay: R(3, 4),
         paused: true, // init pause - start on register!
       }),
     }
@@ -53,7 +50,7 @@ export const createTileTimelines = ({ tiles }: CreateTileTimelinesProps) => {
     const skewYOut = R(-2, 2)
 
     const scaleHoverIn = R(1, 1.5)
-    const inDuration = R(0.3, 0.7)
+    const inDuration = R(0.2, 0.6)
     const inEase = 'power.in'
 
     const scaleHoverOut = 0
@@ -61,6 +58,7 @@ export const createTileTimelines = ({ tiles }: CreateTileTimelinesProps) => {
     const outEase = 'sine.inOut'
 
     const scaleIdleIn = R(0.01, 0.29)
+    const idleOutDuration = R(0.5, 4)
 
     const scaleHitboxIn = R(0.05, 0.2)
 
@@ -82,7 +80,7 @@ export const createTileTimelines = ({ tiles }: CreateTileTimelinesProps) => {
         inEase,
         scaleIn: scaleIdleIn,
         outEase,
-        outDuration,
+        outDuration: idleOutDuration,
       })
       idleTiles.push(tile)
     } else {
