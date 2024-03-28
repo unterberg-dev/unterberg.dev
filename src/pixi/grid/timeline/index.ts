@@ -40,7 +40,10 @@ export const createTileTimelines = ({ tiles }: CreateTileTimelinesProps) => {
       [TILE_TIMELINE.IDLE]: gsap.timeline({
         repeat: -1,
         repeatRefresh: true,
-        yoyo: true,
+        repeatDelay: R(0.5, 1.5),
+        onComplete: () => {
+          timelines[TILE_TIMELINE.IDLE].restart()
+        },
         paused: true, // init pause - start on register!
       }),
     }
@@ -57,7 +60,7 @@ export const createTileTimelines = ({ tiles }: CreateTileTimelinesProps) => {
     const outDuration = R(0.5, 1.2)
     const outEase = 'sine.inOut'
 
-    const scaleIdleIn = R(0.01, 0.3)
+    const scaleIdleIn = R(0.01, 0.29)
 
     const scaleHitboxIn = R(0.05, 0.2)
 
@@ -71,7 +74,7 @@ export const createTileTimelines = ({ tiles }: CreateTileTimelinesProps) => {
       y: 0,
     })
 
-    const chance = Math.random() > 0.8
+    const chance = Math.random() > 0.9
     if (chance) {
       registerTileIdleTimeline({
         tile,
@@ -136,9 +139,8 @@ export const createTileTimelines = ({ tiles }: CreateTileTimelinesProps) => {
   const randomizeTiles = idleTiles.sort(() => 0.5 - Math.random())
   let i = 0
   randomizeTiles.forEach(tile => {
-    if (tile.timelines) {
-      tile.timelines[TILE_TIMELINE.IDLE].play(-i * 0.02)
-      i++
-    }
+    if (!tile.timelines) return
+    tile.timelines[TILE_TIMELINE.IDLE].play(-i * 0.02)
+    i++
   })
 }

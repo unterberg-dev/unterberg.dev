@@ -10,6 +10,8 @@ interface RegisterTileIdleTimelineProps {
   scaleIn: number
 }
 
+const getPercentChance = (percent = 0.5) => Math.random() < percent
+
 export const registerTileIdleTimeline = ({
   timeline,
   outDuration,
@@ -18,26 +20,63 @@ export const registerTileIdleTimeline = ({
   scaleIn,
   outEase,
 }: RegisterTileIdleTimelineProps) => {
+  timeline.set(
+    tile.container,
+    {
+      x: tile.x,
+      y: tile.y,
+      alpha: 0,
+    },
+    '<',
+  )
+  timeline.set(
+    tile.container.scale,
+    {
+      x: 0,
+      y: 0,
+    },
+    '<',
+  )
   timeline.to(
     tile.container,
     {
       ease: inEase,
-      alpha: R(0.0, 0.6),
+      alpha: R(0.1, 0.6),
       duration: outDuration * R(1.4, 2.1),
+      x: tile.x + (getPercentChance(0.1) ? R(-100, 100) : 0),
+      y: tile.y + (getPercentChance(0.1) ? R(-100, 100) : 0),
     },
-    '<',
+    '>',
   )
   timeline.to(
     tile.container.scale,
     {
       ease: inEase,
-      yoyoEase: outEase,
       duration: outDuration * R(1.4, 2.1),
       x: scaleIn,
       y: scaleIn,
     },
     '<',
   )
-
-  timeline.play()
+  timeline.to(
+    tile.container,
+    {
+      x: tile.x + (getPercentChance(0.1) ? R(-100, 100) : 0),
+      y: tile.y + (getPercentChance(0.1) ? R(-100, 100) : 0),
+      ease: outEase,
+      duration: outDuration * R(1.4, 2.1),
+      alpha: 0,
+    },
+    '>',
+  )
+  timeline.to(
+    tile.container.scale,
+    {
+      x: 0,
+      ease: outEase,
+      y: 0,
+      duration: outDuration * R(1.4, 2.1),
+    },
+    '<',
+  )
 }

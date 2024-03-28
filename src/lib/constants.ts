@@ -8,7 +8,6 @@ export enum TILE_TIMELINE {
 
 export enum SPACE_TIMELINE {
   IDLE,
-  HOVER_IN,
 }
 
 export const PixiConfig = {

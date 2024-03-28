@@ -32,9 +32,7 @@ export const createSpaceScene = (app: Application) => {
   let spaceObjectId = 0
   const heightDivider = app.renderer.height / (configSpaceIcons.length + 1)
 
-  const randomizedDuplicatedBaseTextures = [...baseTextures, ...baseTextures].sort(
-    () => 0.5 - Math.random(),
-  )
+  const randomizedDuplicatedBaseTextures = baseTextures.sort(() => 0.5 - Math.random())
   randomizedDuplicatedBaseTextures.forEach(texture => {
     const y = heightDivider * (spaceObjectId + 1) + R(-50, 50)
 

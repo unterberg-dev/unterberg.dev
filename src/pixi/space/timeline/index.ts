@@ -2,7 +2,7 @@ import gsap from 'gsap'
 
 import { registerSpaceIdleTimeline } from '#pixi/space/timeline/idle'
 import { SpaceObject, SpaceTimelines } from '#pixi/types'
-import { SPACE_TIMELINE, TILE_TIMELINE } from '#src/lib/constants'
+import { SPACE_TIMELINE } from '#src/lib/constants'
 import { R } from '#src/utils'
 
 interface CreateSpaceTimelinesProps {
@@ -12,17 +12,13 @@ interface CreateSpaceTimelinesProps {
 export const createSpaceTimelines = ({ spaceObjects }: CreateSpaceTimelinesProps) => {
   spaceObjects.forEach(object => {
     const timelines: SpaceTimelines = {
-      [SPACE_TIMELINE.HOVER_IN]: gsap.timeline({
-        paused: true,
-        repeatRefresh: true,
-        onComplete: () => {
-          timelines[TILE_TIMELINE.HOVER_OUT].restart()
-        },
-      }),
       [SPACE_TIMELINE.IDLE]: gsap.timeline({
         paused: true,
         repeatRefresh: true,
-        repeat: -1,
+        onComplete: () => {
+          if (!object.timelines) return
+          object.timelines[SPACE_TIMELINE.IDLE].restart()
+        },
       }),
     }
 
@@ -45,7 +41,7 @@ export const createSpaceTimelines = ({ spaceObjects }: CreateSpaceTimelinesProps
   let i = 0
   randomizeSpaceObjects.forEach(object => {
     if (object.timelines) {
-      object.timelines[SPACE_TIMELINE.IDLE].play(-i * R(0.1, 4))
+      object.timelines[SPACE_TIMELINE.IDLE].play(-i * R(1, 4))
       i++
     }
   })

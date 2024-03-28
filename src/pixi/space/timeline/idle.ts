@@ -29,7 +29,6 @@ export const registerSpaceIdleTimeline = ({
     spaceObject.container,
     {
       ease: 'linear',
-      repeatDelay: R(0, 3),
       delay: 0,
       x: app.renderer.width + 100,
       y: spaceObject.y + R(-app.renderer.height / 2, app.renderer.height / 2),
@@ -41,8 +40,8 @@ export const registerSpaceIdleTimeline = ({
 
   gsap.to(spaceObject.container.skew, {
     ease: 'power1.inOut',
-    x: R(-2, 2),
-    y: R(-2, 2),
+    x: R(-1, 1),
+    y: R(-1, 1),
     duration: inDuration / 2,
     repeatRefresh: true,
     repeat: -1,
