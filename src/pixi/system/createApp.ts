@@ -32,7 +32,7 @@ export const createApp = async (stage: HTMLDivElement) => {
     resolution: window.devicePixelRatio || 1,
     backgroundAlpha: 0,
   })
-  // app.stage.sortableChildren = true
+  app.stage.sortableChildren = true // enable zIndex sorting
   stage.appendChild(app.canvas)
 
   subscribeToGSAPTicker(app)

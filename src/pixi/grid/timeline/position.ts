@@ -3,7 +3,7 @@ import gsap from 'gsap'
 import { getStore } from '#pixi/store'
 import { Tile } from '#pixi/types'
 
-interface RegisterSetPositionProps {
+interface RegisterTileSetPositionProps {
   tile: Tile
   inDuration: number
   inEase: string
@@ -12,12 +12,12 @@ interface RegisterSetPositionProps {
 }
 
 // todo: convert to be a timeline -> autoRemoveChildren: true
-export const registerSetPosition = ({
+export const registerTileSetPosition = ({
   tile,
   inDuration,
   inEase,
   outDuration,
-}: RegisterSetPositionProps) => {
+}: RegisterTileSetPositionProps) => {
   const { tiles } = getStore()
 
   tiles[tile.id].setPosition = (x: number, y: number, accX: number, accY: number) => {

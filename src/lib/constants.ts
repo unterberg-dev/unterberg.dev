@@ -1,9 +1,14 @@
-export enum TIMELINE {
+export enum TILE_TIMELINE {
   HOVER_IN,
   HOVER_OUT,
   HITBOX_IN,
   HITBOX_OUT,
   IDLE,
+}
+
+export enum SPACE_TIMELINE {
+  IDLE,
+  HOVER_IN,
 }
 
 export const PixiConfig = {
@@ -37,4 +42,5 @@ export const PixiConfig = {
     '🌝',
     '🌛',
   ],
+  configSpaceIcons: ['🌝', '🌙', '🌔', '⭐', '🌞', '🛸', '🛰', '🚀'],
 }

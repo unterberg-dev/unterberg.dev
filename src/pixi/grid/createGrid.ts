@@ -41,8 +41,6 @@ export const createGrid = (app: Application, gridSize: number) => {
       const clonedTexture = Texture.from(randomBaseTexture)
 
       const sprite = createSprite({
-        width: gridSize,
-        height: gridSize,
         texture: clonedTexture,
       })
 

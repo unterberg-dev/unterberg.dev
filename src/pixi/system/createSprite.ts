@@ -4,18 +4,25 @@ export interface CreateSpriteProps {
   x?: number
   y?: number
   texture: Texture
-  width: number
-  height: number
+  width?: number
+  height?: number
   anchor?: number
 }
 
-export const createSprite = ({ x = 0, y = 0, texture, anchor = 0.5 }: CreateSpriteProps) => {
+export const createSprite = ({
+  x = 0,
+  y = 0,
+  texture,
+  width = texture.width,
+  height = texture.height,
+  anchor = 0.5,
+}: CreateSpriteProps) => {
   const sprite = Sprite.from(texture)
   // const sprite = new Sprite(Texture.WHITE)
   sprite.x = x
   sprite.y = y
-  sprite.width = texture.width
-  sprite.height = texture.height
+  sprite.width = width
+  sprite.height = height
   sprite.anchor.set(anchor)
   return sprite
 }

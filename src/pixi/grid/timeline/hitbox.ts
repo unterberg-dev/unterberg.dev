@@ -9,7 +9,7 @@ export const handleUpdateHitboxes = () => {
   setStore({ ...store, hitboxes: newHitboxes })
 }
 
-interface RegisterHitboxInTimelineProps {
+interface RegisterTileHitboxInTimelineProps {
   tile: Tile
   timeline: gsap.core.Timeline
   inDuration: number
@@ -17,13 +17,13 @@ interface RegisterHitboxInTimelineProps {
   scaleIn: number
 }
 
-export const registerHitboxInTimeline = ({
+export const registerTileHitboxInTimeline = ({
   tile,
   timeline,
   inDuration,
   inEase,
   scaleIn,
-}: RegisterHitboxInTimelineProps) => {
+}: RegisterTileHitboxInTimelineProps) => {
   timeline.set(tile.container, {
     x: tile.x,
     y: tile.y,

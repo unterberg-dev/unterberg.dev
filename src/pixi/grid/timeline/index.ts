@@ -1,42 +1,43 @@
 import gsap from 'gsap'
 
-import { registerHitboxInTimeline, registerHitboxOutTimeline } from '#pixi/grid/timeline/hitbox'
-import { registerHoverInTimeline, registerHoverOutTimeline } from '#pixi/grid/timeline/hover'
-import { registerIdleTimeline } from '#pixi/grid/timeline/idle'
-import { registerSetPosition } from '#pixi/grid/timeline/position'
-import { Tile, Timelines } from '#pixi/types'
-import { TIMELINE } from '#src/lib/constants'
+import { registerHitboxOutTimeline, registerTileHitboxInTimeline } from '#pixi/grid/timeline/hitbox'
+import { registerHoverOutTimeline, registerTileHoverInTimeline } from '#pixi/grid/timeline/hover'
+import { registerTileIdleTimeline } from '#pixi/grid/timeline/idle'
+import { registerTileSetPosition } from '#pixi/grid/timeline/position'
+import { Tile, TileTimelines } from '#pixi/types'
+import { TILE_TIMELINE } from '#src/lib/constants'
 import { R } from '#src/utils'
 
-interface CreateTimelinesProps {
+interface CreateTileTimelinesProps {
   tiles: Tile[]
 }
 
-export const createTimelines = ({ tiles }: CreateTimelinesProps) => {
+export const createTileTimelines = ({ tiles }: CreateTileTimelinesProps) => {
+  const idleTiles: Tile[] = []
   tiles.forEach(tile => {
-    const timelines: Timelines = {
-      [TIMELINE.HOVER_IN]: gsap.timeline({
+    const timelines: TileTimelines = {
+      [TILE_TIMELINE.HOVER_IN]: gsap.timeline({
         paused: true,
         repeatRefresh: true,
         onComplete: () => {
-          timelines[TIMELINE.HOVER_OUT].restart()
+          timelines[TILE_TIMELINE.HOVER_OUT].restart()
         },
       }),
-      [TIMELINE.HOVER_OUT]: gsap.timeline({
+      [TILE_TIMELINE.HOVER_OUT]: gsap.timeline({
         paused: true,
         repeatRefresh: true,
       }),
-      [TIMELINE.HITBOX_IN]: gsap.timeline({
+      [TILE_TIMELINE.HITBOX_IN]: gsap.timeline({
         paused: true,
         repeatRefresh: true,
         onComplete: () => {
-          timelines[TIMELINE.HITBOX_OUT].restart()
+          timelines[TILE_TIMELINE.HITBOX_OUT].restart()
         },
       }),
-      [TIMELINE.HITBOX_OUT]: gsap.timeline({
+      [TILE_TIMELINE.HITBOX_OUT]: gsap.timeline({
         paused: true,
       }),
-      [TIMELINE.IDLE]: gsap.timeline({
+      [TILE_TIMELINE.IDLE]: gsap.timeline({
         repeat: -1,
         repeatRefresh: true,
         yoyo: true,
@@ -56,7 +57,7 @@ export const createTimelines = ({ tiles }: CreateTimelinesProps) => {
     const outDuration = R(0.5, 1.2)
     const outEase = 'sine.inOut'
 
-    const scaleIdleIn = R(0.01, 0.4)
+    const scaleIdleIn = R(0.01, 0.3)
 
     const scaleHitboxIn = R(0.05, 0.2)
 
@@ -72,20 +73,20 @@ export const createTimelines = ({ tiles }: CreateTimelinesProps) => {
 
     const chance = Math.random() > 0.8
     if (chance) {
-      registerIdleTimeline({
+      registerTileIdleTimeline({
         tile,
-        timeline: timelines[TIMELINE.IDLE],
-        inDuration,
+        timeline: timelines[TILE_TIMELINE.IDLE],
         inEase,
         scaleIn: scaleIdleIn,
         outEase,
         outDuration,
       })
+      idleTiles.push(tile)
     } else {
       /* HOVER IN */
-      registerHoverInTimeline({
+      registerTileHoverInTimeline({
         tile,
-        timeline: timelines[TIMELINE.HOVER_IN],
+        timeline: timelines[TILE_TIMELINE.HOVER_IN],
         skewXOut,
         skewYOut,
         inDuration,
@@ -96,7 +97,7 @@ export const createTimelines = ({ tiles }: CreateTimelinesProps) => {
       /* HOVER OUT */
       registerHoverOutTimeline({
         tile,
-        timeline: timelines[TIMELINE.HOVER_OUT],
+        timeline: timelines[TILE_TIMELINE.HOVER_OUT],
         skewXOut,
         skewYOut,
         outDuration,
@@ -105,7 +106,7 @@ export const createTimelines = ({ tiles }: CreateTimelinesProps) => {
       })
 
       /* QUICKSET POSITION */
-      registerSetPosition({
+      registerTileSetPosition({
         tile,
         inDuration,
         inEase,
@@ -113,9 +114,9 @@ export const createTimelines = ({ tiles }: CreateTimelinesProps) => {
         outEase,
       })
 
-      registerHitboxInTimeline({
+      registerTileHitboxInTimeline({
         tile,
-        timeline: timelines[TIMELINE.HITBOX_IN],
+        timeline: timelines[TILE_TIMELINE.HITBOX_IN],
         inDuration,
         inEase,
         scaleIn: scaleHitboxIn,
@@ -123,12 +124,21 @@ export const createTimelines = ({ tiles }: CreateTimelinesProps) => {
 
       registerHitboxOutTimeline({
         tile,
-        timeline: timelines[TIMELINE.HITBOX_OUT],
+        timeline: timelines[TILE_TIMELINE.HITBOX_OUT],
         outDuration,
         outEase,
       })
     }
 
     tiles[tile.id].timelines = timelines
+  })
+
+  const randomizeTiles = idleTiles.sort(() => 0.5 - Math.random())
+  let i = 0
+  randomizeTiles.forEach(tile => {
+    if (tile.timelines) {
+      tile.timelines[TILE_TIMELINE.IDLE].play(-i * 0.02)
+      i++
+    }
   })
 }
