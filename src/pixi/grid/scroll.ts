@@ -2,7 +2,7 @@ import gsap from 'gsap'
 
 import { getStore } from '#pixi/store'
 import { Tile } from '#pixi/types'
-import { TIMELINE } from '#src/lib/constants'
+import { TILE_TIMELINE } from '#src/lib/constants'
 import { R } from '#src/utils'
 
 let lastScrollTop = document.documentElement.scrollTop || window.scrollY
@@ -28,10 +28,10 @@ const animateScroll = (direction: string) => {
   activeTiles.forEach(tile => {
     if (!tile.timelines) return
 
-    tile.timelines[TIMELINE.HOVER_OUT].pause()
-    tile.timelines[TIMELINE.HITBOX_OUT].pause()
-    tile.timelines[TIMELINE.HOVER_IN].pause()
-    tile.timelines[TIMELINE.HITBOX_IN].pause()
+    tile.timelines[TILE_TIMELINE.HOVER_OUT].pause()
+    tile.timelines[TILE_TIMELINE.HITBOX_OUT].pause()
+    tile.timelines[TILE_TIMELINE.HOVER_IN].pause()
+    tile.timelines[TILE_TIMELINE.HITBOX_IN].pause()
 
     gsap.to(tile.container, {
       duration: 1,

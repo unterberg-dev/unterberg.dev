@@ -1,51 +1,82 @@
 import { Tile } from '#pixi/types'
 import { R } from '#src/utils'
 
-interface RegisterHoverInTimelineProps {
+interface RegisterTileIdleTimelineProps {
   timeline: gsap.core.Timeline
   tile: Tile
-  inDuration: number
   inEase: string
   outDuration: number
   outEase: string
   scaleIn: number
 }
 
-export const registerIdleTimeline = ({
+const getPercentChance = (percent = 0.5) => Math.random() < percent
+
+export const registerTileIdleTimeline = ({
   timeline,
-  inDuration,
+  outDuration,
   inEase,
   tile,
   scaleIn,
   outEase,
-}: RegisterHoverInTimelineProps) => {
+}: RegisterTileIdleTimelineProps) => {
+  timeline.set(
+    tile.container,
+    {
+      x: tile.x,
+      y: tile.y,
+      alpha: 0,
+    },
+    '<',
+  )
+  timeline.set(
+    tile.container.scale,
+    {
+      x: 0,
+      y: 0,
+    },
+    '<',
+  )
   timeline.to(
     tile.container,
     {
       ease: inEase,
-      delay: R(3, 0.5),
-      repeatDelay: R(0.5, 1),
-      x: tile.x + R(-200, 200),
-      y: tile.y + R(-200, 200),
-      yoyoEase: outEase,
-      alpha: R(0.0, 0.6),
-      duration: inDuration * R(1.4, 2.1),
+      alpha: R(0.1, 0.6),
+      duration: outDuration * R(1.4, 2.1),
+      x: tile.x + (getPercentChance(0.1) ? R(-100, 100) : 0),
+      y: tile.y + (getPercentChance(0.1) ? R(-100, 100) : 0),
     },
-    '<',
+    '>',
   )
   timeline.to(
     tile.container.scale,
     {
       ease: inEase,
-      yoyoEase: outEase,
-      delay: R(4.1, 0.5),
-      repeatDelay: R(0.5, 1),
-      duration: inDuration * R(1.4, 4.1),
+      duration: outDuration * R(1.4, 2.1),
       x: scaleIn,
       y: scaleIn,
     },
     '<',
   )
-
-  timeline.play()
+  timeline.to(
+    tile.container,
+    {
+      x: tile.x + (getPercentChance(0.1) ? R(-100, 100) : 0),
+      y: tile.y + (getPercentChance(0.1) ? R(-100, 100) : 0),
+      ease: outEase,
+      duration: outDuration * R(1.4, 2.1),
+      alpha: 0,
+    },
+    '>',
+  )
+  timeline.to(
+    tile.container.scale,
+    {
+      x: 0,
+      ease: outEase,
+      y: 0,
+      duration: outDuration * R(1.4, 2.1),
+    },
+    '<',
+  )
 }

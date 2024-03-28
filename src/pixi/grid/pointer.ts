@@ -1,6 +1,6 @@
 import { getStore } from '#pixi/store'
 import { Hitbox } from '#pixi/types'
-import { TIMELINE } from '#src/lib/constants'
+import { TILE_TIMELINE } from '#src/lib/constants'
 import { R } from '#src/utils'
 
 interface TriggerAnimateHoverProps {
@@ -30,10 +30,10 @@ export const triggerAnimateHover = ({
 
     if (
       !timelines ||
-      timelines[TIMELINE.HOVER_IN].isActive() ||
-      timelines[TIMELINE.HOVER_OUT].isActive() ||
-      timelines[TIMELINE.HITBOX_IN].isActive() ||
-      timelines[TIMELINE.HITBOX_OUT].isActive()
+      timelines[TILE_TIMELINE.HOVER_IN].isActive() ||
+      timelines[TILE_TIMELINE.HOVER_OUT].isActive() ||
+      timelines[TILE_TIMELINE.HITBOX_IN].isActive() ||
+      timelines[TILE_TIMELINE.HITBOX_OUT].isActive()
     )
       return
 
@@ -73,9 +73,9 @@ export const triggerAnimateHover = ({
     setPosition(xPosition, yPosition, accXPosition, accYPosition)
 
     if (isInHitbox) {
-      timelines[TIMELINE.HITBOX_IN].restart()
+      timelines[TILE_TIMELINE.HITBOX_IN].restart()
     } else {
-      timelines[TIMELINE.HOVER_IN].restart()
+      timelines[TILE_TIMELINE.HOVER_IN].restart()
     }
   })
 }

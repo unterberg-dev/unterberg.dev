@@ -1,7 +1,7 @@
 import { Tile } from '#pixi/types'
 import { R } from '#src/utils'
 
-interface RegisterHoverInTimelineProps {
+interface RegisterTileHoverInTimelineProps {
   tile: Tile
   timeline: gsap.core.Timeline
   skewXOut: number
@@ -11,7 +11,7 @@ interface RegisterHoverInTimelineProps {
   scaleHoverIn: number
 }
 
-export const registerHoverInTimeline = ({
+export const registerTileHoverInTimeline = ({
   tile,
   timeline,
   skewXOut,
@@ -19,7 +19,7 @@ export const registerHoverInTimeline = ({
   inDuration,
   inEase,
   scaleHoverIn,
-}: RegisterHoverInTimelineProps) => {
+}: RegisterTileHoverInTimelineProps) => {
   timeline.set(tile.container, {
     alpha: 0,
     rotation: (R(-60, 60) * Math.PI) / 180,

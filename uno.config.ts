@@ -5,6 +5,7 @@ import { defineConfig, presetUno } from 'unocss'
 export default defineConfig({
   presets: [presetUno()],
   content: {
+    // needed for uno css to properly parse the content
     pipeline: {
       include: [
         // the default
@@ -12,8 +13,6 @@ export default defineConfig({
         // include js/ts files
         'src/**/*.{js,ts}',
       ],
-      // exclude files
-      // exclude: []
     },
   },
   theme: {
@@ -40,7 +39,7 @@ export default defineConfig({
       micro: ['10px', '12px'],
     },
     fontFamily: {
-      sans: 'Inter, sans-serif',
+      sans: 'Helvetica Neue, Arial, Tahoma, sans-serif',
     },
   },
   preflights: [

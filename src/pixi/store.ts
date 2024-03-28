@@ -1,6 +1,6 @@
 import { Application, Renderer } from 'pixi.js'
 
-import { Hitbox, Tile } from '#pixi/types'
+import { Hitbox, SpaceObject, Tile } from '#pixi/types'
 
 export type Store = {
   app: Application<Renderer>
@@ -13,6 +13,7 @@ export type Store = {
   tileHeight: number
   cursorRadius: number
   hitboxes?: Hitbox[]
+  spaceObjects: SpaceObject[]
 }
 
 let store: Store
