@@ -25,12 +25,18 @@ export const registerTileIdleTimeline = ({
     {
       x: tile.x,
       y: tile.y,
+    },
+    '<',
+  )
+  timeline.set(
+    tile.sprite,
+    {
       alpha: 0,
     },
     '<',
   )
   timeline.set(
-    tile.container.scale,
+    tile.sprite.scale,
     {
       x: 0,
       y: 0,
@@ -41,7 +47,6 @@ export const registerTileIdleTimeline = ({
     tile.container,
     {
       ease: inEase,
-      alpha: R(0.1, 0.6),
       duration: outDuration * R(1.4, 2.1),
       x: tile.x + (getPercentChance(0.1) ? R(-10, 10) : 0),
       y: tile.y + (getPercentChance(0.1) ? R(-10, 10) : 0),
@@ -49,7 +54,16 @@ export const registerTileIdleTimeline = ({
     '>',
   )
   timeline.to(
-    tile.container.scale,
+    tile.sprite,
+    {
+      ease: inEase,
+      alpha: R(0.1, 0.6),
+      duration: outDuration * R(1.4, 2.1),
+    },
+    '<',
+  )
+  timeline.to(
+    tile.sprite.scale,
     {
       ease: inEase,
       duration: outDuration * R(1.4, 2.1),
@@ -65,12 +79,20 @@ export const registerTileIdleTimeline = ({
       y: tile.y + (getPercentChance(0.1) ? R(-10, 10) : 0),
       ease: outEase,
       duration: outDuration * R(1.4, 2.1),
-      alpha: 0,
     },
     '>',
   )
   timeline.to(
-    tile.container.scale,
+    tile.sprite,
+    {
+      ease: outEase,
+      duration: outDuration * R(1.4, 2.1),
+      alpha: 0,
+    },
+    '<',
+  )
+  timeline.to(
+    tile.sprite.scale,
     {
       x: 0,
       ease: outEase,

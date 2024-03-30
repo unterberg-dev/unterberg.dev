@@ -2,6 +2,18 @@ import { Sprite } from 'pixi.js'
 
 import { SPACE_TIMELINE, TILE_TIMELINE } from '#src/lib/constants'
 
+export type PathInfo = {
+  d: string
+  viewBox: string
+}
+
+type EllipseParams = {
+  cx: number
+  cy: number
+  rx: number
+  ry: number
+}
+
 export type TileTimelines = {
   [key in TILE_TIMELINE]: gsap.core.Timeline
 }
@@ -30,6 +42,10 @@ export type Tile = {
   y: number
   sprite: Sprite
   container: Container
+  innerContainer: Container
+  // atm optional, since we register the timelines after the tile is created
+  // since it's locked with a enum, we can't a empty array
+  // fix to remove these undefined checks later in the code
   timelines?: TileTimelines
   setPosition?: SetPositionFncType
 }

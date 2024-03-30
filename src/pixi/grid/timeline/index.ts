@@ -3,7 +3,7 @@ import gsap from 'gsap'
 import { registerHitboxOutTimeline, registerTileHitboxInTimeline } from '#pixi/grid/timeline/hitbox'
 import { registerHoverOutTimeline, registerTileHoverInTimeline } from '#pixi/grid/timeline/hover'
 import { registerTileIdleTimeline } from '#pixi/grid/timeline/idle'
-import { registerTileSetPosition } from '#pixi/grid/timeline/position'
+import { registerPositionTimeline } from '#pixi/grid/timeline/position'
 import { Tile, TileTimelines } from '#pixi/types'
 import { TILE_TIMELINE } from '#src/lib/constants'
 import { R } from '#src/utils'
@@ -20,8 +20,13 @@ export const createTileTimelines = ({ tiles }: CreateTileTimelinesProps) => {
         paused: true,
         repeatRefresh: true,
         onComplete: () => {
+          timelines[TILE_TIMELINE.HOVER_OUT].invalidate()
           timelines[TILE_TIMELINE.HOVER_OUT].restart()
         },
+      }),
+      [TILE_TIMELINE.POSITION]: gsap.timeline({
+        paused: true,
+        autoRemoveChildren: true,
       }),
       [TILE_TIMELINE.HOVER_OUT]: gsap.timeline({
         paused: true,
@@ -31,6 +36,7 @@ export const createTileTimelines = ({ tiles }: CreateTileTimelinesProps) => {
         paused: true,
         repeatRefresh: true,
         onComplete: () => {
+          timelines[TILE_TIMELINE.HITBOX_OUT].invalidate()
           timelines[TILE_TIMELINE.HITBOX_OUT].restart()
         },
       }),
@@ -63,11 +69,11 @@ export const createTileTimelines = ({ tiles }: CreateTileTimelinesProps) => {
     const scaleHitboxIn = R(0.05, 0.2)
 
     /* SETUP */
-    gsap.set(tile.container, {
+    gsap.set(tile.sprite, {
       rotation: (R(-60, 60) * Math.PI) / 180,
       alpha: 0,
     })
-    gsap.set(tile.container.scale, {
+    gsap.set(tile.sprite.scale, {
       x: 0,
       y: 0,
     })
@@ -107,12 +113,12 @@ export const createTileTimelines = ({ tiles }: CreateTileTimelinesProps) => {
       })
 
       /* QUICKSET POSITION */
-      registerTileSetPosition({
+      registerPositionTimeline({
         tile,
+        timeline: timelines[TILE_TIMELINE.POSITION],
         inDuration,
         inEase,
         outDuration,
-        outEase,
       })
 
       registerTileHitboxInTimeline({
@@ -129,6 +135,11 @@ export const createTileTimelines = ({ tiles }: CreateTileTimelinesProps) => {
         outDuration,
         outEase,
       })
+
+      // if (tile.timelines) {
+      //   tile.timelines[TILE_TIMELINE.HOVER_IN].kill()
+      //   tile.timelines[TILE_TIMELINE.HOVER_OUT].kill()
+      // }
     }
 
     tiles[tile.id].timelines = timelines

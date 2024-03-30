@@ -1,11 +1,11 @@
-import { registerHitboxes } from '#pixi/grid/pointer'
+import { createHitboxes } from '#pixi/grid/pointer'
 import { getStore, setStore } from '#pixi/store'
 import { Tile } from '#pixi/types'
 import { R } from '#src/utils'
 
 export const handleUpdateHitboxes = () => {
   const store = getStore()
-  const newHitboxes = registerHitboxes()
+  const newHitboxes = createHitboxes()
   setStore({ ...store, hitboxes: newHitboxes })
 }
 
@@ -28,15 +28,17 @@ export const registerTileHitboxInTimeline = ({
     x: tile.x,
     y: tile.y,
   })
-  timeline.set(tile.container.scale, {
+  timeline.set(tile.sprite.scale, {
     x: 0,
     y: 0,
+  })
+  timeline.set(tile.sprite, {
+    alpha: 0,
   })
   timeline.to(
     tile.container,
     {
       ease: inEase,
-      alpha: R(0.1, 0.5),
       x: tile.x + R(-50, 50),
       y: tile.y + R(-50, 50),
       duration: inDuration,
@@ -44,7 +46,16 @@ export const registerTileHitboxInTimeline = ({
     '>',
   )
   timeline.to(
-    tile.container.scale,
+    tile.sprite,
+    {
+      ease: inEase,
+      alpha: R(0.1, 0.5),
+      duration: inDuration,
+    },
+    '<',
+  )
+  timeline.to(
+    tile.sprite.scale,
     {
       ease: inEase,
       duration: inDuration,
@@ -69,7 +80,7 @@ export const registerHitboxOutTimeline = ({
   outEase,
 }: RegisterHitboxOutTimelineProps) => {
   timeline.to(
-    tile.container,
+    tile.sprite,
     {
       ease: outEase,
       alpha: 0,
@@ -78,7 +89,7 @@ export const registerHitboxOutTimeline = ({
     '>',
   )
   timeline.to(
-    tile.container.scale,
+    tile.sprite.scale,
     {
       ease: outEase,
       duration: outDuration,
@@ -90,10 +101,16 @@ export const registerHitboxOutTimeline = ({
   timeline.set(
     tile.container,
     {
-      alpha: 0,
       x: tile.x + R(-50, 50),
       y: tile.y + R(-50, 50),
     },
     '>',
+  )
+  timeline.set(
+    tile.sprite,
+    {
+      alpha: 0,
+    },
+    '<',
   )
 }

@@ -1,23 +1,20 @@
-![alt text](https://github.com/richard-unterberg/richard-unterberg.github.io/blob/master/public/preview.png?raw=true)
+# a pixi stage with custom mouse handler and gsap tweening.
+### in typescript, build with vite
 
-
-# Pixi Starter Template with Vite and TypeScript
-
-This Pixi.js starter template offers a solid foundation for your web graphics projects. Utilizing Vite for fast development, TypeScript for type safety, and Pixi.js for WebGL rendering, this template simplifies the setup process for building interactive web applications.
+Dream of my sleepless nights; a template for creating interactive pages with PixiJS, Vite, and TypeScript.
 
 <img src="https://github.com/richard-unterberg/richard-unterberg.github.io/blob/master/public/preview.gif?raw=true" alt="drawing" width="480"/>
 
-## Key Features
+## Motivation
 
-- **Vite**: Provides rapid development and hot module replacement for a seamless workflow.
-- **TypeScript**: Enhances code navigation and maintains type safety throughout your project.
-- **gsap**: Offers a powerful animation library for creating dynamic and engaging user experiences.
-- **Pixi.js**: Leverages the powerful WebGL renderer for creating dynamic and visually appealing graphics.
-- **ESLint**: Ensures code consistency and quality by detecting and fixing errors early on.
-- **Unocss**: Streamlines styling with utility-first CSS, keeping your codebase lightweight and efficient.
-- **Husky and Prettier**: Enforces code formatting standards and automates code quality checks.
+I had this cool effect in mind, saw on a flash website years ago. It was a spawn effect, where the user could emit a massive amount of sprites by hovering on a stage. The sprites were spawned at the mouse position and animated to a random position on the screen. So Impressive - always wanted to recreate this effect. Also the [particle-emitter](https://github.com/pixijs/particle-emitter) was a inspiring reference.
 
-## Vite Startup Process
+## Drawbacks Pixi version 8
+
+- gsap pixi plugin currently not usable with pixi v8
+  - mainly drawbacks with the color transitions (I'll adapt a small helper in the future)
+
+## vite Startup Process
 
 To start the development server with Vite, follow these steps:
 
@@ -36,4 +33,17 @@ To start the development server with Vite, follow these steps:
    npm run prod or yarn prod
    ```
 
-💫 Happy coding!
+## there will be more info and more control soon
+
+- project structure (oop or functional?)
+  - test react integration
+- animation controller
+- use [particle-emitter](https://github.com/pixijs/particle-emitter)
+  - is it compatible with pixi v8?
+  - hitbox possible for emitted particles?
+- color transitions pixi vs gsap (0xFFF to #FFF)
+- check why ``repeatRefresh`` is not working at all :(
+- hitbox controller (partially implemented)
+- cool getters for gsap animation target setters
+
+welcome to 2024 👽
