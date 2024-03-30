@@ -20,22 +20,20 @@ export const registerTileHoverInTimeline = ({
   inEase,
   scaleHoverIn,
 }: RegisterTileHoverInTimelineProps) => {
-  timeline.set(tile.container, {
+  timeline.set(tile.sprite, {
     alpha: 0,
     rotation: (R(-60, 60) * Math.PI) / 180,
-    x: tile.x,
-    y: tile.y,
   })
-  timeline.set(tile.container.scale, {
+  timeline.set(tile.sprite.scale, {
     x: 0,
     y: 0,
   })
-  timeline.set(tile.container.skew, {
+  timeline.set(tile.sprite.skew, {
     x: skewXOut,
     y: skewYOut,
   })
   timeline.to(
-    tile.container,
+    tile.sprite,
     {
       ease: inEase,
       alpha: R(0.8, 1),
@@ -45,7 +43,7 @@ export const registerTileHoverInTimeline = ({
     '>',
   )
   timeline.to(
-    tile.container.scale,
+    tile.sprite.scale,
     {
       ease: inEase,
       duration: inDuration,
@@ -55,7 +53,7 @@ export const registerTileHoverInTimeline = ({
     '<',
   )
   timeline.to(
-    tile.container.skew,
+    tile.sprite.skew,
     {
       x: 0,
       y: 0,
@@ -86,33 +84,41 @@ export const registerHoverOutTimeline = ({
   scaleHoverOut,
 }: RegisterHoverOutTimelineProps) => {
   timeline.to(
-    tile.container,
+    tile.sprite,
     {
       alpha: R(0.5, 0),
       ease: outEase,
       rotation: (R(-60, 60) * Math.PI) / 180,
       duration: outDuration,
     },
-    'out',
+    '>',
   )
   timeline.to(
-    tile.container.scale,
+    tile.sprite.scale,
     {
       x: scaleHoverOut,
       y: scaleHoverOut,
       ease: outEase,
       duration: outDuration,
     },
-    'out',
+    '<',
   )
   timeline.to(
-    tile.container.skew,
+    tile.sprite.skew,
     {
       x: skewXOut,
       y: skewYOut,
       ease: outEase,
       duration: outDuration,
     },
-    'out',
+    '<',
   )
+  // timeline.set(
+  //   tile.innerContainer,
+  //   {
+  //     x: 0,
+  //     y: 0,
+  //   },
+  //   '>',
+  // )
 }

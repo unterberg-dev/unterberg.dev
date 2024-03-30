@@ -38,7 +38,7 @@ export const registerSpaceIdleTimeline = ({
     '>',
   )
 
-  gsap.to(spaceObject.container.skew, {
+  gsap.to(spaceObject.sprite.skew, {
     ease: 'power1.out',
     x: R(-1, 1),
     y: R(-1, 1),
@@ -49,7 +49,7 @@ export const registerSpaceIdleTimeline = ({
   })
 
   const scale = R(0.5, 1.2)
-  gsap.to(spaceObject.container.scale, {
+  gsap.to(spaceObject.sprite.scale, {
     ease: 'power1.inOut',
     x: scale,
     repeatRefresh: true,

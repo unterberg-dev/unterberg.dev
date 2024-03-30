@@ -1,7 +1,8 @@
+import { initAutoPointer } from '#pixi/autoPointer'
 import { initUserEvents } from '#pixi/events'
 import { createGrid } from '#pixi/grid/createGrid'
 import { getDimensions } from '#pixi/grid/dimensions'
-import { registerHitboxes } from '#pixi/grid/pointer'
+import { createHitboxes } from '#pixi/grid/pointer'
 import { createTileTimelines } from '#pixi/grid/timeline'
 import { createSpaceScene } from '#pixi/space/createSpaceScene'
 import { createSpaceTimelines } from '#pixi/space/timeline'
@@ -19,14 +20,14 @@ export const initStage = async (stage: HTMLDivElement | null) => {
 
   const tiles = createGrid(app, tileWidth)
   const spaceObjects = createSpaceScene(app)
-  // console.log(spaceObjects)
+  const hitboxes = createHitboxes()
 
   // set the grid config
   setStore({
     app,
     stage,
     tiles,
-    hitboxes: registerHitboxes(),
+    hitboxes,
     rowsCount: Math.ceil(app.renderer.height / tileHeight),
     colsCount: Math.ceil(app.renderer.width / tileWidth),
     tileHeight,
@@ -43,9 +44,12 @@ export const initStage = async (stage: HTMLDivElement | null) => {
   // trigger pointer events
   initUserEvents()
 
+  // todo: idle cursor animations
+  // initAutoPointer()
+
   const tileCounElement = document.querySelector<HTMLDivElement>('#tileCount')
   if (tileCounElement) {
-    tileCounElement.textContent = `${tiles.length} sprites generated.`
+    tileCounElement.innerHTML += `${tiles.length} sprites generated.<br />${hitboxes?.length} hitboxes created.`
   }
 
   // eslint-disable-next-line no-console

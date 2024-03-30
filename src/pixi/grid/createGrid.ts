@@ -37,6 +37,11 @@ export const createGrid = (app: Application, gridSize: number) => {
         zIndex: R(5, 10),
       })
 
+      const innerContainer = createContainer({
+        x: 0,
+        y: 0,
+      })
+
       const randomBaseTexture = baseTextures[Math.floor(Math.random() * baseTextures.length)]
       const clonedTexture = Texture.from(randomBaseTexture)
 
@@ -44,16 +49,18 @@ export const createGrid = (app: Application, gridSize: number) => {
         texture: clonedTexture,
       })
 
-      const tile = {
+      const tile: Tile = {
         id: tileId++,
         x,
         y,
         sprite,
         container,
+        innerContainer,
       }
 
       app.stage.addChild(container)
-      container.addChild(sprite)
+      container.addChild(innerContainer)
+      innerContainer.addChild(sprite)
       tilesPos.push(tile)
     }
   }

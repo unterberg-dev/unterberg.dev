@@ -5,18 +5,22 @@ import { R } from '#src/utils'
 
 interface TriggerAnimateHoverProps {
   triggerIDs: number[]
-  event: PointerEvent
+  event?: PointerEvent
   mouseX: number
   mouseY: number
+  accX?: number
+  accY?: number
 }
 
 export const triggerAnimateHover = ({
   triggerIDs,
   mouseX,
   mouseY,
-  event,
+  accX,
+  accY,
 }: TriggerAnimateHoverProps) => {
   const { tiles, hitboxes, tileWidth, cursorRadius } = getStore()
+  const noAcceleration = !accX && !accY
 
   triggerIDs.forEach(id => {
     const { timelines, setPosition } = tiles[id]
@@ -25,15 +29,16 @@ export const triggerAnimateHover = ({
     const debounce = Math.random() > 0.45
     if (debounce) return
 
-    const movementX = event.movementX || 0
-    const movementY = event.movementY || 0
+    const movementX = accX || 0
+    const movementY = accY || 0
 
     if (
       !timelines ||
       timelines[TILE_TIMELINE.HOVER_IN].isActive() ||
       timelines[TILE_TIMELINE.HOVER_OUT].isActive() ||
       timelines[TILE_TIMELINE.HITBOX_IN].isActive() ||
-      timelines[TILE_TIMELINE.HITBOX_OUT].isActive()
+      timelines[TILE_TIMELINE.HITBOX_OUT].isActive() ||
+      timelines[TILE_TIMELINE.POSITION].isActive()
     )
       return
 
@@ -51,10 +56,12 @@ export const triggerAnimateHover = ({
     const xPosition = newX + R(-allActiveTilesSize, allActiveTilesSize)
     const yPosition = newY + R(-allActiveTilesSize, allActiveTilesSize)
 
-    const accXPosition =
-      xPosition + clampedMovementX * outAccelerationModifier + R(-tileWidth, tileWidth)
-    const accYPosition =
-      yPosition + clampedMovementY * outAccelerationModifier + R(-tileWidth, tileWidth)
+    const accXPosition = noAcceleration
+      ? xPosition
+      : xPosition + clampedMovementX * outAccelerationModifier + R(-tileWidth, tileWidth)
+    const accYPosition = noAcceleration
+      ? yPosition
+      : yPosition + clampedMovementY * outAccelerationModifier + R(-tileWidth, tileWidth)
 
     const isInHitbox = hitboxes?.some(hitbox => {
       const minX = hitbox.x - tileWidth * cursorRadius
@@ -75,6 +82,7 @@ export const triggerAnimateHover = ({
     if (isInHitbox) {
       timelines[TILE_TIMELINE.HITBOX_IN].restart()
     } else {
+      timelines[TILE_TIMELINE.HOVER_IN].invalidate()
       timelines[TILE_TIMELINE.HOVER_IN].restart()
     }
   })
@@ -150,39 +158,52 @@ export const getTileOnPointer = (mouseX: number, mouseY: number): number | null 
   return null
 }
 
+interface handlePointerMoveProps {
+  manual?: {
+    x: number
+    y: number
+  }
+  event?: PointerEvent
+}
+
 let previousHoveredTileId: number | null = null
+
 /**
  * Handles the pointer move event.
- *
- * @param boundingRect - The bounding rectangle of the element.
- * @param event - The pointer event.
+ * @param {PointerEvent} event - The pointer event.
+ * @param  {Object} manual.x - The manual x and y coordinates.
+ * @param {Object} manual.y - The manual x and y coordinates.
  */
-export const handlePointerMove = (event: PointerEvent) => {
-  const mouseX = event.clientX
-  const mouseY = event.clientY
+export const handlePointerMove = ({ event, manual }: handlePointerMoveProps) => {
+  const isManual = manual?.x && manual?.y
+  const x = isManual ? manual.x : event?.clientX
+  const y = isManual ? manual.y : event?.clientY
   const { cursorRadius } = getStore()
 
-  const currentHoveredTileId = getTileOnPointer(mouseX, mouseY)
+  if (!x || !y) return
+
+  const currentHoveredTileId = getTileOnPointer(x, y)
   if (currentHoveredTileId === null || currentHoveredTileId === previousHoveredTileId) return
 
   previousHoveredTileId = currentHoveredTileId
 
   // get neighbouring tiles
   const neighbours = getNeighbors({
-    mouseX,
-    mouseY,
+    mouseX: x,
+    mouseY: y,
     radius: cursorRadius,
   })
 
   triggerAnimateHover({
     triggerIDs: neighbours,
-    event,
-    mouseX,
-    mouseY,
+    accX: event?.movementX,
+    accY: event?.movementY,
+    mouseX: x,
+    mouseY: y,
   })
 }
 
-export const registerHitboxes: () => Hitbox[] | undefined = () => {
+export const createHitboxes: () => Hitbox[] | undefined = () => {
   const hitboxes = document.querySelectorAll('.hitbox')
   if (!hitboxes || hitboxes.length === 0) return
 

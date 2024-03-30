@@ -35,8 +35,13 @@ const animateScroll = (direction: string) => {
 
     gsap.to(tile.container, {
       duration: 1,
-      rotation: (R(-60, 60) * Math.PI) / 180,
       y: direction === 'down' ? `-=${R(60, 600)}` : `+=${R(60, 600)}`,
+      alpha: 0,
+      ease: 'power1.out',
+    })
+    gsap.to(tile.sprite, {
+      duration: 1,
+      rotation: (R(-60, 60) * Math.PI) / 180,
       alpha: 0,
       ease: 'power1.out',
     })
