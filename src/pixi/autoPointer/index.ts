@@ -29,7 +29,7 @@ export const initAutoPointer = async ({
   const stageWidth = store.app.renderer.width
   const stageHeight = store.app.renderer.height
 
-  store.autoPointerTimeline?.kill()
+  // store.autoPointerTimeline?.kill()
   const tl = gsap.timeline({ repeat: -1 })
   setStore({ ...store, autoPointerTimeline: tl })
 

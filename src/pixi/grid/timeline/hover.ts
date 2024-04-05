@@ -1,4 +1,5 @@
 import { Tile } from '#pixi/types'
+import { TILE_TIMELINE } from '#src/lib/constants'
 import { R } from '#src/utils'
 
 interface RegisterTileHoverInTimelineProps {
@@ -20,20 +21,25 @@ export const registerTileHoverInTimeline = ({
   inEase,
   scaleHoverIn,
 }: RegisterTileHoverInTimelineProps) => {
-  timeline.set(tile.sprite, {
+  if (tile.timelines) {
+    tile.timelines[TILE_TIMELINE.IDLE].kill()
+  }
+
+  timeline.set(tile.innerContainer, {
+    scale: 1,
     alpha: 0,
     rotation: (R(-60, 60) * Math.PI) / 180,
   })
-  timeline.set(tile.sprite.scale, {
+  timeline.set(tile.innerContainer.scale, {
     x: 0,
     y: 0,
   })
-  timeline.set(tile.sprite.skew, {
+  timeline.set(tile.innerContainer.skew, {
     x: skewXOut,
     y: skewYOut,
   })
   timeline.to(
-    tile.sprite,
+    tile.innerContainer,
     {
       ease: inEase,
       alpha: R(0.8, 1),
@@ -43,7 +49,7 @@ export const registerTileHoverInTimeline = ({
     '>',
   )
   timeline.to(
-    tile.sprite.scale,
+    tile.innerContainer.scale,
     {
       ease: inEase,
       duration: inDuration,
@@ -53,7 +59,7 @@ export const registerTileHoverInTimeline = ({
     '<',
   )
   timeline.to(
-    tile.sprite.skew,
+    tile.innerContainer.skew,
     {
       x: 0,
       y: 0,
@@ -84,7 +90,7 @@ export const registerHoverOutTimeline = ({
   scaleHoverOut,
 }: RegisterHoverOutTimelineProps) => {
   timeline.to(
-    tile.sprite,
+    tile.innerContainer,
     {
       alpha: R(0.5, 0),
       ease: outEase,
@@ -94,7 +100,7 @@ export const registerHoverOutTimeline = ({
     '>',
   )
   timeline.to(
-    tile.sprite.scale,
+    tile.innerContainer.scale,
     {
       x: scaleHoverOut,
       y: scaleHoverOut,
@@ -104,7 +110,7 @@ export const registerHoverOutTimeline = ({
     '<',
   )
   timeline.to(
-    tile.sprite.skew,
+    tile.innerContainer.skew,
     {
       x: skewXOut,
       y: skewYOut,
@@ -113,12 +119,12 @@ export const registerHoverOutTimeline = ({
     },
     '<',
   )
-  // timeline.set(
-  //   tile.innerContainer,
-  //   {
-  //     x: 0,
-  //     y: 0,
-  //   },
-  //   '>',
-  // )
+  timeline.set(
+    tile.innerContainer,
+    {
+      x: 0,
+      y: 0,
+    },
+    '>',
+  )
 }

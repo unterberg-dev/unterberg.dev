@@ -18,7 +18,7 @@ export const createTileTimelines = ({ tiles }: CreateTileTimelinesProps) => {
     const timelines: TileTimelines = {
       [TILE_TIMELINE.HOVER_IN]: gsap.timeline({
         paused: true,
-        repeatRefresh: true,
+        // repeatRefresh: true,
         onComplete: () => {
           timelines[TILE_TIMELINE.HOVER_OUT].invalidate()
           timelines[TILE_TIMELINE.HOVER_OUT].restart()
@@ -30,11 +30,11 @@ export const createTileTimelines = ({ tiles }: CreateTileTimelinesProps) => {
       }),
       [TILE_TIMELINE.HOVER_OUT]: gsap.timeline({
         paused: true,
-        repeatRefresh: true,
+        // repeatRefresh: true,
       }),
       [TILE_TIMELINE.HITBOX_IN]: gsap.timeline({
         paused: true,
-        repeatRefresh: true,
+        // repeatRefresh: true,
         onComplete: () => {
           timelines[TILE_TIMELINE.HITBOX_OUT].invalidate()
           timelines[TILE_TIMELINE.HITBOX_OUT].restart()
@@ -45,7 +45,8 @@ export const createTileTimelines = ({ tiles }: CreateTileTimelinesProps) => {
       }),
       [TILE_TIMELINE.IDLE]: gsap.timeline({
         repeat: -1,
-        repeatRefresh: true,
+        // repeatRefresh: true,
+        yoyo: true,
         repeatDelay: R(3, 4),
         paused: true, // init pause - start on register!
       }),
@@ -69,11 +70,11 @@ export const createTileTimelines = ({ tiles }: CreateTileTimelinesProps) => {
     const scaleHitboxIn = R(0.05, 0.2)
 
     /* SETUP */
-    gsap.set(tile.sprite, {
+    gsap.set(tile.innerContainer, {
       rotation: (R(-60, 60) * Math.PI) / 180,
       alpha: 0,
     })
-    gsap.set(tile.sprite.scale, {
+    gsap.set(tile.innerContainer.scale, {
       x: 0,
       y: 0,
     })
@@ -88,6 +89,7 @@ export const createTileTimelines = ({ tiles }: CreateTileTimelinesProps) => {
         outEase,
         outDuration: idleOutDuration,
       })
+
       idleTiles.push(tile)
     } else {
       /* HOVER IN */
@@ -135,11 +137,6 @@ export const createTileTimelines = ({ tiles }: CreateTileTimelinesProps) => {
         outDuration,
         outEase,
       })
-
-      // if (tile.timelines) {
-      //   tile.timelines[TILE_TIMELINE.HOVER_IN].kill()
-      //   tile.timelines[TILE_TIMELINE.HOVER_OUT].kill()
-      // }
     }
 
     tiles[tile.id].timelines = timelines

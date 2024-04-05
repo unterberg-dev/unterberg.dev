@@ -1,4 +1,5 @@
 import { Tile } from '#pixi/types'
+import { TILE_TIMELINE } from '#src/lib/constants'
 import { R } from '#src/utils'
 
 interface RegisterTileIdleTimelineProps {
@@ -10,8 +11,6 @@ interface RegisterTileIdleTimelineProps {
   scaleIn: number
 }
 
-const getPercentChance = (percent = 0.5) => Math.random() < percent
-
 export const registerTileIdleTimeline = ({
   timeline,
   outDuration,
@@ -20,85 +19,43 @@ export const registerTileIdleTimeline = ({
   scaleIn,
   outEase,
 }: RegisterTileIdleTimelineProps) => {
+  if (tile.timelines) {
+    tile.timelines[TILE_TIMELINE.HOVER_IN].kill()
+    tile.timelines[TILE_TIMELINE.HOVER_OUT].kill()
+    tile.timelines[TILE_TIMELINE.POSITION].kill()
+  }
+
   timeline.set(
-    tile.container,
-    {
-      x: tile.x,
-      y: tile.y,
-    },
-    '<',
-  )
-  timeline.set(
-    tile.sprite,
+    tile.innerContainer,
     {
       alpha: 0,
     },
     '<',
   )
   timeline.set(
-    tile.sprite.scale,
+    tile.innerContainer.scale,
     {
-      x: 0,
-      y: 0,
-    },
-    '<',
-  )
-  timeline.to(
-    tile.container,
-    {
-      ease: inEase,
-      duration: outDuration * R(1.4, 2.1),
-      x: tile.x + (getPercentChance(0.1) ? R(-10, 10) : 0),
-      y: tile.y + (getPercentChance(0.1) ? R(-10, 10) : 0),
-    },
-    '>',
-  )
-  timeline.to(
-    tile.sprite,
-    {
-      ease: inEase,
-      alpha: R(0.1, 0.6),
-      duration: outDuration * R(1.4, 2.1),
-    },
-    '<',
-  )
-  timeline.to(
-    tile.sprite.scale,
-    {
-      ease: inEase,
-      duration: outDuration * R(1.4, 2.1),
       x: scaleIn,
       y: scaleIn,
     },
     '<',
   )
   timeline.to(
-    tile.container,
+    tile.innerContainer,
     {
-      x: tile.x + (getPercentChance(0.1) ? R(-10, 10) : 0),
-      y: tile.y + (getPercentChance(0.1) ? R(-10, 10) : 0),
-      ease: outEase,
+      ease: inEase,
+      alpha: R(0.1, 0.6),
       duration: outDuration * R(1.4, 2.1),
     },
     '>',
   )
   timeline.to(
-    tile.sprite,
+    tile.innerContainer,
     {
       ease: outEase,
       duration: outDuration * R(1.4, 2.1),
       alpha: 0,
     },
-    '<',
-  )
-  timeline.to(
-    tile.sprite.scale,
-    {
-      x: 0,
-      ease: outEase,
-      y: 0,
-      duration: outDuration * R(1.4, 2.1),
-    },
-    '<',
+    '>',
   )
 }

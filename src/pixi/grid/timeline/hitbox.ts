@@ -28,11 +28,11 @@ export const registerTileHitboxInTimeline = ({
     x: tile.x,
     y: tile.y,
   })
-  timeline.set(tile.sprite.scale, {
+  timeline.set(tile.innerContainer.scale, {
     x: 0,
     y: 0,
   })
-  timeline.set(tile.sprite, {
+  timeline.set(tile.innerContainer, {
     alpha: 0,
   })
   timeline.to(
@@ -46,7 +46,7 @@ export const registerTileHitboxInTimeline = ({
     '>',
   )
   timeline.to(
-    tile.sprite,
+    tile.innerContainer,
     {
       ease: inEase,
       alpha: R(0.1, 0.5),
@@ -55,7 +55,7 @@ export const registerTileHitboxInTimeline = ({
     '<',
   )
   timeline.to(
-    tile.sprite.scale,
+    tile.innerContainer.scale,
     {
       ease: inEase,
       duration: inDuration,
@@ -80,7 +80,7 @@ export const registerHitboxOutTimeline = ({
   outEase,
 }: RegisterHitboxOutTimelineProps) => {
   timeline.to(
-    tile.sprite,
+    tile.innerContainer,
     {
       ease: outEase,
       alpha: 0,
@@ -89,7 +89,7 @@ export const registerHitboxOutTimeline = ({
     '>',
   )
   timeline.to(
-    tile.sprite.scale,
+    tile.innerContainer.scale,
     {
       ease: outEase,
       duration: outDuration,
@@ -107,7 +107,7 @@ export const registerHitboxOutTimeline = ({
     '>',
   )
   timeline.set(
-    tile.sprite,
+    tile.innerContainer,
     {
       alpha: 0,
     },

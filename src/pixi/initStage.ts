@@ -51,9 +51,21 @@ export const initStage = async (stage: HTMLDivElement | null) => {
     offsetY: -300,
   })
 
+  const countTilesTimelines = tiles.flatMap(
+    tile => tile?.timelines && Object.entries(tile.timelines).map(([_, timeline]) => timeline),
+  ).length
+
+  const countSpaceTimelines = spaceObjects.flatMap(
+    spaceObject =>
+      spaceObject?.timelines &&
+      Object.entries(spaceObject.timelines).map(([_, timeline]) => timeline),
+  ).length
+
+  const allTimelineCount = countTilesTimelines + countSpaceTimelines
+
   const tileCounElement = document.querySelector<HTMLDivElement>('#tileCount')
   if (tileCounElement) {
-    tileCounElement.innerHTML += `${tiles.length} sprites generated.<br />${hitboxes?.length} hitboxes created.`
+    tileCounElement.innerHTML += `${tiles.length} sprites generated. ${hitboxes?.length} hitboxes created. ${allTimelineCount} timelines created.`
   }
 
   // eslint-disable-next-line no-console

@@ -41,7 +41,6 @@ const triggerPointerStopped = (event: PointerEvent) => {
 const triggerPointerStarted = () => {
   const { autoPointerTimeline } = getStore()
   autoPointerTimeline?.pause()
-  autoPointerTimeline?.kill()
 }
 
 let pointerStarted = false
@@ -67,6 +66,6 @@ export const initUserEvents = () => {
   // todo:
   // window.addEventListener('pointermove', handleMoveToRocketLaunch)
 
-  window.addEventListener('scrollend', handleUpdateHitboxes)
-  window.addEventListener('scroll', handleScroll)
+  // window.addEventListener('scrollend', handleUpdateHitboxes)
+  // window.addEventListener('scroll', handleScroll)
 }
