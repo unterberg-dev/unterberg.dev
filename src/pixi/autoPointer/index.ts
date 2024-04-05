@@ -1,66 +1,72 @@
 import gsap from 'gsap'
 
 import { handlePointerMove } from '#pixi/grid/pointer'
-import { getStore } from '#pixi/store'
-import { PathInfo } from '#pixi/types'
-import { testSVGPath } from '#src/lib/constants'
-import { calculateBezierPoints, scalePathToBoundaries } from '#src/utils'
+import { getStore, setStore } from '#pixi/store'
+import { defaultCirclePath } from '#src/lib/constants'
+import { generatePathPoints, scalePathToViewBox } from '#src/utils'
 
-export const initAutoPointer = async () => {
-  const { app } = getStore()
+interface AutoPointerProps {
+  x?: number
+  y?: number
+  width: number
+  height: number
+  duration?: number
+  offsetX?: number
+  offsetY?: number
+}
 
-  const stageWidth = app.renderer.width
-  const stageHeight = app.renderer.height
+export const initAutoPointer = async ({
+  x,
+  y,
+  width,
+  height,
+  duration = 0.1,
+  offsetX = 0,
+  offsetY = 0,
+}: AutoPointerProps) => {
+  const store = getStore()
 
+  const stageWidth = store.app.renderer.width
+  const stageHeight = store.app.renderer.height
+
+  store.autoPointerTimeline?.kill()
   const tl = gsap.timeline({ repeat: -1 })
+  setStore({ ...store, autoPointerTimeline: tl })
 
-  // get super idle
-  const incomingSvgPath: PathInfo = {
-    d: testSVGPath.default3,
-    viewBox: '0 0 800 400',
+  const ellipseDimensions = {
+    width,
+    height,
+    offsetX,
+    offsetY,
   }
 
-  const scaledSvgPath = scalePathToBoundaries(incomingSvgPath, stageWidth, stageHeight)
+  const scalePath = scalePathToViewBox(
+    defaultCirclePath.d,
+    defaultCirclePath.viewBox,
+    ellipseDimensions.width,
+    ellipseDimensions.height,
+  )
 
-  // todo: we need this later for the already idled mouse
-  // todo: outsource, refactor whole autopointer
+  const points = generatePathPoints(scalePath, 20).reverse()
 
-  // Define ellipse parameters
-  // const rx = 160
-  // const ry = 60
-  // const cx = stageWidth / 8
-  // const cy = stageHeight / 4 // Subtracting a small offset from the y-coordinate
-  // const ellipse = createEllipsePaths({ cx, cy, rx, ry })
-  // const scaledEllipse = scaleSvgPathToBoundaries(
-  //   { d: ellipse, viewBox: `0 0 ${stageWidth / 4} ${stageHeight / 4}` },
-  //   stageWidth,
-  //   stageHeight,
-  // )
+  const posX =
+    (x ? x : stageWidth / 2) - ellipseDimensions.width / 2 + (!x ? ellipseDimensions.offsetX : 0)
+  const posY =
+    (y ? y : stageHeight / 2) - ellipseDimensions.height / 2 + (!y ? ellipseDimensions.offsetY : 0)
 
-  const commands = scaledSvgPath.split(/(?=[A-Za-z])/)
-
-  commands.forEach(command => {
-    const type = command.substring(0, 1)
-    const values = command.substring(1).split(',').map(parseFloat)
-
-    if (type === 'C') {
-      const [x1, y1, x2, y2, x, y] = values
-      const points = calculateBezierPoints(values[0], values[1], x1, y1, x2, y2, x, y, 100)
-
-      // Create tweens for each point
-      points.forEach(({ x, y }, _index) => {
-        tl.to(
-          {},
-          {
-            duration: 0.5 / points.length,
-            onUpdate: () => {
-              handlePointerMove({ manual: { x, y } })
-            },
-          },
-          '>',
-        )
-      })
-    }
+  points.forEach(point => {
+    tl.to(
+      {},
+      {
+        duration,
+        onUpdate: () => {
+          handlePointerMove({
+            manual: { x: posX + point.x, y: posY + point.y },
+          })
+        },
+      },
+      '>',
+    )
   })
   tl.play()
 }

@@ -17,33 +17,27 @@ export const registerSpaceIdleTimeline = ({
 }: RegisterSpaceIdleTimelineProps) => {
   const { app } = getStore()
 
-  timeline.set(
+  timeline.fromTo(
     spaceObject.container,
     {
       x: -100,
       y: spaceObject.y + R(-app.renderer.height / 2, app.renderer.height / 2),
       rotation: (R(-60, 60) * Math.PI) / 180,
     },
-    '<',
-  )
-  timeline.to(
-    spaceObject.container,
     {
-      ease: 'linear',
-      x: app.renderer.width + 100,
+      x: app.renderer.width + R(100, 200),
       y: spaceObject.y + R(-app.renderer.height / 2, app.renderer.height / 2),
       rotation: (R(-260, 260) * Math.PI) / 180,
-      duration: inDuration,
+      duration: R(4, 15),
+      ease: 'linear',
     },
-    '>',
   )
 
   gsap.to(spaceObject.sprite.skew, {
     ease: 'power1.out',
-    x: R(-1, 1),
-    y: R(-1, 1),
+    x: R(-0.5, 0.5),
+    y: R(-0.5, 0.5),
     duration: inDuration / 2,
-    repeatRefresh: true,
     repeat: -1,
     yoyo: true,
   })
@@ -52,7 +46,6 @@ export const registerSpaceIdleTimeline = ({
   gsap.to(spaceObject.sprite.scale, {
     ease: 'power1.inOut',
     x: scale,
-    repeatRefresh: true,
     y: scale,
     duration: inDuration / 2.5,
     repeat: -1,

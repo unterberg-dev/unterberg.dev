@@ -14,6 +14,7 @@ export type Store = {
   cursorRadius: number
   hitboxes?: Hitbox[]
   spaceObjects: SpaceObject[]
+  autoPointerTimeline?: gsap.core.Timeline
 }
 
 let store: Store

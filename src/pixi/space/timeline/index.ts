@@ -15,19 +15,10 @@ export const createSpaceTimelines = ({ spaceObjects }: CreateSpaceTimelinesProps
       [SPACE_TIMELINE.IDLE]: gsap.timeline({
         paused: true,
         repeatRefresh: true,
-        repeatDelay: R(3, 6),
-        onComplete: () => {
-          if (!object.timelines) return
-          object.timelines[SPACE_TIMELINE.IDLE].restart()
-        },
+        repeatDelay: R(3, 10),
+        repeat: -1,
       }),
     }
-
-    /* SETUP */
-    gsap.set(object.container, {
-      rotation: (R(-60, 60) * Math.PI) / 180,
-      x: -100,
-    })
 
     registerSpaceIdleTimeline({
       spaceObject: object,
@@ -42,7 +33,7 @@ export const createSpaceTimelines = ({ spaceObjects }: CreateSpaceTimelinesProps
   let i = 0
   randomizeSpaceObjects.forEach(object => {
     if (object.timelines) {
-      object.timelines[SPACE_TIMELINE.IDLE].play(-i * 7)
+      object.timelines[SPACE_TIMELINE.IDLE].play(-i * 5)
       i++
     }
   })
