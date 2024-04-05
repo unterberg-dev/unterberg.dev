@@ -45,7 +45,12 @@ export const initStage = async (stage: HTMLDivElement | null) => {
   initUserEvents()
 
   // todo: idle cursor animations
-  // initAutoPointer()
+  initAutoPointer({
+    width: app.renderer.width < 800 ? 500 : 700,
+    height: app.renderer.width < 800 ? 300 : 500,
+    offsetY: -300,
+    duration: 0.05,
+  })
 
   const tileCounElement = document.querySelector<HTMLDivElement>('#tileCount')
   if (tileCounElement) {

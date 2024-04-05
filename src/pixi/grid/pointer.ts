@@ -158,7 +158,7 @@ export const getTileOnPointer = (mouseX: number, mouseY: number): number | null 
   return null
 }
 
-interface handlePointerMoveProps {
+interface HandlePointerMoveProps {
   manual?: {
     x: number
     y: number
@@ -174,7 +174,7 @@ let previousHoveredTileId: number | null = null
  * @param  {Object} manual.x - The manual x and y coordinates.
  * @param {Object} manual.y - The manual x and y coordinates.
  */
-export const handlePointerMove = ({ event, manual }: handlePointerMoveProps) => {
+export const handlePointerMove = ({ event, manual }: HandlePointerMoveProps) => {
   const isManual = manual?.x && manual?.y
   const x = isManual ? manual.x : event?.clientX
   const y = isManual ? manual.y : event?.clientY
@@ -194,6 +194,9 @@ export const handlePointerMove = ({ event, manual }: handlePointerMoveProps) => 
     radius: cursorRadius,
   })
 
+  // todo: we do not want to rely on movementX and movementY: instead try the basic js way:
+  // we wanna set the calculation here to used it also for auto pointer - event should be omitted
+  // https://codepen.io/zFunx/pen/WjVzWo
   triggerAnimateHover({
     triggerIDs: neighbours,
     accX: event?.movementX,

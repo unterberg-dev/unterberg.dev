@@ -2,18 +2,6 @@ import { Sprite } from 'pixi.js'
 
 import { SPACE_TIMELINE, TILE_TIMELINE } from '#src/lib/constants'
 
-export type PathInfo = {
-  d: string
-  viewBox: string
-}
-
-type EllipseParams = {
-  cx: number
-  cy: number
-  rx: number
-  ry: number
-}
-
 export type TileTimelines = {
   [key in TILE_TIMELINE]: gsap.core.Timeline
 }
