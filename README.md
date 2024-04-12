@@ -14,7 +14,32 @@ I had this cool effect in mind, saw on a flash website years ago. It was a spawn
 - gsap pixi plugin currently not usable with pixi v8
   - mainly drawbacks with the color transitions (I'll adapt a small helper in the future)
 
-## vite Startup Process
+## Startup Process
+
+For absolute references in vike's page routing system I created the ``APP_CONFIG.viteSiteUrl`` to garantuee access from the page root respectivly any BASE_URL given
+
+example usage (to access public dir):
+
+```
+<img src={`APP_CONFIG.viteSiteUrl/image.jpg`} />
+```
+
+For this I set siteUrls manually, which is done by the below ``.env`` file - otherwise it will use the vite default paths.
+
+Copy ``.env.example`` and rename it to ``.env``. Adjust the values if you deploy to some production
+
+```
+# base url used by vite.config and APP_CONFIG.viteSiteUrl
+VITE_BASE=/
+
+# port definition for vite
+VITE_PROD_PORT=4248
+VITE_DEV_PORT=5247
+
+# absolute site url definitions
+VITE_SITE_URL_PROD = http://localhost:4248
+VITE_SITE_URL_DEV = http://localhost:5247
+```
 
 To start the development server with Vite, follow these steps:
 
@@ -42,7 +67,7 @@ To start the development server with Vite, follow these steps:
   - is it compatible with pixi v8?
   - hitbox possible for emitted particles?
 - color transitions pixi vs gsap (0xFFF to #FFF)
-- check why ``repeatRefresh`` is not working at all :(
+- check why ``repeatRefresh`` is not working in many cases :(
 - hitbox controller (partially implemented)
 - cool getters for gsap animation target setters
 
