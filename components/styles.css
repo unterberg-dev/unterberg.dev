@@ -1,0 +1,12 @@
+.page-portal {
+    opacity: 1;
+    transition: opacity 0.5s ease-in-out;
+}
+
+#stage canvas {
+  margin: 0 auto;
+}
+
+body {
+  overflow: hidden;
+}
