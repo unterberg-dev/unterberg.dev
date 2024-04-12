@@ -13,12 +13,21 @@
     "moduleResolution": "node",
     "target": "ES2020",
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
-    "types": ["vite/client"],
+    "types": ["vite/client", "vike-react"],
+    "jsx": "preserve",
+    "jsxImportSource": "react",
     "baseUrl": ".",
     "paths": {
-      "#pixi/*": ["./src/pixi/*"],
+      "#atoms/*": ["./components/atoms/*"],
+      "#molecules/*": ["./components/molecules/*"],
+      "#organisms/*": ["./components/organisms/*"],
+      "#pixi/*": ["components/pixi/*"],
+      "#utils/*": ["./lib/utils/*"],
+      "#renderer/*": ["renderer/*"],
+      "#components/*": ["./components/*"],
+      "#lib/*": ["./lib/*"],
       "#src/*": ["./src/*"],
-      "#root/*": ["./*"]
+      "#root/*": ["./*"],
     }
   },
   "exclude": ["dist", "*.js", "*.cjs", "**/*.js", "**/*.cjs", "node_modules", "public", "dist"]
