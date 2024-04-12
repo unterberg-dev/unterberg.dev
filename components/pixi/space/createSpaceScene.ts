@@ -49,7 +49,7 @@ export const createSpaceScene = (app: Application) => {
     const y = heightDivider * (spaceObjectId + 1) + R(-50, 50)
 
     const container = createContainer({
-      x: 0,
+      x: -100,
       y,
       zIndex: R(5, 10),
     })

@@ -33,6 +33,7 @@ export const createApp = async (stage: HTMLDivElement) => {
     backgroundAlpha: 0,
   })
   app.stage.sortableChildren = true // enable zIndex sorting
+  app.stage.interactive = false
   stage.appendChild(app.canvas)
 
   subscribeToGSAPTicker(app)

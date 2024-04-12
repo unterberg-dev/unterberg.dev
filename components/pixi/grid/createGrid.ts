@@ -38,6 +38,7 @@ const generateTimelines = () => {
     [TILE_TIMELINE.IDLE]: gsap.timeline({
       repeat: -1,
       yoyo: true,
+      delay: R(1.1, 5.1),
       repeatDelay: R(3, 4),
       paused: true,
     }),

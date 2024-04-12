@@ -11,7 +11,6 @@ const StyledGithubLink = tw.div`
   top-0
   right-0
   z-20
-  md:-mt-16
   p-3
   gap-2
   inline-flex
@@ -22,11 +21,7 @@ const StyledGithubLink = tw.div`
 
 export default ({ ...props }: HTMLAttributes<HTMLDivElement>) => (
   <StyledGithubLink {...props}>
-    <Link
-      aria-label="to-github"
-      href="https://github.com/richard-unterberg/ts-react-vike-start"
-      external
-    >
+    <Link aria-label="to-github" href="https://github.com/richard-unterberg/unterberg.dev" external>
       <Icon icon={ICON_ID.Github} size={32} className="text-dark" />
     </Link>
   </StyledGithubLink>

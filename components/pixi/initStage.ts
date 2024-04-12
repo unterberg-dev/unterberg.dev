@@ -1,3 +1,5 @@
+import { gsap } from 'gsap'
+
 import { initAutoPointer } from '#components/pixi/autoPointer'
 import { initUserEvents } from '#components/pixi/events'
 import { createGrid } from '#components/pixi/grid/createGrid'
@@ -39,16 +41,17 @@ export const initStage = async (stage: HTMLDivElement | null) => {
 
   // timeline setup
   createTileTimelines({ tiles })
-  createSpaceTimelines({ spaceObjects })
 
-  // trigger pointer events
-  initUserEvents()
+  gsap.delayedCall(1, () => {
+    // trigger pointer events
+    initUserEvents()
 
-  // todo: idle cursor animations
-  initAutoPointer({
-    width: app.renderer.width < 800 ? 500 : 700,
-    height: app.renderer.width < 800 ? 300 : 500,
-    offsetY: -300,
+    createSpaceTimelines({ spaceObjects })
+    initAutoPointer({
+      width: app.renderer.width < 800 ? 300 : 500,
+      height: app.renderer.width < 800 ? 200 : 300,
+      offsetY: -300,
+    })
   })
 
   const countTilesTimelines = tiles.flatMap(

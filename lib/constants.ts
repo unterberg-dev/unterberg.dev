@@ -27,7 +27,7 @@ export const defaultCirclePath = {
 
 export const PixiConfig = {
   configMaxDivider: 90,
-  configMinDivider: 25,
+  configMinDivider: 15,
   configMinDividerThreshold: 500,
   configMaxDividerThreshold: 1900,
   configCursorRadius: 2,

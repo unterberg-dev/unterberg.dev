@@ -25,13 +25,9 @@ export const registerTileIdleTimeline = ({
     tile.timelines[TILE_TIMELINE.POSITION].kill()
   }
 
-  timeline.set(
-    tile.innerContainer,
-    {
-      alpha: 0,
-    },
-    '<',
-  )
+  timeline.set(tile.innerContainer, {
+    alpha: 0,
+  })
   timeline.set(
     tile.innerContainer.scale,
     {

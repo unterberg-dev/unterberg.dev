@@ -36,7 +36,7 @@ interface StartPageMenuItemProps {
 const StartPageMenuItem = ({ icon, href, label }: StartPageMenuItemProps) => (
   <StyledStartPageMenuItem>
     <a className="flex flex-col items-center gap-3" href={href}>
-      <BlurDot className="w-90 h-90 mt-5 opacity-100" pulse />
+      <BlurDot className="w-90 h-90 mt-5 opacity-15" />
       <Icon icon={icon} className="w-8 h-8 lg:w-10 lg:h-10" />
       <span>{label}</span>
     </a>

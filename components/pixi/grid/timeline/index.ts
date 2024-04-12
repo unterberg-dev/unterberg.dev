@@ -25,8 +25,8 @@ export const createTileTimelines = ({ tiles }: CreateTileTimelinesProps) => {
     const skewXOut = R(-2, 2)
     const skewYOut = R(-2, 2)
 
-    const scaleHoverIn = R(1, 1.5)
-    const inDuration = R(0.2, 0.6)
+    const scaleHoverIn = R(0.8, 1.1)
+    const inDuration = R(0.1, 0.5)
     const inEase = 'power.in'
 
     const scaleHoverOut = 0
@@ -116,10 +116,8 @@ export const createTileTimelines = ({ tiles }: CreateTileTimelinesProps) => {
   })
 
   const randomizeTiles = idleTiles.sort(() => 0.5 - Math.random())
-  let i = 0
   randomizeTiles.forEach(tile => {
     if (!tile.timelines) return
-    tile.timelines[TILE_TIMELINE.IDLE].play(-i * 0.02)
-    i += 1
+    tile.timelines[TILE_TIMELINE.IDLE].play()
   })
 }

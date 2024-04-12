@@ -1,3 +1,5 @@
+import gsap from 'gsap'
+
 import { SPACE_TIMELINE } from '#lib/constants'
 import { registerSpaceIdleTimeline } from '#pixi/space/timeline/idle'
 import { SpaceObject } from '#pixi/types'
@@ -25,10 +27,12 @@ export const createSpaceTimelines = ({ spaceObjects }: CreateSpaceTimelinesProps
   const randomizeSpaceObjects = spaceObjects.sort(() => 0.5 - Math.random())
   let i = 0
   randomizeSpaceObjects.forEach(object => {
-    if (object.timelines) {
-      object.timelines[SPACE_TIMELINE.IDLE].play(-i * 5)
-      i += 1
-    }
+    gsap.delayedCall(i * 5, () => {
+      if (object.timelines) {
+        object.timelines[SPACE_TIMELINE.IDLE].play()
+      }
+    })
+    i += 1
   })
 
   return spaceObjects
