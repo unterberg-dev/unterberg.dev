@@ -5,6 +5,13 @@ on:
     branches:
       - master
 
+env:
+  VITE_BASE: ${{ secrets.VITE_BASE }}
+  VITE_PROD_PORT: ${{ secrets.VITE_PROD_PORT }}
+  VITE_DEV_PORT: ${{ secrets.VITE_DEV_PORT }}
+  VITE_SITE_URL_DEV: ${{ secrets.VITE_SITE_URL_DEV }}
+  VITE_SITE_URL_PROD: ${{ secrets.VITE_SITE_URL_PROD }}
+
 jobs:
   build:
     name: Build
@@ -27,7 +34,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: production-files
-          path: ./dist
+          path: ./dist/client
 
   deploy:
     name: Deploy
