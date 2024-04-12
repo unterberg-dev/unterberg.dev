@@ -7,7 +7,7 @@ import { defineConfig } from 'vite'
 import 'dotenv/config'
 
 export default defineConfig({
-  base: process.env.VITE_BASE,
+  base: process.env.VITE_BASE || '/',
   plugins: [UnoCSS(), react(), vike({ prerender: true, trailingSlash: true })],
   build: {
     cssMinify: 'esbuild',
