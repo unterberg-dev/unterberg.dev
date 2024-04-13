@@ -16,33 +16,34 @@ export const initStage = async (stage: HTMLDivElement | null) => {
   if (!stage) return
   const { configCursorRadius } = PixiConfig
 
-  // build stage, grid, text chunks
   const app = await createApp(stage)
   const { tileHeight, tileWidth } = getDimensions(app)
 
-  const tiles = createGrid(app, tileWidth)
-  const spaceObjects = createSpaceScene(app)
-  const hitboxes = createHitboxes()
+  const timeout = app.renderer.width < 800 ? 3 : 0
 
-  // set the grid config
-  setStore({
-    app,
-    stage,
-    tiles,
-    hitboxes,
-    rowsCount: Math.ceil(app.renderer.height / tileHeight),
-    colsCount: Math.ceil(app.renderer.width / tileWidth),
-    tileHeight,
-    tileWidth,
-    spaceObjects,
-    hitboxPadding: tileWidth * configCursorRadius,
-    cursorRadius: configCursorRadius,
-  })
+  gsap.delayedCall(timeout, () => {
+    const tiles = createGrid(app, tileWidth)
+    const spaceObjects = createSpaceScene(app)
+    const hitboxes = createHitboxes()
 
-  // timeline setup
-  createTileTimelines({ tiles })
+    // set the grid config
+    setStore({
+      app,
+      stage,
+      tiles,
+      hitboxes,
+      rowsCount: Math.ceil(app.renderer.height / tileHeight),
+      colsCount: Math.ceil(app.renderer.width / tileWidth),
+      tileHeight,
+      tileWidth,
+      spaceObjects,
+      hitboxPadding: tileWidth * configCursorRadius,
+      cursorRadius: configCursorRadius,
+    })
 
-  gsap.delayedCall(1, () => {
+    // timeline setup
+    createTileTimelines({ tiles })
+
     // trigger pointer events
     initUserEvents()
 
@@ -52,25 +53,25 @@ export const initStage = async (stage: HTMLDivElement | null) => {
       height: app.renderer.width < 800 ? 200 : 300,
       offsetY: -300,
     })
+
+    const countTilesTimelines = tiles.flatMap(
+      tile => tile?.timelines && Object.entries(tile.timelines).map(([_, timeline]) => timeline),
+    ).length
+
+    const countSpaceTimelines = spaceObjects.flatMap(
+      spaceObject =>
+        spaceObject?.timelines &&
+        Object.entries(spaceObject.timelines).map(([_, timeline]) => timeline),
+    ).length
+
+    const allTimelineCount = countTilesTimelines + countSpaceTimelines
+
+    const tileCounElement = document.querySelector<HTMLDivElement>('#tileCount')
+    if (tileCounElement) {
+      tileCounElement.innerHTML += `${tiles.length} sprites generated. ${hitboxes?.length} hitboxes created. ${allTimelineCount} timelines created.`
+    }
+
+    // eslint-disable-next-line no-console
+    console.log('grid', getStore())
   })
-
-  const countTilesTimelines = tiles.flatMap(
-    tile => tile?.timelines && Object.entries(tile.timelines).map(([_, timeline]) => timeline),
-  ).length
-
-  const countSpaceTimelines = spaceObjects.flatMap(
-    spaceObject =>
-      spaceObject?.timelines &&
-      Object.entries(spaceObject.timelines).map(([_, timeline]) => timeline),
-  ).length
-
-  const allTimelineCount = countTilesTimelines + countSpaceTimelines
-
-  const tileCounElement = document.querySelector<HTMLDivElement>('#tileCount')
-  if (tileCounElement) {
-    tileCounElement.innerHTML += `${tiles.length} sprites generated. ${hitboxes?.length} hitboxes created. ${allTimelineCount} timelines created.`
-  }
-
-  // eslint-disable-next-line no-console
-  console.log('grid', getStore())
 }
