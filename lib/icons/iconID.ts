@@ -4,5 +4,6 @@ export enum ICON_ID {
   Linkedin,
   Mail,
   ExternalLink,
-  Orbit,
+  ChevronsUp,
+  ChevronsDown,
 }

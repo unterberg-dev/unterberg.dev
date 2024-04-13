@@ -3,7 +3,7 @@ import gsap from 'gsap'
 import { SPACE_TIMELINE } from '#lib/constants'
 import { registerSpaceIdleTimeline } from '#pixi/space/timeline/idle'
 import { SpaceObject } from '#pixi/types'
-import { R } from '#utils/index'
+import { R } from '#pixi/utils'
 
 interface CreateSpaceTimelinesProps {
   spaceObjects: SpaceObject[]

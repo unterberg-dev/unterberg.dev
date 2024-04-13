@@ -1,5 +1,3 @@
-import GithubLink from '#molecules/GithubLink'
-
-const Header = () => <GithubLink />
+const Header = () => null
 
 export default Header

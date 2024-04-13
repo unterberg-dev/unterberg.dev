@@ -1,7 +1,7 @@
 import { createHitboxes } from '#components/pixi/grid/pointer'
 import { getStore, setStore } from '#components/pixi/store'
 import { Tile } from '#components/pixi/types'
-import { R } from '#lib/utils'
+import { R } from '#pixi/utils'
 
 export const handleUpdateHitboxes = () => {
   const store = getStore()

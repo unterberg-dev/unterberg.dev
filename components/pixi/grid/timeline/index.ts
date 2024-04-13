@@ -11,7 +11,7 @@ import {
 import { registerTileIdleTimeline } from '#components/pixi/grid/timeline/idle'
 import { registerPositionTimeline } from '#components/pixi/grid/timeline/position'
 import { Tile } from '#components/pixi/types'
-import { R } from '#lib/utils'
+import { R } from '#pixi/utils'
 import { TILE_TIMELINE } from '#root/lib/constants'
 
 interface CreateTileTimelinesProps {
@@ -25,16 +25,11 @@ export const createTileTimelines = ({ tiles }: CreateTileTimelinesProps) => {
     const skewXOut = R(-2, 2)
     const skewYOut = R(-2, 2)
 
-    const scaleHoverIn = R(0.8, 1.1)
     const inDuration = R(0.1, 0.5)
     const inEase = 'power.in'
 
-    const scaleHoverOut = 0
     const outDuration = R(0.5, 1.2)
     const outEase = 'sine.inOut'
-
-    const scaleIdleIn = R(0.01, 0.29)
-    const idleOutDuration = R(0.5, 4)
 
     const scaleHitboxIn = R(0.05, 0.2)
 
@@ -48,7 +43,8 @@ export const createTileTimelines = ({ tiles }: CreateTileTimelinesProps) => {
       y: 0,
     })
 
-    const chance = Math.random() > 0.9
+    // todo: constants
+    const chance = Math.random() > 0.95
     const { timelines } = tile
 
     if (!timelines) {
@@ -59,10 +55,6 @@ export const createTileTimelines = ({ tiles }: CreateTileTimelinesProps) => {
       registerTileIdleTimeline({
         tile,
         timeline: timelines[TILE_TIMELINE.IDLE],
-        inEase,
-        scaleIn: scaleIdleIn,
-        outEase,
-        outDuration: idleOutDuration,
       })
 
       idleTiles.push(tile)
@@ -75,7 +67,6 @@ export const createTileTimelines = ({ tiles }: CreateTileTimelinesProps) => {
         skewYOut,
         inDuration,
         inEase,
-        scaleHoverIn,
       })
 
       /* HOVER OUT */
@@ -86,7 +77,6 @@ export const createTileTimelines = ({ tiles }: CreateTileTimelinesProps) => {
         skewYOut,
         outDuration,
         outEase,
-        scaleHoverOut,
       })
 
       /* QUICKSET POSITION */
@@ -115,8 +105,7 @@ export const createTileTimelines = ({ tiles }: CreateTileTimelinesProps) => {
     }
   })
 
-  const randomizeTiles = idleTiles.sort(() => 0.5 - Math.random())
-  randomizeTiles.forEach(tile => {
+  idleTiles.forEach(tile => {
     if (!tile.timelines) return
     tile.timelines[TILE_TIMELINE.IDLE].play()
   })

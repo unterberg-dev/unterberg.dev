@@ -6,9 +6,15 @@ import { createSprite } from '#components/pixi/system/createSprite'
 import { createText } from '#components/pixi/system/createText'
 import { createTexture } from '#components/pixi/system/createTexture'
 import { Tile, TileTimelines } from '#components/pixi/types'
-import { R } from '#lib/utils'
+import { R } from '#pixi/utils'
 import { PixiConfig, TILE_TIMELINE } from '#root/lib/constants'
 
+/* todo:
+the current setup does create all timelines for all tiles, this is not necessary
+to save this computation time we need a property which declares if the tile is a "idle-tile" or a "hover-tile"
+so we could skip the hover-tile setup for idle-tiles and vice versa
+then we could remove a lot of .isActive() checks in the timeline play triggers
+*/
 const generateTimelines = () => {
   const timelines: TileTimelines = {
     [TILE_TIMELINE.HOVER_IN]: gsap.timeline({
@@ -38,12 +44,11 @@ const generateTimelines = () => {
     [TILE_TIMELINE.IDLE]: gsap.timeline({
       repeat: -1,
       yoyo: true,
-      delay: R(1.1, 5.1),
-      repeatDelay: R(3, 4),
+      delay: R(1.1, 10.1),
+      repeatDelay: R(2, 8),
       paused: true,
     }),
   }
-
   return timelines
 }
 
@@ -52,6 +57,7 @@ export const createGrid = (app: Application, gridSize: number) => {
 
   const tilesPos: Tile[] = []
 
+  /* todo: test if this text-texture-sprite conversion affects the SEO TBT score */
   const baseTextures: TextureSource[] = tileIcons.map(icon => {
     const text = createText({
       value: icon,

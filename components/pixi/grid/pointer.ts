@@ -1,6 +1,6 @@
 import { getStore } from '#components/pixi/store'
 import { Hitbox } from '#components/pixi/types'
-import { R } from '#lib/utils'
+import { R } from '#pixi/utils'
 import { TILE_TIMELINE } from '#root/lib/constants'
 
 interface TriggerAnimateHoverProps {
@@ -26,6 +26,7 @@ export const triggerAnimateHover = ({
     const { timelines, setPosition } = tiles[id]
 
     // only fire n% of the time
+    // todo: to constants
     const debounce = Math.random() > 0.45
     if (debounce) return
 
@@ -46,8 +47,8 @@ export const triggerAnimateHover = ({
     const clampedMovementY = Math.min(Math.max(movementY, -50), 50)
 
     // todo: to constants
-    const mouseMovementModifier = 3
-    const outAccelerationModifier = 3.5
+    const mouseMovementModifier = 1.5
+    const outAccelerationModifier = 2.5
 
     const newX = mouseX + clampedMovementX * mouseMovementModifier
     const newY = mouseY + clampedMovementY * mouseMovementModifier
@@ -104,6 +105,7 @@ interface GetAllNeighborsProps {
 export const getNeighbors = ({ mouseX, mouseY, radius }: GetAllNeighborsProps): number[] => {
   const { tileHeight, tileWidth, colsCount, rowsCount } = getStore()
 
+  // todo: to constants
   const hitboxWidth = tileWidth * radius * 2 * 3
   const hitboxHeight = tileHeight * radius * 2 * 3
 

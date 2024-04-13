@@ -3,7 +3,15 @@
  * no manual imports in modules needed / wanted
  * todo: "minimize", "maximize", "close" icons
  */
-import { ExternalLink, Github, Linkedin, LucideProps, Mail, Orbit } from 'lucide-react'
+import {
+  ChevronsDown,
+  ChevronsUp,
+  ExternalLink,
+  Github,
+  Linkedin,
+  LucideProps,
+  Mail,
+} from 'lucide-react'
 
 import { ICON_ID } from './iconID'
 
@@ -18,9 +26,10 @@ const APP_ICON: ICON_TYPE = {
   [ICON_ID.None]: { component: null },
   [ICON_ID.Github]: { component: Github },
   [ICON_ID.ExternalLink]: { component: ExternalLink },
-  [ICON_ID.Orbit]: { component: Orbit },
   [ICON_ID.Mail]: { component: Mail },
   [ICON_ID.Linkedin]: { component: Linkedin },
+  [ICON_ID.ChevronsUp]: { component: ChevronsUp },
+  [ICON_ID.ChevronsDown]: { component: ChevronsDown },
 }
 
 export default APP_ICON

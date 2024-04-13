@@ -2,7 +2,7 @@ import gsap from 'gsap'
 
 import { getStore } from '#components/pixi/store'
 import { SpaceObject } from '#components/pixi/types'
-import { R } from '#lib/utils'
+import { R } from '#pixi/utils'
 
 interface RegisterSpaceIdleTimelineProps {
   timeline: gsap.core.Timeline

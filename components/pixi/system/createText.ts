@@ -1,6 +1,6 @@
 import { Text, TextOptions, TextStyle, TextStyleOptions } from 'pixi.js'
 
-import { R } from '#lib/utils'
+import { R } from '#pixi/utils'
 
 export interface CreateTextProps {
   value: string

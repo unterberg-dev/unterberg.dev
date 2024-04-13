@@ -1,5 +1,5 @@
 import { Tile } from '#components/pixi/types'
-import { R } from '#lib/utils'
+import { R } from '#pixi/utils'
 import { TILE_TIMELINE } from '#root/lib/constants'
 
 interface RegisterTileHoverInTimelineProps {
@@ -9,7 +9,6 @@ interface RegisterTileHoverInTimelineProps {
   skewYOut: number
   inDuration: number
   inEase: string
-  scaleHoverIn: number
 }
 
 export const registerTileHoverInTimeline = ({
@@ -19,8 +18,9 @@ export const registerTileHoverInTimeline = ({
   skewYOut,
   inDuration,
   inEase,
-  scaleHoverIn,
 }: RegisterTileHoverInTimelineProps) => {
+  const scaleHoverIn = R(0.8, 1.3)
+
   if (tile.timelines) {
     tile.timelines[TILE_TIMELINE.IDLE].kill()
   }
@@ -77,7 +77,6 @@ interface RegisterHoverOutTimelineProps {
   skewYOut: number
   outDuration: number
   outEase: string
-  scaleHoverOut: number
 }
 
 export const registerHoverOutTimeline = ({
@@ -87,7 +86,6 @@ export const registerHoverOutTimeline = ({
   timeline,
   outDuration,
   outEase,
-  scaleHoverOut,
 }: RegisterHoverOutTimelineProps) => {
   timeline.to(
     tile.innerContainer,
@@ -102,8 +100,8 @@ export const registerHoverOutTimeline = ({
   timeline.to(
     tile.innerContainer.scale,
     {
-      x: scaleHoverOut,
-      y: scaleHoverOut,
+      x: 0,
+      y: 0,
       ease: outEase,
       duration: outDuration,
     },

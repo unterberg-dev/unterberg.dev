@@ -22,7 +22,6 @@
       "#molecules/*": ["./components/molecules/*"],
       "#organisms/*": ["./components/organisms/*"],
       "#pixi/*": ["components/pixi/*"],
-      "#utils/*": ["./lib/utils/*"],
       "#renderer/*": ["renderer/*"],
       "#components/*": ["./components/*"],
       "#lib/*": ["./lib/*"],

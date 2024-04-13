@@ -7,14 +7,8 @@ import { ICON_ID } from '#lib/icons/iconID'
 const StyledStartPageMenuItem = tw.li`
   relative
   overflow-hidden
-  text-light
   border-1
   bg-opacity-90
-  border-darkLightBorder
-  shadow-dark
-  shadow-lg
-  bg-dark
-  hover-text-warning
   rounded-xl
   py-5
   px-5
@@ -23,8 +17,13 @@ const StyledStartPageMenuItem = tw.li`
   md:px-10
   transition-transform
   scale-100
-  duration-500
   md:hover-scale-110
+  text-light
+  border-darkLightBorder
+  shadow-dark
+  shadow-lg
+  bg-dark
+  hover-text-warning
 `
 
 interface StartPageMenuItemProps {

@@ -6,7 +6,7 @@ import { createSprite } from '#components/pixi/system/createSprite'
 import { createText } from '#components/pixi/system/createText'
 import { createTexture } from '#components/pixi/system/createTexture'
 import { SpaceObject, SpaceTimelines } from '#components/pixi/types'
-import { R } from '#lib/utils'
+import { R } from '#pixi/utils'
 import { PixiConfig, SPACE_TIMELINE } from '#root/lib/constants'
 
 const generateTimelines = () => {
