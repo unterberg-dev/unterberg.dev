@@ -1,3 +1,5 @@
+import gsap from 'gsap'
+
 import { initAutoPointer } from '#components/pixi/autoPointer'
 import { initUserEvents } from '#components/pixi/events'
 import { createGrid } from '#components/pixi/grid/createGrid'
