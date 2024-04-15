@@ -49,11 +49,11 @@ export const initStage = async (stage: HTMLDivElement | null) => {
     initUserEvents()
 
     createSpaceTimelines({ spaceObjects })
-    initAutoPointer({
-      width: app.renderer.width < 800 ? 300 : 500,
-      height: app.renderer.width < 800 ? 200 : 300,
-      offsetY: -300,
-    })
+    // initAutoPointer({
+    //   width: 100,
+    //   height: 100,
+    //   offsetY: 300,
+    // })
 
     const countTilesTimelines = tiles.flatMap(
       tile => tile?.timelines && Object.entries(tile.timelines).map(([_, timeline]) => timeline),
@@ -73,6 +73,6 @@ export const initStage = async (stage: HTMLDivElement | null) => {
     }
 
     // eslint-disable-next-line no-console
-    console.log('grid', getStore())
+    // console.log('grid', getStore())
   })
 }
