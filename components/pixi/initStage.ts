@@ -48,7 +48,7 @@ export const initStage = async (stage: HTMLDivElement | null) => {
     // trigger pointer events
     initUserEvents()
 
-    createSpaceTimelines({ spaceObjects })
+    // createSpaceTimelines({ spaceObjects })
     // initAutoPointer({
     //   width: 100,
     //   height: 100,
