@@ -48,12 +48,12 @@ export const initStage = async (stage: HTMLDivElement | null) => {
     // trigger pointer events
     initUserEvents()
 
-    // createSpaceTimelines({ spaceObjects })
-    // initAutoPointer({
-    //   width: 100,
-    //   height: 100,
-    //   offsetY: 300,
-    // })
+    createSpaceTimelines({ spaceObjects })
+    initAutoPointer({
+      width: 100,
+      height: 100,
+      offsetY: 300,
+    })
 
     const countTilesTimelines = tiles.flatMap(
       tile => tile?.timelines && Object.entries(tile.timelines).map(([_, timeline]) => timeline),
