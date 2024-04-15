@@ -16,13 +16,13 @@ export const initStage = async (stage: HTMLDivElement | null) => {
   if (!stage) return
   const { configCursorRadius } = PixiConfig
 
-  const app = await createApp(stage)
-  const { tileHeight, tileWidth } = getDimensions(app)
-
   // render timeout for mobile devices - pagespeed? :O
-  const timeout = app.renderer.width < 800 ? 3 : 0
+  const timeout = stage.clientWidth < 800 ? 5 : 0
 
-  gsap.delayedCall(timeout, () => {
+  gsap.delayedCall(timeout, async () => {
+    const app = await createApp(stage)
+    const { tileHeight, tileWidth } = getDimensions(app)
+
     const tiles = createGrid(app, tileWidth)
     const spaceObjects = createSpaceScene(app)
     const hitboxes = createHitboxes()
@@ -52,7 +52,7 @@ export const initStage = async (stage: HTMLDivElement | null) => {
     initAutoPointer({
       width: 100,
       height: 100,
-      offsetY: 300,
+      offsetY: -200,
     })
 
     const countTilesTimelines = tiles.flatMap(
