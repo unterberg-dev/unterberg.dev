@@ -10,9 +10,9 @@ import {
 } from '#components/pixi/grid/timeline/hover'
 import { registerTileIdleTimeline } from '#components/pixi/grid/timeline/idle'
 import { registerPositionTimeline } from '#components/pixi/grid/timeline/position'
-import { Tile } from '#components/pixi/types'
+import { Tile, TileTimelines } from '#components/pixi/types'
 import { R } from '#pixi/utils'
-import { TILE_TIMELINE } from '#root/lib/constants'
+import { IDLE_TILE_TIMELINE, TILE_TIMELINE } from '#root/lib/constants'
 
 interface CreateTileTimelinesProps {
   tiles: Tile[]
@@ -44,25 +44,26 @@ export const createTileTimelines = ({ tiles }: CreateTileTimelinesProps) => {
     })
 
     // todo: constants
-    const chance = Math.random() > 0.95
     const { timelines } = tile
 
     if (!timelines) {
       return
     }
 
-    if (chance) {
+    if (tile.idle) {
       registerTileIdleTimeline({
         tile,
-        timeline: timelines[TILE_TIMELINE.IDLE],
+        timeline: timelines[IDLE_TILE_TIMELINE.DEFAULT],
       })
 
       idleTiles.push(tile)
     } else {
+      const typeTimelines = timelines as TileTimelines
+
       /* HOVER IN */
       registerTileHoverInTimeline({
         tile,
-        timeline: timelines[TILE_TIMELINE.HOVER_IN],
+        timeline: typeTimelines[TILE_TIMELINE.HOVER_IN],
         skewXOut,
         skewYOut,
         inDuration,
@@ -72,7 +73,7 @@ export const createTileTimelines = ({ tiles }: CreateTileTimelinesProps) => {
       /* HOVER OUT */
       registerHoverOutTimeline({
         tile,
-        timeline: timelines[TILE_TIMELINE.HOVER_OUT],
+        timeline: typeTimelines[TILE_TIMELINE.HOVER_OUT],
         skewXOut,
         skewYOut,
         outDuration,
@@ -82,7 +83,7 @@ export const createTileTimelines = ({ tiles }: CreateTileTimelinesProps) => {
       /* QUICKSET POSITION */
       registerPositionTimeline({
         tile,
-        timeline: timelines[TILE_TIMELINE.POSITION],
+        timeline: typeTimelines[TILE_TIMELINE.POSITION],
         inDuration,
         inEase,
         outDuration,
@@ -90,7 +91,7 @@ export const createTileTimelines = ({ tiles }: CreateTileTimelinesProps) => {
 
       registerTileHitboxInTimeline({
         tile,
-        timeline: timelines[TILE_TIMELINE.HITBOX_IN],
+        timeline: typeTimelines[TILE_TIMELINE.HITBOX_IN],
         inDuration,
         inEase,
         scaleIn: scaleHitboxIn,
@@ -98,7 +99,7 @@ export const createTileTimelines = ({ tiles }: CreateTileTimelinesProps) => {
 
       registerHitboxOutTimeline({
         tile,
-        timeline: timelines[TILE_TIMELINE.HITBOX_OUT],
+        timeline: typeTimelines[TILE_TIMELINE.HITBOX_OUT],
         outDuration,
         outEase,
       })
@@ -107,6 +108,6 @@ export const createTileTimelines = ({ tiles }: CreateTileTimelinesProps) => {
 
   idleTiles.forEach(tile => {
     if (!tile.timelines) return
-    tile.timelines[TILE_TIMELINE.IDLE].play()
+    tile.timelines[IDLE_TILE_TIMELINE.DEFAULT].play()
   })
 }

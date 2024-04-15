@@ -7,7 +7,7 @@ import { createHitboxes } from '#components/pixi/grid/pointer'
 import { createTileTimelines } from '#components/pixi/grid/timeline'
 import { createSpaceScene } from '#components/pixi/space/createSpaceScene'
 import { createSpaceTimelines } from '#components/pixi/space/timeline'
-import { getStore, setStore } from '#components/pixi/store'
+import { setStore } from '#components/pixi/store'
 import { createApp } from '#components/pixi/system/createApp'
 import { getDimensions } from '#pixi/utils'
 import { PixiConfig } from '#root/lib/constants'
@@ -17,7 +17,7 @@ export const initStage = async (stage: HTMLDivElement | null) => {
   const { configCursorRadius } = PixiConfig
 
   // render timeout for mobile devices - pagespeed? :O
-  const timeout = stage.clientWidth < 800 ? 4 : 1
+  const timeout = stage.clientWidth < 800 ? 4 : 0
 
   gsap.delayedCall(timeout, async () => {
     const app = await createApp(stage)
@@ -54,23 +54,6 @@ export const initStage = async (stage: HTMLDivElement | null) => {
       height: 100,
       offsetY: -200,
     })
-
-    const countTilesTimelines = tiles.flatMap(
-      tile => tile?.timelines && Object.entries(tile.timelines).map(([_, timeline]) => timeline),
-    ).length
-
-    const countSpaceTimelines = spaceObjects.flatMap(
-      spaceObject =>
-        spaceObject?.timelines &&
-        Object.entries(spaceObject.timelines).map(([_, timeline]) => timeline),
-    ).length
-
-    const allTimelineCount = countTilesTimelines + countSpaceTimelines
-
-    const tileCounElement = document.querySelector<HTMLDivElement>('#tileCount')
-    if (tileCounElement) {
-      tileCounElement.innerHTML += `${tiles.length} sprites generated. ${hitboxes?.length} hitboxes created. ${allTimelineCount} timelines created.`
-    }
 
     // eslint-disable-next-line no-console
     // console.log('grid', getStore())

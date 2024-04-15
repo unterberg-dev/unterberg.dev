@@ -1,6 +1,5 @@
 import { Tile } from '#components/pixi/types'
 import { R } from '#pixi/utils'
-import { TILE_TIMELINE } from '#root/lib/constants'
 
 interface RegisterTileHoverInTimelineProps {
   tile: Tile
@@ -20,10 +19,6 @@ export const registerTileHoverInTimeline = ({
   inEase,
 }: RegisterTileHoverInTimelineProps) => {
   const scaleHoverIn = R(0.8, 1.3)
-
-  if (tile.timelines) {
-    tile.timelines[TILE_TIMELINE.IDLE].kill()
-  }
 
   timeline.set(tile.innerContainer, {
     scale: 1,

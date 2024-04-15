@@ -1,5 +1,5 @@
 import { getStore } from '#components/pixi/store'
-import { Hitbox } from '#components/pixi/types'
+import { Hitbox, TileTimelines } from '#components/pixi/types'
 import { R } from '#pixi/utils'
 import { TILE_TIMELINE } from '#root/lib/constants'
 
@@ -24,6 +24,7 @@ export const triggerAnimateHover = ({
 
   triggerIDs.forEach(id => {
     const { timelines, setPosition } = tiles[id]
+    const typedTimelines = timelines as TileTimelines
 
     // only fire n% of the time
     // todo: to constants
@@ -35,11 +36,11 @@ export const triggerAnimateHover = ({
 
     if (
       !timelines ||
-      timelines[TILE_TIMELINE.HOVER_IN].isActive() ||
-      timelines[TILE_TIMELINE.HOVER_OUT].isActive() ||
-      timelines[TILE_TIMELINE.HITBOX_IN].isActive() ||
-      timelines[TILE_TIMELINE.HITBOX_OUT].isActive() ||
-      timelines[TILE_TIMELINE.POSITION].isActive()
+      typedTimelines[TILE_TIMELINE.HOVER_IN].isActive() ||
+      typedTimelines[TILE_TIMELINE.HOVER_OUT].isActive() ||
+      typedTimelines[TILE_TIMELINE.HITBOX_IN].isActive() ||
+      typedTimelines[TILE_TIMELINE.HITBOX_OUT].isActive() ||
+      typedTimelines[TILE_TIMELINE.POSITION].isActive()
     )
       return
 
@@ -81,10 +82,10 @@ export const triggerAnimateHover = ({
     setPosition(xPosition, yPosition, accXPosition, accYPosition)
 
     if (isInHitbox) {
-      timelines[TILE_TIMELINE.HITBOX_IN].restart()
+      typedTimelines[TILE_TIMELINE.HITBOX_IN].restart()
     } else {
-      timelines[TILE_TIMELINE.HOVER_IN].invalidate()
-      timelines[TILE_TIMELINE.HOVER_IN].restart()
+      typedTimelines[TILE_TIMELINE.HOVER_IN].invalidate()
+      typedTimelines[TILE_TIMELINE.HOVER_IN].restart()
     }
   })
 }
@@ -103,7 +104,7 @@ interface GetAllNeighborsProps {
  * @returns An array of IDs representing the neighboring tiles.
  */
 export const getNeighbors = ({ mouseX, mouseY, radius }: GetAllNeighborsProps): number[] => {
-  const { tileHeight, tileWidth, colsCount, rowsCount } = getStore()
+  const { tileHeight, tileWidth, colsCount, rowsCount, tiles } = getStore()
 
   // todo: to constants
   const hitboxWidth = tileWidth * radius * 2 * 3
@@ -132,7 +133,8 @@ export const getNeighbors = ({ mouseX, mouseY, radius }: GetAllNeighborsProps): 
     }
   }
 
-  return neighbors
+  const excludeIdleTiles = neighbors.filter(id => !tiles[id].idle)
+  return excludeIdleTiles
 }
 
 /**

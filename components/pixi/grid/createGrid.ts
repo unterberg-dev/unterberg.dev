@@ -5,51 +5,55 @@ import { createContainer } from '#components/pixi/system/createContainer'
 import { createSprite } from '#components/pixi/system/createSprite'
 import { createText } from '#components/pixi/system/createText'
 import { createTexture } from '#components/pixi/system/createTexture'
-import { Tile, TileTimelines } from '#components/pixi/types'
+import { Tile, TileIdleTimeline, TileTimelines } from '#pixi/types'
 import { R } from '#pixi/utils'
-import { PixiConfig, TILE_TIMELINE } from '#root/lib/constants'
+import { IDLE_TILE_TIMELINE, PixiConfig, TILE_TIMELINE } from '#root/lib/constants'
 
-/* todo:
-the current setup does create all timelines for all tiles, this is not necessary
-to save this computation time we need a property which declares if the tile is a "idle-tile" or a "hover-tile"
-so we could skip the hover-tile setup for idle-tiles and vice versa
-then we could remove a lot of .isActive() checks in the timeline play triggers
-*/
-const generateTimelines = () => {
-  const timelines: TileTimelines = {
-    [TILE_TIMELINE.HOVER_IN]: gsap.timeline({
-      paused: true,
-      onComplete: () => {
-        timelines[TILE_TIMELINE.HOVER_OUT].invalidate()
-        timelines[TILE_TIMELINE.HOVER_OUT].restart()
-      },
-    }),
-    [TILE_TIMELINE.POSITION]: gsap.timeline({
-      paused: true,
-      autoRemoveChildren: true,
-    }),
-    [TILE_TIMELINE.HOVER_OUT]: gsap.timeline({
-      paused: true,
-    }),
-    [TILE_TIMELINE.HITBOX_IN]: gsap.timeline({
-      paused: true,
-      onComplete: () => {
-        timelines[TILE_TIMELINE.HITBOX_OUT].invalidate()
-        timelines[TILE_TIMELINE.HITBOX_OUT].restart()
-      },
-    }),
-    [TILE_TIMELINE.HITBOX_OUT]: gsap.timeline({
-      paused: true,
-    }),
-    [TILE_TIMELINE.IDLE]: gsap.timeline({
-      repeat: -1,
-      yoyo: true,
-      delay: R(1.1, 10.1),
-      repeatDelay: R(2, 8),
-      paused: true,
-    }),
+const generateTimelines = (idle?: boolean) => {
+  let tileIdleTimeline: TileIdleTimeline | undefined
+  let tileTimelines: TileTimelines | undefined
+
+  if (idle) {
+    tileIdleTimeline = {
+      [IDLE_TILE_TIMELINE.DEFAULT]: gsap.timeline({
+        repeat: -1,
+        yoyo: true,
+        delay: R(1.1, 10.1),
+        repeatDelay: R(2, 8),
+        paused: true,
+      }),
+    }
+  } else {
+    tileTimelines = {
+      [TILE_TIMELINE.HOVER_IN]: gsap.timeline({
+        paused: true,
+        onComplete: () => {
+          if (!tileTimelines) return
+          tileTimelines[TILE_TIMELINE.HOVER_OUT].invalidate()
+          tileTimelines[TILE_TIMELINE.HOVER_OUT].restart()
+        },
+      }),
+      [TILE_TIMELINE.POSITION]: gsap.timeline({
+        paused: true,
+        autoRemoveChildren: true,
+      }),
+      [TILE_TIMELINE.HOVER_OUT]: gsap.timeline({
+        paused: true,
+      }),
+      [TILE_TIMELINE.HITBOX_IN]: gsap.timeline({
+        paused: true,
+        onComplete: () => {
+          if (!tileTimelines) return
+          tileTimelines[TILE_TIMELINE.HITBOX_OUT].invalidate()
+          tileTimelines[TILE_TIMELINE.HITBOX_OUT].restart()
+        },
+      }),
+      [TILE_TIMELINE.HITBOX_OUT]: gsap.timeline({
+        paused: true,
+      }),
+    }
   }
-  return timelines
+  return tileTimelines || tileIdleTimeline
 }
 
 export const createGrid = (app: Application, gridSize: number) => {
@@ -75,6 +79,8 @@ export const createGrid = (app: Application, gridSize: number) => {
 
   for (let y = 0; y < app.renderer.height; y += gridSize) {
     for (let x = 0; x < app.renderer.width; x += gridSize) {
+      const idle = Math.random() > 0.95
+
       const container = createContainer({
         x,
         y,
@@ -100,7 +106,8 @@ export const createGrid = (app: Application, gridSize: number) => {
         sprite,
         container,
         innerContainer,
-        timelines: generateTimelines(),
+        timelines: generateTimelines(idle),
+        idle,
       }
 
       app.stage.addChild(container)

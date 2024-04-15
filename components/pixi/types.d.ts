@@ -1,9 +1,13 @@
 import { Container, Sprite } from 'pixi.js'
 
-import { SPACE_TIMELINE, TILE_TIMELINE } from '#root/lib/constants'
+import { IDLE_TILE_TIMELINE, SPACE_TIMELINE, TILE_TIMELINE } from '#root/lib/constants'
 
 export type TileTimelines = {
   [key in TILE_TIMELINE]: gsap.core.Timeline
+}
+
+export type TileIdleTimeline = {
+  [key in IDLE_TILE_TIMELINE]: gsap.core.Timeline
 }
 
 export type SpaceTimelines = {
@@ -34,8 +38,9 @@ export type Tile = {
   // atm optional, since we register the timelines after the tile is created
   // since it's locked with a enum, we can't a empty array
   // fix to remove these undefined checks later in the code
-  timelines?: TileTimelines
+  timelines?: TileTimelines | TileIdleTimeline
   setPosition?: SetPositionFncType
+  idle: boolean
 }
 
 export type SpaceObject = {

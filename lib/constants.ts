@@ -12,7 +12,10 @@ export enum TILE_TIMELINE {
   POSITION,
   HITBOX_IN,
   HITBOX_OUT,
-  IDLE,
+}
+
+export enum IDLE_TILE_TIMELINE {
+  DEFAULT,
 }
 
 export enum SPACE_TIMELINE {

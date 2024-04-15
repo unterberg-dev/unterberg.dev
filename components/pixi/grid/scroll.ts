@@ -1,7 +1,7 @@
 import gsap from 'gsap'
 
 import { getStore } from '#components/pixi/store'
-import { Tile } from '#components/pixi/types'
+import { Tile, TileTimelines } from '#components/pixi/types'
 import { R } from '#pixi/utils'
 import { TILE_TIMELINE } from '#root/lib/constants'
 
@@ -27,11 +27,12 @@ const animateScroll = (direction: string) => {
   const activeTiles = getAllActiveTiles()
   activeTiles.forEach(tile => {
     if (!tile.timelines) return
+    const typedTimelines = tile.timelines as TileTimelines
 
-    tile.timelines[TILE_TIMELINE.HOVER_IN].pause()
-    tile.timelines[TILE_TIMELINE.HOVER_OUT].pause()
-    tile.timelines[TILE_TIMELINE.HITBOX_IN].pause()
-    tile.timelines[TILE_TIMELINE.HITBOX_OUT].pause()
+    typedTimelines[TILE_TIMELINE.HOVER_IN].pause()
+    typedTimelines[TILE_TIMELINE.HOVER_OUT].pause()
+    typedTimelines[TILE_TIMELINE.HITBOX_IN].pause()
+    typedTimelines[TILE_TIMELINE.HITBOX_OUT].pause()
 
     gsap.to(tile.innerContainer, {
       duration: 1,
