@@ -19,7 +19,7 @@ const generateTimelines = (idle?: boolean) => {
         repeat: -1,
         yoyo: true,
         delay: R(1.1, 10.1),
-        repeatDelay: R(2, 8),
+        repeatDelay: R(4, 8),
         paused: true,
       }),
     }
@@ -79,7 +79,7 @@ export const createGrid = (app: Application, gridSize: number) => {
 
   for (let y = 0; y < app.renderer.height; y += gridSize) {
     for (let x = 0; x < app.renderer.width; x += gridSize) {
-      const idle = Math.random() > 0.95
+      const idle = Math.random() > 0.91
 
       const container = createContainer({
         x,

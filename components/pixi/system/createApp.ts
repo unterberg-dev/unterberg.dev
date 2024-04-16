@@ -28,12 +28,13 @@ export const createApp = async (stage: HTMLDivElement) => {
     resizeTo: stage,
     autoDensity: true,
     hello: true,
-    antialias: true,
+    // antialias: true,
     resolution: window.devicePixelRatio || 1,
     backgroundAlpha: 0,
   })
-  app.stage.sortableChildren = true // enable zIndex sorting
+  app.stage.sortableChildren = false // enable zIndex sorting
   app.stage.interactive = false
+  app.stage.interactiveChildren = false
   stage.appendChild(app.canvas)
 
   subscribeToGSAPTicker(app)

@@ -18,6 +18,7 @@ export const registerTileHoverInTimeline = ({
   inDuration,
   inEase,
 }: RegisterTileHoverInTimelineProps) => {
+  // todo: to constants
   const scaleHoverIn = R(0.8, 1.3)
 
   timeline.set(tile.innerContainer, {

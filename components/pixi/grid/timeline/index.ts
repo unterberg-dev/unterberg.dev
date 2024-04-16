@@ -25,7 +25,7 @@ export const createTileTimelines = ({ tiles }: CreateTileTimelinesProps) => {
     const skewXOut = R(-2, 2)
     const skewYOut = R(-2, 2)
 
-    const inDuration = R(0.1, 0.5)
+    const inDuration = R(0.2, 0.5)
     const inEase = 'power.in'
 
     const outDuration = R(0.5, 1.2)

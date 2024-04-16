@@ -28,7 +28,7 @@ export const triggerAnimateHover = ({
 
     // only fire n% of the time
     // todo: to constants
-    const debounce = Math.random() > 0.45
+    const debounce = Math.random() > 0.83
     if (debounce) return
 
     const movementX = accX || 0

@@ -8,11 +8,13 @@ interface RegisterTileIdleTimelineProps {
 
 export const registerTileIdleTimeline = ({ timeline, tile }: RegisterTileIdleTimelineProps) => {
   // todo: constants
-  const scaleIdleIn = R(0.01, 0.29)
+  const scaleIdleIn = R(0.01, 0.12)
   const idleDuration = R(1.4, 2.1)
 
   timeline.set(tile.innerContainer, {
     alpha: 0,
+    x: R(-10, 10),
+    y: R(-10, 10),
   })
   timeline.set(
     tile.innerContainer.scale,
