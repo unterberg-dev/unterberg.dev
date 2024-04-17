@@ -6,7 +6,7 @@ const StartPage = () => (
   // todo: state for hide content
   <Layout className="flex flex-col relative max-w-xl mx-auto z-2">
     {/* <HideContent /> */}
-    <BlurDot className="left-20 -top-20 w-100 h-100 opacity-20" />
+    <BlurDot className="left-1/2 -ml-50 md:ml-inherit md:left-20 -top-20 w-100 h-100 opacity-20 fixed md:absolute" />
     <div className="relative z-2">
       <div className="hitbox pointer-events-none relative z-10 inline-flex flex-col mx-auto mt-5 md:mt-10 xl:mt-20">
         <h2 className="relative text-4xl md:text-7xl font-bold text-center text-light inline-block mb-4 md:mb-10">
