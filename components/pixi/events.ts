@@ -1,4 +1,4 @@
-import { initAutoPointer } from '#components/pixi/autoPointer'
+import { registerAutoPointer } from '#components/pixi/autoPointer'
 import { handlePointerMove } from '#components/pixi/grid/pointer'
 import { handleUpdateHitboxes } from '#components/pixi/grid/timeline/hitbox'
 import { getStore } from '#components/pixi/store'
@@ -28,7 +28,7 @@ const triggerPointerStopped = (event: PointerEvent) => {
   const { autoPointerTimeline } = getStore()
   if (!autoPointerTimeline) return
 
-  initAutoPointer({
+  registerAutoPointer({
     x: event.clientX,
     y: event.clientY,
     width: 60,
@@ -46,7 +46,7 @@ let pointerStarted = false
 let windowPointerMoveTimer: NodeJS.Timeout
 const pointerDetectionTiming = 200
 
-export const initUserEvents = () => {
+export const registerUserEvents = () => {
   window.addEventListener('pointermove', event => {
     clearTimeout(windowPointerMoveTimer)
 

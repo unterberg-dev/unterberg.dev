@@ -9,7 +9,7 @@ interface CreateSpaceTimelinesProps {
   spaceObjects: SpaceObject[]
 }
 
-export const createSpaceTimelines = ({ spaceObjects }: CreateSpaceTimelinesProps) => {
+export const initSpaceTimelines = ({ spaceObjects }: CreateSpaceTimelinesProps) => {
   spaceObjects.forEach(object => {
     const { timelines } = object
 

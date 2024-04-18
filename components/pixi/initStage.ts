@@ -1,16 +1,18 @@
 import gsap from 'gsap'
 
-import { initAutoPointer } from '#components/pixi/autoPointer'
-import { initUserEvents } from '#components/pixi/events'
-import { createGrid } from '#components/pixi/grid/createGrid'
+import { registerAutoPointer } from '#components/pixi/autoPointer'
+import { registerUserEvents } from '#components/pixi/events'
 import { createHitboxes } from '#components/pixi/grid/pointer'
-import { createTileTimelines } from '#components/pixi/grid/timeline'
+import { initTileTimelines } from '#components/pixi/grid/timeline'
 import { createSpaceScene } from '#components/pixi/space/createSpaceScene'
-import { createSpaceTimelines } from '#components/pixi/space/timeline'
-import { setStore } from '#components/pixi/store'
+import { initSpaceTimelines } from '#components/pixi/space/timeline'
+import { setEmitterStore, setStore } from '#components/pixi/store'
 import { createApp } from '#components/pixi/system/createApp'
+import { createTileGrid } from '#pixi/grid/createTileGrid'
+import createEmitterTiles from '#pixi/spawner/createEmitterTiles'
+import { registerSpawnerTimelines } from '#pixi/spawner/registerSpawnerTimelines'
 import { getDimensions } from '#pixi/utils'
-import { PixiConfig } from '#root/lib/constants'
+import { EMITTER_TIMELINE, PixiConfig } from '#root/lib/constants'
 
 export const initStage = async (stage: HTMLDivElement | null) => {
   if (!stage) return
@@ -23,7 +25,7 @@ export const initStage = async (stage: HTMLDivElement | null) => {
     const app = await createApp(stage)
     const { tileHeight, tileWidth } = getDimensions(app)
 
-    const tiles = createGrid(app, tileWidth)
+    const tiles = createTileGrid(app, tileWidth)
     const spaceObjects = createSpaceScene(app)
     const hitboxes = createHitboxes()
 
@@ -38,18 +40,25 @@ export const initStage = async (stage: HTMLDivElement | null) => {
       tileHeight,
       tileWidth,
       spaceObjects,
-      hitboxPadding: tileWidth * configCursorRadius,
       cursorRadius: configCursorRadius,
     })
+    // tile timelines setup
+    initTileTimelines({ tiles })
+    initSpaceTimelines({ spaceObjects })
 
-    // timelines setup
-    createTileTimelines({ tiles })
-    createSpaceTimelines({ spaceObjects })
+    const emitterTiles = createEmitterTiles(app)
+    setEmitterStore({
+      emitterTiles,
+      activeEmitterTiles: [],
+    })
+    emitterTiles.forEach(tile => {
+      registerSpawnerTimelines({ timeline: tile.timelines[EMITTER_TIMELINE.DEFAULT], tile })
+    })
 
     // trigger pointer events
-    initUserEvents()
+    registerUserEvents()
 
-    initAutoPointer({
+    registerAutoPointer({
       width: 100,
       height: 100,
       offsetY: -200,

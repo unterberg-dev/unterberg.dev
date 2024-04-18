@@ -1,6 +1,6 @@
 import { Application, Renderer } from 'pixi.js'
 
-import { Hitbox, SpaceObject, Tile } from '#components/pixi/types'
+import { EmitterTile, Hitbox, SpaceObject, Tile } from '#components/pixi/types'
 
 export type Store = {
   app: Application<Renderer>
@@ -9,7 +9,6 @@ export type Store = {
   rowsCount: number
   colsCount: number
   tileWidth: number
-  hitboxPadding: number
   tileHeight: number
   cursorRadius: number
   hitboxes?: Hitbox[]
@@ -18,7 +17,17 @@ export type Store = {
 }
 
 let store: Store
+export const getStore = () => store
 export const setStore = (newStore: Store) => {
   store = newStore
 }
-export const getStore = () => store
+
+export type EmitterStore = {
+  emitterTiles: EmitterTile[]
+  activeEmitterTiles: EmitterTile['id'][]
+}
+let emitterStore: EmitterStore
+export const getEmitterStore = () => emitterStore
+export const setEmitterStore = (newStore: EmitterStore) => {
+  emitterStore = newStore
+}

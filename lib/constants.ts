@@ -14,12 +14,17 @@ export enum TILE_TIMELINE {
   HITBOX_OUT,
 }
 
+// todo: find better name
 export enum IDLE_TILE_TIMELINE {
   DEFAULT,
 }
 
 export enum SPACE_TIMELINE {
   IDLE,
+}
+
+export enum EMITTER_TIMELINE {
+  DEFAULT,
 }
 
 // path created with figma
@@ -29,7 +34,7 @@ export const defaultCirclePath = {
 }
 
 export const PixiConfig = {
-  configMaxDivider: 98,
+  configMaxDivider: 90,
   configMinDivider: 15,
   configMinDividerThreshold: 500,
   configMaxDividerThreshold: 1900,
@@ -67,5 +72,6 @@ export const PixiConfig = {
     '🎁',
     '🏳️‍🌈',
   ],
+  configEmitterIcons: ['👌', '✌', '🤞', '🤟', '🤘', '🤙', '👈', '👉', '👇', '👍', '👏', '🙌'],
   configSpaceIcons: ['🌝', '🌙', '🌔', '⭐', '🌞', '🛸', '🛰', '🚀'],
 }

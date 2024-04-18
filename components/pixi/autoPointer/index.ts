@@ -15,7 +15,7 @@ interface AutoPointerProps {
   offsetY?: number
 }
 
-export const initAutoPointer = async ({
+export const registerAutoPointer = ({
   x,
   y,
   width,
@@ -32,7 +32,7 @@ export const initAutoPointer = async ({
   const tl = gsap.timeline({ repeat: -1 })
   setStore({ ...store, autoPointerTimeline: tl })
 
-  const ellipseDimensions = {
+  const ellipse = {
     width,
     height,
     offsetX,
@@ -42,16 +42,14 @@ export const initAutoPointer = async ({
   const scalePath = scalePathToViewBox(
     defaultCirclePath.d,
     defaultCirclePath.viewBox,
-    ellipseDimensions.width,
-    ellipseDimensions.height,
+    ellipse.width,
+    ellipse.height,
   )
 
   const points = generatePathPoints(scalePath, 20).reverse()
 
-  const posX =
-    (x || stageWidth / 2) - ellipseDimensions.width / 2 + (!x ? ellipseDimensions.offsetX : 0)
-  const posY =
-    (y || stageHeight / 2) - ellipseDimensions.height / 2 + (!y ? ellipseDimensions.offsetY : 0)
+  const posX = (x || stageWidth / 2) - ellipse.width / 2 + (!x ? ellipse.offsetX : 0)
+  const posY = (y || stageHeight / 2) - ellipse.height / 2 + (!y ? ellipse.offsetY : 0)
 
   points.forEach(point => {
     tl.to(
