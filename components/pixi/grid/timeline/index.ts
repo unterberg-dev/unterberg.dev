@@ -18,7 +18,7 @@ interface CreateTileTimelinesProps {
   tiles: Tile[]
 }
 
-export const createTileTimelines = ({ tiles }: CreateTileTimelinesProps) => {
+export const initTileTimelines = ({ tiles }: CreateTileTimelinesProps) => {
   const idleTiles: Tile[] = []
   tiles.forEach(tile => {
     // todo: to utils -> generator function since we use it in multiple places below

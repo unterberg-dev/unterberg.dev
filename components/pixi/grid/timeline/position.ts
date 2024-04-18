@@ -45,11 +45,11 @@ export const registerPositionTimeline = ({
       tile.innerContainer,
       {
         duration: outDuration * 1.5,
-        ease: inEase,
+        ease: 'power.inOut',
         x: `+=${xDiff}`,
         y: `+=${yDiff}`,
       },
-      `<+=${inDuration / 2}`,
+      `<+=${inDuration / 2.5}`,
     )
     timeline.set(
       tile.innerContainer,

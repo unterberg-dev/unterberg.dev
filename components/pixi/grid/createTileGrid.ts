@@ -1,15 +1,14 @@
 import gsap from 'gsap'
-import { Application, Texture, TextureSource } from 'pixi.js'
+import { Application, Texture } from 'pixi.js'
 
 import { createContainer } from '#components/pixi/system/createContainer'
 import { createSprite } from '#components/pixi/system/createSprite'
-import { createText } from '#components/pixi/system/createText'
-import { createTexture } from '#components/pixi/system/createTexture'
+import createIconBaseTextures from '#pixi/system/createIconBaseTexture'
 import { Tile, TileIdleTimeline, TileTimelines } from '#pixi/types'
 import { R } from '#pixi/utils'
 import { IDLE_TILE_TIMELINE, PixiConfig, TILE_TIMELINE } from '#root/lib/constants'
 
-const generateTimelines = (idle?: boolean) => {
+const addTileTimelines = (idle?: boolean) => {
   let tileIdleTimeline: TileIdleTimeline | undefined
   let tileTimelines: TileTimelines | undefined
 
@@ -18,7 +17,7 @@ const generateTimelines = (idle?: boolean) => {
       [IDLE_TILE_TIMELINE.DEFAULT]: gsap.timeline({
         repeat: -1,
         yoyo: true,
-        delay: R(1.1, 10.1),
+        delay: R(0, 10.1),
         repeatDelay: R(4, 8),
         paused: true,
       }),
@@ -56,29 +55,16 @@ const generateTimelines = (idle?: boolean) => {
   return tileTimelines || tileIdleTimeline
 }
 
-export const createGrid = (app: Application, gridSize: number) => {
-  const { configTileIcons: tileIcons } = PixiConfig
-
+export const createTileGrid = (app: Application, gridSize: number) => {
   const tilesPos: Tile[] = []
 
-  /* todo: test if this text-texture-sprite conversion affects the SEO TBT score */
-  const baseTextures: TextureSource[] = tileIcons.map(icon => {
-    const text = createText({
-      value: icon,
-      size: gridSize,
-    })
-    const texture = createTexture({
-      text,
-      app,
-    })
-    text.destroy() // clean
-    return texture.source
-  })
+  const baseTextures = createIconBaseTextures(app, gridSize, PixiConfig.configTileIcons)
 
   let tileId = 0
 
   for (let y = 0; y < app.renderer.height; y += gridSize) {
     for (let x = 0; x < app.renderer.width; x += gridSize) {
+      // todo: constants
       const idle = Math.random() > 0.91
 
       const container = createContainer({
@@ -97,6 +83,8 @@ export const createGrid = (app: Application, gridSize: number) => {
 
       const sprite = createSprite({
         texture: clonedTexture,
+        width: clonedTexture.width,
+        height: clonedTexture.height,
       })
 
       const tile: Tile = {
@@ -106,7 +94,7 @@ export const createGrid = (app: Application, gridSize: number) => {
         sprite,
         container,
         innerContainer,
-        timelines: generateTimelines(idle),
+        timelines: addTileTimelines(idle),
         idle,
       }
 

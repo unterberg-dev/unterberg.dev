@@ -1,5 +1,6 @@
 import { getStore } from '#components/pixi/store'
 import { Hitbox, TileTimelines } from '#components/pixi/types'
+import spawnTiles_new from '#pixi/spawner/spawnTiles_new'
 import { R } from '#pixi/utils'
 import { TILE_TIMELINE } from '#root/lib/constants'
 
@@ -25,11 +26,6 @@ export const triggerAnimateHover = ({
   triggerIDs.forEach(id => {
     const { timelines, setPosition } = tiles[id]
     const typedTimelines = timelines as TileTimelines
-
-    // only fire n% of the time
-    // todo: to constants
-    const debounce = Math.random() > 0.83
-    if (debounce) return
 
     const movementX = accX || 0
     const movementY = accY || 0
@@ -78,14 +74,32 @@ export const triggerAnimateHover = ({
       return isInXYHitbox
     })
 
-    if (!setPosition) return
-    setPosition(xPosition, yPosition, accXPosition, accYPosition)
+    // only fire n% of the time
+    // todo: to constants
+    const debounce = Math.random() < 0.5
+    if (debounce) {
+      if (!setPosition) return
+      setPosition(xPosition, yPosition, accXPosition, accYPosition)
 
-    if (isInHitbox) {
-      typedTimelines[TILE_TIMELINE.HITBOX_IN].restart()
+      if (isInHitbox) {
+        typedTimelines[TILE_TIMELINE.HITBOX_IN].restart()
+      } else {
+        typedTimelines[TILE_TIMELINE.HOVER_IN].invalidate()
+        typedTimelines[TILE_TIMELINE.HOVER_IN].restart()
+      }
     } else {
-      typedTimelines[TILE_TIMELINE.HOVER_IN].invalidate()
-      typedTimelines[TILE_TIMELINE.HOVER_IN].restart()
+      const chance = Math.random() < 0.5
+      if (chance) return
+
+      spawnTiles_new({
+        mouseX,
+        mouseY,
+        xPosition,
+        yPosition,
+        accXPosition,
+        accYPosition,
+        isInHitbox,
+      })
     }
   })
 }

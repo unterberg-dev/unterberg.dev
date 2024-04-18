@@ -1,6 +1,11 @@
 import { Container, Sprite } from 'pixi.js'
 
-import { IDLE_TILE_TIMELINE, SPACE_TIMELINE, TILE_TIMELINE } from '#root/lib/constants'
+import {
+  EMITTER_TIMELINE,
+  IDLE_TILE_TIMELINE,
+  SPACE_TIMELINE,
+  TILE_TIMELINE,
+} from '#root/lib/constants'
 
 export type TileTimelines = {
   [key in TILE_TIMELINE]: gsap.core.Timeline
@@ -14,11 +19,19 @@ export type SpaceTimelines = {
   [key in SPACE_TIMELINE]: gsap.core.Timeline
 }
 
-export type SetPositionFncType = (
+export type EmitterTimelines = {
+  [key in EMITTER_TIMELINE]: gsap.core.Timeline
+}
+
+export type SetPositionFncType = (x: number, y: number, accX: number, accY: number) => void
+export type SetPositionFncTypeExt = (
+  x: number,
+  y: number,
+  accX: number,
+  accY: number,
   mouseX: number,
   mouseY: number,
-  movementX: number,
-  movementY: number,
+  id: number,
 ) => void
 
 export type Hitbox = {
@@ -35,12 +48,19 @@ export type Tile = {
   sprite: Sprite
   container: Container
   innerContainer: Container
-  // atm optional, since we register the timelines after the tile is created
-  // since it's locked with a enum, we can't a empty array
-  // fix to remove these undefined checks later in the code
   timelines?: TileTimelines | TileIdleTimeline
   setPosition?: SetPositionFncType
   idle: boolean
+}
+
+export type EmitterTile = {
+  id: number
+  sprite: Sprite
+  container: Container
+  innerContainer: Container
+  timelines: EmitterTimelines
+  setPosition?: SetPositionFncTypeExt
+  active: boolean
 }
 
 export type SpaceObject = {
