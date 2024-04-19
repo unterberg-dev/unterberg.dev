@@ -58,11 +58,11 @@ export const initStage = async (stage: HTMLDivElement | null) => {
     // trigger pointer events
     registerUserEvents()
 
-    registerAutoPointer({
-      width: 100,
-      height: 100,
-      offsetY: -200,
-    })
+    // registerAutoPointer({
+    //   width: 100,
+    //   height: 100,
+    //   offsetY: -200,
+    // })
 
     // eslint-disable-next-line no-console
     console.log('grid', getStore())
