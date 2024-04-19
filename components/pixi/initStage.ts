@@ -19,7 +19,7 @@ export const initStage = async (stage: HTMLDivElement | null) => {
   const { configCursorRadius } = PixiConfig
 
   // render timeout for mobile devices - pagespeed? :O
-  const timeout = stage.clientWidth < 800 ? 4 : 3
+  const timeout = stage.clientWidth < 800 ? 4 : 2
 
   gsap.delayedCall(timeout, async () => {
     const app = await createApp(stage)
