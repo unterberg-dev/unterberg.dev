@@ -24,7 +24,7 @@ export const registerSpawnerTimelines = ({ timeline, tile }: RegisterPositionTim
   ) => {
     const xDiff = accX - x
     const yDiff = accY - y
-    const scaleIn = R(0.4, 2.5)
+    const scaleIn = R(0.4, 2.1)
     const inDuration = R(0.23, 0.55)
 
     const outDuration = inDuration * 5
