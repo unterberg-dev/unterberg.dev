@@ -70,8 +70,10 @@ export const registerIdleTileTimelines = ({ tiles }: CreateTileTimelinesProps) =
     idleTiles.push(tile)
   })
 
-  idleTiles.forEach(tile => {
-    if (!tile.timelines) return
-    tile.timelines[IDLE_TILE_TIMELINE.DEFAULT].play()
+  gsap.delayedCall(8, () => {
+    idleTiles.forEach(tile => {
+      if (!tile.timelines) return
+      tile.timelines[IDLE_TILE_TIMELINE.DEFAULT].play()
+    })
   })
 }
