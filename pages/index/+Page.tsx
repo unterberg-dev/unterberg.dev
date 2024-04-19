@@ -98,7 +98,7 @@ const StartPage = () => {
   return (
     // todo: state for hide content
     <Layout
-      className="flex flex-col relative max-w-xl mx-auto z-2 px-6 md:px-0 pt-30 md:pt-20 overflow-hidden md:overflow-inherit"
+      className="flex flex-col relative max-w-xl mx-auto z-2 px-6 md:px-0 pt-20 md:pt-10 overflow-hidden md:overflow-inherit"
       ref={staggerContainer}
     >
       <HideContent active={uiHidden} onClick={handleClick} />
@@ -107,6 +107,9 @@ const StartPage = () => {
       </div>
       <div className="relative z-2">
         <div className="pointer-events-none relative z-10 inline-flex flex-col mx-auto">
+          <h1 className="gsap-stagger text-grayDark font-mono mb-8 inline-block mx-auto">
+            Web & Software Development
+          </h1>
           <h2 className="gsap-stagger hitbox relative text-4xl md:text-7xl font-bold text-center text-light inline-block mb-4 md:mb-10">
             Hello
           </h2>

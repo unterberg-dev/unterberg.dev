@@ -43,19 +43,21 @@ const StartPageMenuItem = ({ icon, href, label }: StartPageMenuItemProps) => (
 )
 
 const StartPageMenu = () => (
-  <ul className="hitbox relative w-full z-10 flex mx-auto gap-3 lg:gap-6 mt-10 md:mt-10 xl:mt-14">
-    <StartPageMenuItem
-      icon={ICON_ID.Github}
-      href="https://github.com/richard-unterberg"
-      label="Github"
-    />
-    <StartPageMenuItem
-      icon={ICON_ID.Linkedin}
-      href="https://www.linkedin.com/in/richard-unterberg"
-      label="LinkedIn"
-    />
-    <StartPageMenuItem icon={ICON_ID.Mail} href="mailto:mail@richardunterberg.de" label="Mail" />
-  </ul>
+  <nav>
+    <ul className="hitbox relative w-full z-10 flex mx-auto gap-3 lg:gap-6 mt-10 md:mt-10 xl:mt-14">
+      <StartPageMenuItem
+        icon={ICON_ID.Github}
+        href="https://github.com/richard-unterberg"
+        label="Github"
+      />
+      <StartPageMenuItem
+        icon={ICON_ID.Linkedin}
+        href="https://www.linkedin.com/in/richard-unterberg"
+        label="LinkedIn"
+      />
+      <StartPageMenuItem icon={ICON_ID.Mail} href="mailto:mail@richardunterberg.de" label="Mail" />
+    </ul>
+  </nav>
 )
 
 export default StartPageMenu
