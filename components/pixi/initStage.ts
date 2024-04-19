@@ -43,7 +43,7 @@ export const initStage = async (stage: HTMLDivElement | null) => {
       cursorRadius: configCursorRadius,
     })
     // tile timelines setup
-    registerIdleTileTimelines({ tiles })
+    // registerIdleTileTimelines({ tiles })
     // initStartSpaceTimelines({ spaceObjects })
 
     const emitterTiles = createEmitterTiles(app, tileWidth)
