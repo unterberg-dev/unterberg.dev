@@ -106,7 +106,7 @@ const StartPage = () => {
         <BlurDot className="left-1/2 -ml-50 md:ml-inherit md:left-20 -top-20 w-100 h-100 opacity-20 fixed md:absolute" />
       </div>
       <div className="relative z-2">
-        <div className="pointer-events-none relative z-10 inline-flex flex-col mx-auto">
+        <header className="pointer-events-none relative z-10 inline-flex flex-col mx-auto">
           <h1 className="gsap-stagger text-grayDark font-mono mb-8 inline-block mx-auto">
             Web & Software Development
           </h1>
@@ -116,7 +116,7 @@ const StartPage = () => {
           <h2 className="gsap-stagger hitbox relative text-2xl md:text-2xl lg:text-2xl md:font-light text-center text-gray inline-block">
             I love to create modern websites and interfaces. Let&apos;s build something together ✌️
           </h2>
-        </div>
+        </header>
         <div className="gsap-stagger">
           <StartPageMenu />
         </div>
