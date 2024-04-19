@@ -2,13 +2,13 @@ import gsap from 'gsap'
 
 import { registerAutoPointer } from '#components/pixi/autoPointer'
 import { registerUserEvents } from '#components/pixi/events'
-import { createHitboxes } from '#components/pixi/grid/pointer'
-import { initTileTimelines } from '#components/pixi/grid/timeline'
 import { createSpaceScene } from '#components/pixi/space/createSpaceScene'
-import { initSpaceTimelines } from '#components/pixi/space/timeline'
-import { setEmitterStore, setStore } from '#components/pixi/store'
+import { getStore, setEmitterStore, setStore } from '#components/pixi/store'
 import { createApp } from '#components/pixi/system/createApp'
 import { createTileGrid } from '#pixi/grid/createTileGrid'
+import { registerIdleTileTimelines } from '#pixi/grid/registerIdleTileTimelines'
+import { createHitboxes } from '#pixi/pointer'
+import { initStartSpaceTimelines } from '#pixi/space/initStartSpaceTimelines'
 import createEmitterTiles from '#pixi/spawner/createEmitterTiles'
 import { registerSpawnerTimelines } from '#pixi/spawner/registerSpawnerTimelines'
 import { getDimensions } from '#pixi/utils'
@@ -43,13 +43,13 @@ export const initStage = async (stage: HTMLDivElement | null) => {
       cursorRadius: configCursorRadius,
     })
     // tile timelines setup
-    initTileTimelines({ tiles })
-    initSpaceTimelines({ spaceObjects })
+    registerIdleTileTimelines({ tiles })
+    initStartSpaceTimelines({ spaceObjects })
 
-    const emitterTiles = createEmitterTiles(app)
+    const emitterTiles = createEmitterTiles(app, tileWidth)
     setEmitterStore({
       emitterTiles,
-      activeEmitterTiles: [],
+      activeEmitterTiles: new Set(),
     })
     emitterTiles.forEach(tile => {
       registerSpawnerTimelines({ timeline: tile.timelines[EMITTER_TIMELINE.DEFAULT], tile })
@@ -65,6 +65,6 @@ export const initStage = async (stage: HTMLDivElement | null) => {
     })
 
     // eslint-disable-next-line no-console
-    // console.log('grid', getStore())
+    console.log('grid', getStore())
   })
 }

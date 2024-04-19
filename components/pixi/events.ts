@@ -1,7 +1,12 @@
 import { registerAutoPointer } from '#components/pixi/autoPointer'
-import { handlePointerMove } from '#components/pixi/grid/pointer'
-import { handleUpdateHitboxes } from '#components/pixi/grid/timeline/hitbox'
-import { getStore } from '#components/pixi/store'
+import { getStore, setStore } from '#components/pixi/store'
+import { createHitboxes, handlePointerMove } from '#pixi/pointer'
+
+export const handleUpdateHitboxes = () => {
+  const store = getStore()
+  const newHitboxes = createHitboxes()
+  setStore({ ...store, hitboxes: newHitboxes })
+}
 
 // todo: little game - after 50000px crazy things happen :D
 // todo: outsource to rocket launch
@@ -31,9 +36,9 @@ const triggerPointerStopped = (event: PointerEvent) => {
   registerAutoPointer({
     x: event.clientX,
     y: event.clientY,
-    width: 60,
-    height: 60,
-    duration: 0.04,
+    width: 100,
+    height: 100,
+    duration: 0.05,
   })
 }
 

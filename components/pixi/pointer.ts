@@ -1,8 +1,7 @@
 import { getStore } from '#components/pixi/store'
-import { Hitbox, TileTimelines } from '#components/pixi/types'
-import spawnTiles_new from '#pixi/spawner/spawnTiles_new'
+import { Hitbox } from '#components/pixi/types'
+import spawnTile from '#pixi/spawner/spawnTile'
 import { R } from '#pixi/utils'
-import { TILE_TIMELINE } from '#root/lib/constants'
 
 interface TriggerAnimateHoverProps {
   triggerIDs: number[]
@@ -20,25 +19,12 @@ export const triggerAnimateHover = ({
   accX,
   accY,
 }: TriggerAnimateHoverProps) => {
-  const { tiles, hitboxes, tileWidth, cursorRadius } = getStore()
+  const { hitboxes, tileWidth, cursorRadius } = getStore()
   const noAcceleration = !accX && !accY
 
-  triggerIDs.forEach(id => {
-    const { timelines, setPosition } = tiles[id]
-    const typedTimelines = timelines as TileTimelines
-
+  triggerIDs.forEach(() => {
     const movementX = accX || 0
     const movementY = accY || 0
-
-    if (
-      !timelines ||
-      typedTimelines[TILE_TIMELINE.HOVER_IN].isActive() ||
-      typedTimelines[TILE_TIMELINE.HOVER_OUT].isActive() ||
-      typedTimelines[TILE_TIMELINE.HITBOX_IN].isActive() ||
-      typedTimelines[TILE_TIMELINE.HITBOX_OUT].isActive() ||
-      typedTimelines[TILE_TIMELINE.POSITION].isActive()
-    )
-      return
 
     const clampedMovementX = Math.min(Math.max(movementX, -50), 50)
     const clampedMovementY = Math.min(Math.max(movementY, -50), 50)
@@ -76,31 +62,18 @@ export const triggerAnimateHover = ({
 
     // only fire n% of the time
     // todo: to constants
-    const debounce = Math.random() < 0.5
-    if (debounce) {
-      if (!setPosition) return
-      setPosition(xPosition, yPosition, accXPosition, accYPosition)
+    const chance = Math.random() < 0.5
+    if (chance) return
 
-      if (isInHitbox) {
-        typedTimelines[TILE_TIMELINE.HITBOX_IN].restart()
-      } else {
-        typedTimelines[TILE_TIMELINE.HOVER_IN].invalidate()
-        typedTimelines[TILE_TIMELINE.HOVER_IN].restart()
-      }
-    } else {
-      const chance = Math.random() < 0.5
-      if (chance) return
-
-      spawnTiles_new({
-        mouseX,
-        mouseY,
-        xPosition,
-        yPosition,
-        accXPosition,
-        accYPosition,
-        isInHitbox,
-      })
-    }
+    spawnTile({
+      mouseX,
+      mouseY,
+      xPosition,
+      yPosition,
+      accXPosition,
+      accYPosition,
+      isInHitbox: !!isInHitbox,
+    })
   })
 }
 
@@ -118,7 +91,7 @@ interface GetAllNeighborsProps {
  * @returns An array of IDs representing the neighboring tiles.
  */
 export const getNeighbors = ({ mouseX, mouseY, radius }: GetAllNeighborsProps): number[] => {
-  const { tileHeight, tileWidth, colsCount, rowsCount, tiles } = getStore()
+  const { tileHeight, tileWidth, colsCount, rowsCount } = getStore()
 
   // todo: to constants
   const hitboxWidth = tileWidth * radius * 2 * 3
@@ -146,9 +119,7 @@ export const getNeighbors = ({ mouseX, mouseY, radius }: GetAllNeighborsProps): 
       }
     }
   }
-
-  const excludeIdleTiles = neighbors.filter(id => !tiles[id].idle)
-  return excludeIdleTiles
+  return neighbors
 }
 
 /**

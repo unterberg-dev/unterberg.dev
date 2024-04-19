@@ -11,19 +11,20 @@ import { R } from '#pixi/utils'
 const addEmitterTimelines = () => ({
   [EMITTER_TIMELINE.DEFAULT]: gsap.timeline({
     paused: true,
+    autoRemoveChildren: true,
+    repeatRefresh: true,
   }),
 })
 
 // todo: redundant to createTileGrid -> refactor to be a single function
 // needs count and size as arguments - rely on constants mainly!
-const createEmitterTiles = (app: Application) => {
+const createEmitterTiles = (app: Application, tileSize: number) => {
   const tilesPos: EmitterTile[] = []
 
   // todo: constants
-  const tileSize = 14
-  const emitterCount = 1000
+  const emitterCount = 3000
 
-  const baseTextures = createIconBaseTextures(app, tileSize, PixiConfig.configEmitterIcons)
+  const baseTextures = createIconBaseTextures(app, tileSize / 2, PixiConfig.configEmitterIcons)
 
   let tileId = 0
   for (let i = 0; i < emitterCount; i += 1) {
@@ -43,8 +44,8 @@ const createEmitterTiles = (app: Application) => {
 
     const sprite = createSprite({
       texture: clonedTexture,
-      width: clonedTexture.width,
-      height: clonedTexture.height,
+      width: tileSize,
+      height: tileSize,
       alpha: 0,
     })
 
@@ -54,7 +55,6 @@ const createEmitterTiles = (app: Application) => {
       container,
       innerContainer,
       timelines: addEmitterTimelines(),
-      active: false,
     }
 
     app.stage.addChild(container)

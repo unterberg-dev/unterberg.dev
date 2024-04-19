@@ -6,7 +6,10 @@ const Latch = tw.aside`
   gap-2
   inline-flex
   flex-nowrap
-  bg-warning
+  bg-darkLight
+  border-1
+  color-gray
+  border-darkLightBorder
   text-dark
 `
 

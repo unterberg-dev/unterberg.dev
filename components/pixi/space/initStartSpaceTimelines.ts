@@ -1,7 +1,7 @@
 import gsap from 'gsap'
 
 import { SPACE_TIMELINE } from '#lib/constants'
-import { registerSpaceIdleTimeline } from '#pixi/space/timeline/idle'
+import { registerSpaceIdleTimeline } from '#pixi/space/registerSpaceIdleTimeline'
 import { SpaceObject } from '#pixi/types'
 import { R } from '#pixi/utils'
 
@@ -9,7 +9,7 @@ interface CreateSpaceTimelinesProps {
   spaceObjects: SpaceObject[]
 }
 
-export const initSpaceTimelines = ({ spaceObjects }: CreateSpaceTimelinesProps) => {
+export const initStartSpaceTimelines = ({ spaceObjects }: CreateSpaceTimelinesProps) => {
   spaceObjects.forEach(object => {
     const { timelines } = object
 

@@ -6,14 +6,6 @@ export const APP_CONFIG = {
   defaultDurationSlow: 2.5,
 }
 
-export enum TILE_TIMELINE {
-  HOVER_IN,
-  HOVER_OUT,
-  POSITION,
-  HITBOX_IN,
-  HITBOX_OUT,
-}
-
 // todo: find better name
 export enum IDLE_TILE_TIMELINE {
   DEFAULT,
@@ -34,12 +26,12 @@ export const defaultCirclePath = {
 }
 
 export const PixiConfig = {
-  configMaxDivider: 90,
+  configMaxDivider: 50,
   configMinDivider: 15,
   configMinDividerThreshold: 500,
   configMaxDividerThreshold: 1900,
-  configCursorRadius: 2,
-  configTileIcons: [
+  configCursorRadius: 1.5,
+  configEmitterIcons: [
     '😀',
     '😃',
     '😄',
@@ -72,6 +64,6 @@ export const PixiConfig = {
     '🎁',
     '🏳️‍🌈',
   ],
-  configEmitterIcons: ['👌', '✌', '🤞', '🤟', '🤘', '🤙', '👈', '👉', '👇', '👍', '👏', '🙌'],
+  configTileIcons: ['🌝', '🌙', '🌔', '⭐', '🌞', '🛸', '🛰', '🚀'],
   configSpaceIcons: ['🌝', '🌙', '🌔', '⭐', '🌞', '🛸', '🛰', '🚀'],
 }
