@@ -19,7 +19,7 @@ export const initStage = async (stage: HTMLDivElement | null) => {
   const { configCursorRadius } = PixiConfig
 
   // render timeout for mobile devices - pagespeed? :O
-  const timeout = stage.clientWidth < 800 ? 4 : 0
+  const timeout = stage.clientWidth < 800 ? 4 : 1
 
   gsap.delayedCall(timeout, async () => {
     const app = await createApp(stage)
@@ -43,8 +43,8 @@ export const initStage = async (stage: HTMLDivElement | null) => {
       cursorRadius: configCursorRadius,
     })
     // tile timelines setup
-    // registerIdleTileTimelines({ tiles })
-    // initStartSpaceTimelines({ spaceObjects })
+    registerIdleTileTimelines({ tiles })
+    initStartSpaceTimelines({ spaceObjects })
 
     const emitterTiles = createEmitterTiles(app, tileWidth)
     setEmitterStore({
@@ -58,13 +58,13 @@ export const initStage = async (stage: HTMLDivElement | null) => {
     // trigger pointer events
     registerUserEvents()
 
-    // registerAutoPointer({
-    //   width: 100,
-    //   height: 100,
-    //   offsetY: -200,
-    // })
+    registerAutoPointer({
+      width: 100,
+      height: 100,
+      offsetY: -200,
+    })
 
     // eslint-disable-next-line no-console
-    console.log('grid', getStore())
+    // console.log('grid', getStore())
   })
 }
