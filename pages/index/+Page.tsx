@@ -98,7 +98,7 @@ const StartPage = () => {
   return (
     // todo: state for hide content
     <Layout
-      className="flex flex-col relative max-w-xl mx-auto z-2 px-6 md:px-0 pt-30 md:pt-20 overflow-hidden"
+      className="flex flex-col relative max-w-xl mx-auto z-2 px-6 md:px-0 pt-30 md:pt-20 overflow-hidden md:overflow-inherit"
       ref={staggerContainer}
     >
       <HideContent active={uiHidden} onClick={handleClick} />
