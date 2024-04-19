@@ -1,7 +1,5 @@
 import { Text, TextOptions, TextStyle, TextStyleOptions } from 'pixi.js'
 
-import { R } from '#pixi/utils'
-
 export interface CreateTextProps {
   value: string
   x?: number
@@ -15,7 +13,7 @@ export const createText = ({ value, x = 0, y = 0, anchor = 0.5, size = 20 }: Cre
     style: {
       fontFamily: 'Arial',
       fontWeight: '700',
-      fontSize: R(size / 2, size * 2),
+      fontSize: size,
       fill: 0xffffff,
     },
   }

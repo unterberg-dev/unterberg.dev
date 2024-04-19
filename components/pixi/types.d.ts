@@ -32,6 +32,7 @@ export type SetPositionFncTypeExt = (
   mouseX: number,
   mouseY: number,
   id: number,
+  isInHitbox: boolean,
 ) => void
 
 export type Hitbox = {
@@ -50,7 +51,6 @@ export type Tile = {
   innerContainer: Container
   timelines?: TileTimelines | TileIdleTimeline
   setPosition?: SetPositionFncType
-  idle: boolean
 }
 
 export type EmitterTile = {
@@ -60,7 +60,6 @@ export type EmitterTile = {
   innerContainer: Container
   timelines: EmitterTimelines
   setPosition?: SetPositionFncTypeExt
-  active: boolean
 }
 
 export type SpaceObject = {

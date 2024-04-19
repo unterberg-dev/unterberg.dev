@@ -24,9 +24,11 @@ export const setStore = (newStore: Store) => {
 
 export type EmitterStore = {
   emitterTiles: EmitterTile[]
-  activeEmitterTiles: EmitterTile['id'][]
+  activeEmitterTiles: Set<EmitterTile['id']>
 }
+
 let emitterStore: EmitterStore
+
 export const getEmitterStore = () => emitterStore
 export const setEmitterStore = (newStore: EmitterStore) => {
   emitterStore = newStore

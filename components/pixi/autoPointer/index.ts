@@ -1,8 +1,8 @@
 import gsap from 'gsap'
 
-import { handlePointerMove } from '#components/pixi/grid/pointer'
 import { getStore, setStore } from '#components/pixi/store'
 import { defaultCirclePath } from '#lib/constants'
+import { handlePointerMove } from '#pixi/pointer'
 import { generatePathPoints, scalePathToViewBox } from '#pixi/utils'
 
 interface AutoPointerProps {
