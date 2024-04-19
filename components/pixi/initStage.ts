@@ -44,7 +44,7 @@ export const initStage = async (stage: HTMLDivElement | null) => {
     })
     // tile timelines setup
     registerIdleTileTimelines({ tiles })
-    initStartSpaceTimelines({ spaceObjects })
+    // initStartSpaceTimelines({ spaceObjects })
 
     const emitterTiles = createEmitterTiles(app, tileWidth)
     setEmitterStore({
