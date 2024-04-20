@@ -196,7 +196,7 @@ export const handlePointerMove = ({ event, manual }: HandlePointerMoveProps) => 
 }
 
 export const createHitboxes: () => Hitbox[] | undefined = () => {
-  const hitboxes = document.querySelectorAll('.hitbox')
+  const hitboxes = document.querySelectorAll('.pixi-hitbox ')
   if (!hitboxes || hitboxes.length === 0) return undefined
 
   return Object.values(hitboxes).flatMap((hitbox: Element) => {

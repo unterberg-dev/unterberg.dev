@@ -1,10 +1,13 @@
 import tw from 'tailwind-styled-components'
 
-export default tw.div`
-  max-w-screen-lg
+interface LayoutTwProps {
+  $fullWidth?: boolean
+}
+
+export default tw.div<LayoutTwProps>`
   m-auto
   relative
-  container
+  ${p => (p.$fullWidth ? 'w-full' : 'container max-w-screen-lg')}
   px-4
   px-lg-0
 `

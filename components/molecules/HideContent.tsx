@@ -8,7 +8,7 @@ interface HideContentProps {
 }
 
 const HideContent = ({ onClick, active }: HideContentProps) => (
-  <Latch className="fixed hitbox top-0 lg:right-10 z-20 p-0 transition-all pt-2 -translate-y-2 hover:pb-1 hover:-translate-y-1">
+  <Latch className="fixed pixi-hitbox top-0 lg:right-10 z-20 p-0 transition-all pt-2 -translate-y-2 hover:pb-1 hover:-translate-y-1">
     <Button
       label={<div>{`${active ? 'Show' : 'Hide'}`} UI</div>}
       iconSize={16}

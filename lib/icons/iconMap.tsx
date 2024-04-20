@@ -6,11 +6,14 @@
 import {
   ChevronsDown,
   ChevronsUp,
+  Code,
   ExternalLink,
   Github,
+  Handshake,
   Linkedin,
   LucideProps,
   Mail,
+  Smile,
 } from 'lucide-react'
 
 import { ICON_ID } from './iconID'
@@ -30,6 +33,9 @@ const APP_ICON: ICON_TYPE = {
   [ICON_ID.Linkedin]: { component: Linkedin },
   [ICON_ID.ChevronsUp]: { component: ChevronsUp },
   [ICON_ID.ChevronsDown]: { component: ChevronsDown },
+  [ICON_ID.Smile]: { component: Smile },
+  [ICON_ID.Code]: { component: Code },
+  [ICON_ID.Handshake]: { component: Handshake },
 }
 
 export default APP_ICON

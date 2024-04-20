@@ -6,4 +6,7 @@ export enum ICON_ID {
   ExternalLink,
   ChevronsUp,
   ChevronsDown,
+  Smile,
+  Code,
+  Handshake,
 }
