@@ -29,13 +29,12 @@ const App = ({
   return (
     <StrictMode>
       <PageContextProvider pageContext={pageContext}>
-        <div className="relative">
+        <div className="relative min-h-lvh">
           <Header />
           <div className="page-portal">{children}</div>
           <Footer />
         </div>
       </PageContextProvider>
-
       {pixiStageMemo}
     </StrictMode>
   )

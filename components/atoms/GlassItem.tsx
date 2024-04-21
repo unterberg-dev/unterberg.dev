@@ -3,6 +3,7 @@ import tw from 'tailwind-styled-components'
 
 import BlurDot from '#atoms/BlurDot'
 import Icon from '#atoms/Icon'
+import Link from '#atoms/Link'
 import { ICON_ID } from '#lib/icons/iconID'
 
 export const GlassItem = tw.span`
@@ -38,11 +39,11 @@ export const GlassItemButton = ({
 }: GlassItemButtonProps) => (
   <li className={`flex-1 ${className}`} {...props}>
     <GlassItem className="scale-100 md:hover-scale-110 hover:text-warning">
-      <a className="flex flex-col items-center gap-3" href={href}>
+      <Link className="flex flex-col items-center gap-3" href={href || ''}>
         <BlurDot className="w-90 h-90 mt-5 opacity-15" />
         <Icon icon={icon} className="w-8 h-8 lg:w-10 lg:h-10" />
         <span>{label}</span>
-      </a>
+      </Link>
     </GlassItem>
   </li>
 )

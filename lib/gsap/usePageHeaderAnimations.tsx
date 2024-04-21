@@ -9,7 +9,7 @@ interface UsePageHeaderAnimationsProps {
   isAnimating: React.MutableRefObject<boolean>
 }
 
-interface GsapStaggerElementProps extends HtmlHTMLAttributes<HTMLDivElement> {
+export interface GsapStaggerElementProps extends HtmlHTMLAttributes<HTMLDivElement> {
   children: ReactNode
   fromBottom?: boolean
   className?: string
@@ -53,7 +53,7 @@ const usePageHeaderAnimations = ({
             y: 0,
             ease: 'power1.Out',
             stagger: {
-              amount: 0.4,
+              amount: 0.3,
               from: 'end',
             },
             onComplete: () => {
@@ -73,9 +73,9 @@ const usePageHeaderAnimations = ({
           {
             opacity: 1,
             y: 0,
-            ease: 'power1.Out',
+            ease: 'power1.out',
             stagger: {
-              amount: 0.4,
+              amount: 0.3,
               from: 'start',
             },
             onComplete: () => {
@@ -89,47 +89,98 @@ const usePageHeaderAnimations = ({
   )
 
   const onClickAnimate = contextSafe((active: boolean) => {
-    if (active) {
-      gsap.to('.gsap-stagger-top', {
-        opacity: 0,
-        y: -50,
-        ease: 'power1.inOut',
-        stagger: {
-          amount: 0.1,
-          from: 'start',
-        },
-        onStart: () => {
-          isAnimating.current = true
-        },
-        onComplete: () => {
-          // we hide this to prevent hitboxes from being triggered
-          isAnimating.current = false
-          gsap.set('.gsap-stagger-top', {
-            display: 'none',
-          })
-          handleUpdateHitboxes()
-        },
-      })
-    } else {
-      gsap.to('.gsap-stagger-top', {
-        opacity: 1,
-        y: 0,
-        ease: 'power1.Out',
-        stagger: {
-          amount: 0.4,
-          from: 'end',
-        },
-        onStart: () => {
-          isAnimating.current = true
-          gsap.set('.gsap-stagger-top', {
-            display: 'block',
-          })
-        },
-        onComplete: () => {
-          isAnimating.current = false
-          handleUpdateHitboxes()
-        },
-      })
+    const container = staggerContainer.current || undefined
+    const checkStaggerTopExist = container?.querySelector('.gsap-stagger-top')
+    const checkStaggerBottomExist = container?.querySelector('.gsap-stagger-bottom')
+
+    if (checkStaggerTopExist) {
+      if (active) {
+        gsap.to('.gsap-stagger-top', {
+          opacity: 0,
+          y: -50,
+          ease: 'power1.inOut',
+          stagger: {
+            amount: 0.1,
+            from: 'start',
+          },
+          onStart: () => {
+            isAnimating.current = true
+          },
+          onComplete: () => {
+            // we hide this to prevent hitboxes from being triggered
+            isAnimating.current = false
+            gsap.set('.gsap-stagger-top', {
+              display: 'none',
+            })
+            handleUpdateHitboxes()
+          },
+        })
+      } else {
+        gsap.to('.gsap-stagger-top', {
+          opacity: 1,
+          y: 0,
+          ease: 'power1.Out',
+          stagger: {
+            amount: 0.4,
+            from: 'end',
+          },
+          onStart: () => {
+            isAnimating.current = true
+            gsap.set('.gsap-stagger-top', {
+              display: 'block',
+            })
+          },
+          onComplete: () => {
+            isAnimating.current = false
+            handleUpdateHitboxes()
+          },
+        })
+      }
+    }
+
+    if (checkStaggerBottomExist) {
+      if (active) {
+        gsap.to('.gsap-stagger-bottom', {
+          opacity: 0,
+          y: 50,
+          ease: 'power1.inOut',
+          stagger: {
+            amount: 0.1,
+            from: 'end',
+          },
+          onStart: () => {
+            isAnimating.current = true
+          },
+          onComplete: () => {
+            // we hide this to prevent hitboxes from being triggered
+            isAnimating.current = false
+            gsap.set('.gsap-stagger-bottom', {
+              display: 'none',
+            })
+            handleUpdateHitboxes()
+          },
+        })
+      } else {
+        gsap.to('.gsap-stagger-bottom', {
+          opacity: 1,
+          y: 0,
+          ease: 'power1.Out',
+          stagger: {
+            amount: 0.4,
+            from: 'start',
+          },
+          onStart: () => {
+            isAnimating.current = true
+            gsap.set('.gsap-stagger-bottom', {
+              display: 'block',
+            })
+          },
+          onComplete: () => {
+            isAnimating.current = false
+            handleUpdateHitboxes()
+          },
+        })
+      }
     }
   })
 

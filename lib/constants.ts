@@ -30,7 +30,7 @@ export const PixiConfig = {
   configMinDivider: 15,
   configMinDividerThreshold: 500,
   configMaxDividerThreshold: 1900,
-  configCursorRadius: 1.5,
+  configCursorRadius: 1,
   configEmitterIcons: [
     '😀',
     '😃',

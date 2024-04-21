@@ -1,11 +1,18 @@
+import { HTMLAttributes } from 'react'
+
 import Link from '#atoms/Link'
 import { mainNavigation } from '#pages/navigation'
 
-const MainNavigation = () => (
-  <nav>
-    <ul className="flex gap-2">
+interface MainNavigationProps extends HTMLAttributes<HTMLElement> {
+  liProps?: HTMLAttributes<HTMLLIElement>
+  ulProps?: HTMLAttributes<HTMLUListElement>
+}
+
+const MainNavigation = ({ liProps, ulProps, ...props }: MainNavigationProps) => (
+  <nav {...props}>
+    <ul {...ulProps} className={`flex gap-2 ${ulProps?.className || ''}`}>
       {Object.values(mainNavigation).map(item => (
-        <li key={item.path}>
+        <li {...liProps} key={item.path}>
           <Link href={item.path}>{item.name}</Link>
         </li>
       ))}

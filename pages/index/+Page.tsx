@@ -1,10 +1,11 @@
 import { useCallback, useRef, useState } from 'react'
 
-import BlurDot from '#atoms/BlurDot'
+import { GlassItemButton } from '#atoms/GlassItem'
 import Layout from '#atoms/Layout'
 import usePageHeaderAnimations from '#gsap/usePageHeaderAnimations'
+import { externalNavigation } from '#lib/navigation'
 import HideContent from '#molecules/HideContent'
-import StartPageMenu from '#root/pages/index/Menu'
+import StaggerHeader from '#organisms/StaggerHeader'
 
 const StartPage = () => {
   const staggerContainer = useRef<HTMLDivElement>(null)
@@ -27,36 +28,27 @@ const StartPage = () => {
 
   return (
     <Layout
-      className="flex flex-col relative max-w-xl mx-auto z-2 px-6 md:px-0 pt-20 md:pt-10 overflow-x-hidden md:overflow-inherit"
+      className="flex flex-col relative max-w-xl mx-auto z-2 px-6 md:px-0 overflow-x-hidden md:overflow-inherit"
       ref={staggerContainer}
     >
       <HideContent active={uiHidden} onClick={handleClick} />
-      <GsapStaggerElement>
-        <BlurDot className="left-1/2 -ml-50 md:ml-inherit md:left-20 -top-20 w-100 h-100 opacity-30 fixed md:absolute" />
-      </GsapStaggerElement>
-      <div>
-        <header className="pixi-hitbox pointer-events-none relative z-10 flex flex-col mx-auto items-center">
-          <GsapStaggerElement>
-            <h1 className="text-grayDark font-mono mb-8 text-center text-sm">
-              Web & Software Development
-            </h1>
-          </GsapStaggerElement>
-          <GsapStaggerElement>
-            <h2 className="mx-auto relative text-4xl md:text-7xl font-bold text-center text-light mb-4 md:mb-10">
-              Hello
-            </h2>
-          </GsapStaggerElement>
-          <GsapStaggerElement>
-            <h2 className="relative text-2xl md:text-2xl lg:text-2xl md:font-light text-center text-gray inline-block">
-              I love to create modern websites and interfaces. Let&apos;s build something together
-              ✌️
-            </h2>
-          </GsapStaggerElement>
-        </header>
-        <GsapStaggerElement className="mt-10 md:mt-10 xl:mt-24">
-          <StartPageMenu />
-        </GsapStaggerElement>
-      </div>
+      <StaggerHeader
+        GsapStaggerElement={GsapStaggerElement}
+        postTitle="Web & Software Development"
+        title="Hello"
+        subtitle="I love to create modern websites and interfaces. Let's build something together ✌️"
+      />
+      <nav className="mt-10 md:mt-10 xl:mt-24">
+        <ul className="pixi-hitbox relative w-full z-10 flex mx-auto gap-3 lg:gap-6">
+          {Object.values(externalNavigation)
+            .filter(item => item.path !== '')
+            .map(item => (
+              <GsapStaggerElement key={item.name} fromBottom className="flex-1">
+                <GlassItemButton icon={item.icon} href={item.path} label={item.name} />
+              </GsapStaggerElement>
+            ))}
+        </ul>
+      </nav>
     </Layout>
   )
 }

@@ -14,9 +14,16 @@ export default ({ href, external, children, className = '', button }: LinkProps)
   const pageContext = usePageContext()
   const { urlPathname } = pageContext
 
+  // clean up href and pathname
+  const hrefWithoutSlashes = href.replace(/^\/|\/$/g, '')
+  const pathnameWithoutSlashes = urlPathname.replace(/^\/|\/$/g, '')
+
   const isActive = useMemo(
-    () => (href === '/' ? urlPathname === href : urlPathname.startsWith(href)),
-    [href, urlPathname],
+    () =>
+      hrefWithoutSlashes === ''
+        ? pathnameWithoutSlashes === hrefWithoutSlashes
+        : pathnameWithoutSlashes.startsWith(hrefWithoutSlashes),
+    [hrefWithoutSlashes, pathnameWithoutSlashes],
   )
 
   const generatedClassName = useMemo(() => {
@@ -24,11 +31,11 @@ export default ({ href, external, children, className = '', button }: LinkProps)
 
     if (button) {
       return `${
-        isActive ? 'bg-primary pointer-events-none' : 'bg-primary bg-opacity-50 hover:bg-opacity-75'
+        isActive ? 'bg-primary pointer-events-none' : 'bg-warning bg-opacity-50 hover:bg-opacity-75'
       } p-3 ${className} ${staticClassName} `
     }
 
-    return `${isActive ? 'text-primary' : 'text-light'} ${className} ${staticClassName}`
+    return `${isActive ? 'text-warning' : ''} ${className} ${staticClassName}`
   }, [button, className, isActive])
 
   return (

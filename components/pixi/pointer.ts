@@ -62,7 +62,7 @@ export const triggerAnimateHover = ({
 
     // only fire n% of the time
     // todo: to constants
-    const chance = Math.random() < 0.5
+    const chance = Math.random() < 0
     if (chance) return
 
     spawnTile({
