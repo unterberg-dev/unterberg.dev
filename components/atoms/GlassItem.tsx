@@ -6,7 +6,7 @@ import Icon from '#atoms/Icon'
 import Link from '#atoms/Link'
 import { ICON_ID } from '#lib/icons/iconID'
 
-export const GlassItem = tw.span`
+export const GlassItem = tw.div`
   relative
   overflow-hidden
   border-1

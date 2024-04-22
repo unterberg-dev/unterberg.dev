@@ -16,7 +16,7 @@
     "check:lint": "eslint --ext .js,.jsx,.ts,.tsx src/",
     "check:prettier": "prettier --check \"src/**/*.{js,jsx,ts,tsx,css,scss,md}\"",
     "dev": "vite --host",
-    "prod": "vite build && vite preview",
+    "prod": "vite build && vite preview --host",
     "build": "tsc && vite build",
     "preview": "vite preview"
   },

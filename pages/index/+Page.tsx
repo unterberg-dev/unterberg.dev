@@ -10,21 +10,19 @@ import StaggerHeader from '#organisms/StaggerHeader'
 const StartPage = () => {
   const staggerContainer = useRef<HTMLDivElement>(null)
   const [uiHidden, setUiHidden] = useState(false)
-  const isAnimating = useRef(false)
 
-  const { onClickAnimate, GsapStaggerElement } = usePageHeaderAnimations({
-    isAnimating,
+  const { onClickAnimate, GsapStaggerElement, isAnimating } = usePageHeaderAnimations({
     staggerContainer,
   })
 
   const handleClick = useCallback(() => {
-    if (isAnimating.current) return
+    if (isAnimating) return
 
     setUiHidden(prev => {
       onClickAnimate(!prev)
       return !prev
     })
-  }, [onClickAnimate])
+  }, [isAnimating, onClickAnimate])
 
   return (
     <Layout

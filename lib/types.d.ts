@@ -7,3 +7,5 @@ export type NavigationItem = {
   title: string
   description: string
 }
+
+export type GsapStaggerFunctionComponent = FunctionComponent<GsapStaggerElementProps>

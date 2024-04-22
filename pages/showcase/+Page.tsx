@@ -6,10 +6,8 @@ import StaggerHeader from '#organisms/StaggerHeader'
 
 const ShowcasePage = () => {
   const staggerContainer = useRef<HTMLDivElement>(null)
-  const isAnimating = useRef(false)
 
   const { GsapStaggerElement } = usePageHeaderAnimations({
-    isAnimating,
     staggerContainer,
   })
 

@@ -1,12 +1,12 @@
 import { useGSAP } from '@gsap/react'
 import { gsap } from 'gsap'
-import { Attributes, HtmlHTMLAttributes, ReactNode } from 'react'
+import { Attributes, HtmlHTMLAttributes, ReactNode, useState } from 'react'
 
+import { APP_CONFIG } from '#lib/constants'
 import { handleUpdateHitboxes } from '#pixi/events'
 
 interface UsePageHeaderAnimationsProps {
   staggerContainer: React.RefObject<HTMLDivElement>
-  isAnimating: React.MutableRefObject<boolean>
 }
 
 export interface GsapStaggerElementProps extends HtmlHTMLAttributes<HTMLDivElement> {
@@ -31,10 +31,10 @@ const GsapStaggerElement = ({
   </div>
 )
 
-const usePageHeaderAnimations = ({
-  isAnimating,
-  staggerContainer,
-}: UsePageHeaderAnimationsProps) => {
+const usePageHeaderAnimations = ({ staggerContainer }: UsePageHeaderAnimationsProps) => {
+  const [isAnimating, setIsAnimating] = useState(false)
+  const amoutDuration = APP_CONFIG.defaultDuration
+
   const { contextSafe } = useGSAP(
     () => {
       const container = staggerContainer.current || undefined
@@ -53,7 +53,7 @@ const usePageHeaderAnimations = ({
             y: 0,
             ease: 'power1.Out',
             stagger: {
-              amount: 0.3,
+              amount: amoutDuration,
               from: 'end',
             },
             onComplete: () => {
@@ -75,7 +75,7 @@ const usePageHeaderAnimations = ({
             y: 0,
             ease: 'power1.out',
             stagger: {
-              amount: 0.3,
+              amount: amoutDuration,
               from: 'start',
             },
             onComplete: () => {
@@ -100,15 +100,15 @@ const usePageHeaderAnimations = ({
           y: -50,
           ease: 'power1.inOut',
           stagger: {
-            amount: 0.1,
+            amount: amoutDuration,
             from: 'start',
           },
           onStart: () => {
-            isAnimating.current = true
+            setIsAnimating(true)
           },
           onComplete: () => {
             // we hide this to prevent hitboxes from being triggered
-            isAnimating.current = false
+            setIsAnimating(false)
             gsap.set('.gsap-stagger-top', {
               display: 'none',
             })
@@ -121,17 +121,17 @@ const usePageHeaderAnimations = ({
           y: 0,
           ease: 'power1.Out',
           stagger: {
-            amount: 0.4,
+            amount: amoutDuration,
             from: 'end',
           },
           onStart: () => {
-            isAnimating.current = true
+            setIsAnimating(true)
             gsap.set('.gsap-stagger-top', {
               display: 'block',
             })
           },
           onComplete: () => {
-            isAnimating.current = false
+            setIsAnimating(false)
             handleUpdateHitboxes()
           },
         })
@@ -145,15 +145,15 @@ const usePageHeaderAnimations = ({
           y: 50,
           ease: 'power1.inOut',
           stagger: {
-            amount: 0.1,
+            amount: amoutDuration,
             from: 'end',
           },
           onStart: () => {
-            isAnimating.current = true
+            setIsAnimating(true)
           },
           onComplete: () => {
             // we hide this to prevent hitboxes from being triggered
-            isAnimating.current = false
+            setIsAnimating(false)
             gsap.set('.gsap-stagger-bottom', {
               display: 'none',
             })
@@ -166,17 +166,17 @@ const usePageHeaderAnimations = ({
           y: 0,
           ease: 'power1.Out',
           stagger: {
-            amount: 0.4,
+            amount: amoutDuration,
             from: 'start',
           },
           onStart: () => {
-            isAnimating.current = true
+            setIsAnimating(true)
             gsap.set('.gsap-stagger-bottom', {
               display: 'block',
             })
           },
           onComplete: () => {
-            isAnimating.current = false
+            setIsAnimating(false)
             handleUpdateHitboxes()
           },
         })
@@ -184,7 +184,7 @@ const usePageHeaderAnimations = ({
     }
   })
 
-  return { onClickAnimate, GsapStaggerElement }
+  return { onClickAnimate, GsapStaggerElement, isAnimating }
 }
 
 export default usePageHeaderAnimations

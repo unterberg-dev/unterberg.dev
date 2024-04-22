@@ -5,6 +5,7 @@ import { HTMLAttributes, useRef, useState } from 'react'
 import tw from 'tailwind-styled-components'
 
 import BlurDot from '#atoms/BlurDot'
+import H3Headline from '#atoms/H3Headline'
 import { APP_CONFIG } from '#lib/constants'
 
 export const TechBubbleListItem = tw.li`
@@ -101,12 +102,12 @@ const Skillbox = ({
   const handleHoverIn = contextSafe(() => {
     if (!isHovered) {
       gsap.to(skillboxOuterContentRef.current, {
-        height: skillboxOuterContentHeightRef.current + 50,
+        height: skillboxOuterContentHeightRef.current + 30,
         duration: inDuration,
         ease: inEase,
       })
       gsap.to(skillboxGsapRef.current, {
-        height: skillboxGsapHeightRef.current + 50,
+        height: skillboxGsapHeightRef.current + 30,
         duration: inDuration,
         ease: inEase,
       })
@@ -169,7 +170,7 @@ const Skillbox = ({
       setIsSomeTileHovered(false)
       gsap.to(skillboxGsapRef.current, {
         y: 0,
-        height: isHovered ? skillboxGsapHeightRef.current + 50 : skillboxGsapHeightRef.current,
+        height: isHovered ? skillboxGsapHeightRef.current + 30 : skillboxGsapHeightRef.current,
         duration: inDuration,
         ease: inEase,
       })
@@ -177,7 +178,7 @@ const Skillbox = ({
         duration: inDuration,
         ease: inEase,
         height: isHovered
-          ? skillboxOuterContentHeightRef.current + 50
+          ? skillboxOuterContentHeightRef.current + 30
           : skillboxGsapHeightRef.current,
       })
       gsap.to(skillboxExcerptGradientRef.current, {
@@ -207,12 +208,12 @@ const Skillbox = ({
       >
         <div className="bg-dark position-absolute -inset-8" />
         <div
-          className={`relative h-full z-10 grid bg-dark grid-cols-12 gap-5 md:gap-5 ${className || ''}`}
+          className={`relative h-full z-10 grid bg-dark grid-cols-12 gap-5 md:gap-10 ${className || ''}`}
           {...props}
         >
           <div className="absolute -left-5 -right-5 h-8 z-5 -bottom-15 bg-gradient-to-b from-dark opacity-100 pointer-events-none" />
           <div
-            className={`relative z-10 flex flex-col z-10 col-span-12 md:col-span-8 ${switchLayout ? 'order-2' : 'order-2 md:order-1'}`}
+            className={`relative z-10 flex flex-col z-10 col-span-12 md:col-span-9 ${switchLayout ? 'order-2' : 'order-2 md:order-1'}`}
           >
             <div className="flex gap-2">
               {experience && (
@@ -226,9 +227,9 @@ const Skillbox = ({
                 </TagBubble>
               )}
             </div>
-            <h2 className="text-3xl mt-5 w-3/4 sm:5/6 md:w-full">{title}</h2>
+            <H3Headline className="w-3/4 sm:5/6 md:w-full mt-3">{title}</H3Headline>
             <div className="relative flex-1  text-lg">
-              <h2 className="text-gray pt-5">{excerpt}</h2>
+              <div className="text-gray pt-5">{excerpt}</div>
               <div ref={skillboxOuterContentRef} className="text-gray overflow-hidden h-2">
                 <div ref={skillboxContentRef}>
                   <div className="pt-5">{children}</div>
@@ -248,18 +249,18 @@ const Skillbox = ({
             )}
           </div>
           <div
-            className={`hidden z-20 relative md:block overflow-hidden z-4 col-span-12 md:col-span-4 ${switchLayout ? 'order-1' : 'order-1 md:order-2'}`}
+            className={`hidden z-20 relative md:block overflow-hidden z-4 col-span-12 md:col-span-3 ${switchLayout ? 'order-1' : 'order-1 md:order-2'}`}
           >
             <img
               src={`${APP_CONFIG.viteSiteUrl}${imagePath}`}
               width="100%"
               height="auto"
-              className={`md:absolute  z-2 ${!switchLayout ? 'right-0' : ''} w-auto top-0 h-40 md:h-60 object-contain`}
+              className={`md:absolute z-2 ${!switchLayout ? 'right-0' : ''} w-auto top-0 md:h-44 xl:h-50 object-contain`}
               alt=""
             />
           </div>
           <BlurDot
-            className={`${!switchLayout ? '-right-5' : 'md:right-auto lg:-left-5'} hidden md:block absolute -top-10 h-50 w-50 lg:h-80 lg:w-90 mx-auto opacity-40 z-1`}
+            className={`${!switchLayout ? '-right-25' : 'md:right-auto lg:-left-25'} hidden md:block absolute -top-10 h-50 w-50 lg:h-80 lg:w-90 mx-auto opacity-40 z-1`}
           />
           <div className="absolute right-0 xl:right-auto xl:left-0 h-full top-0 md:-top-5 xl:top-0 xl:-ml-30 xl:pr-30 z-6">
             <div className="mt-2 rounded-full p-2 bg-gradient-to-tl bg-darkLight md:border-3 xl-border-0 border-white border-opacity-10">

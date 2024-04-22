@@ -1,11 +1,10 @@
-import { FunctionComponent } from 'react'
-
 import BlurDot from '#atoms/BlurDot'
+import H4Headline from '#atoms/H4Headline'
 import Layout from '#atoms/Layout'
-import { GsapStaggerElementProps } from '#gsap/usePageHeaderAnimations'
+import { GsapStaggerFunctionComponent } from '#lib/types'
 
 interface StaggerHeaderProps {
-  GsapStaggerElement: FunctionComponent<GsapStaggerElementProps>
+  GsapStaggerElement: GsapStaggerFunctionComponent
   postTitle?: string
   title?: string
   subtitle?: string
@@ -25,16 +24,16 @@ const StaggerHeader = ({ GsapStaggerElement, postTitle, subtitle, title }: Stagg
         )}
         {title && (
           <GsapStaggerElement>
-            <h2 className="mx-auto relative text-4xl md:text-7xl font-bold text-center text-light mb-4 md:mb-10">
+            <h2 className="mx-auto text-4xl md:text-7xl font-bold relative text-center text-light mb-4 md:mb-10">
               {title}
             </h2>
           </GsapStaggerElement>
         )}
         {subtitle && (
           <GsapStaggerElement>
-            <h2 className="relative text-2xl md:text-3xl md:font-light text-center text-gray inline-block">
+            <H4Headline className="relative text-center text-gray inline-block">
               {subtitle}
-            </h2>
+            </H4Headline>
           </GsapStaggerElement>
         )}
       </header>
