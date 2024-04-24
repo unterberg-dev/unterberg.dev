@@ -260,7 +260,7 @@ const Skillbox = ({
             />
           </div>
           <BlurDot
-            className={`${!switchLayout ? '-right-25' : 'md:right-auto lg:-left-25'} hidden md:block absolute -top-10 h-50 w-50 lg:h-80 lg:w-90 mx-auto opacity-40 z-1`}
+            className={`${!switchLayout ? 'md:right-5 lg:-right-20' : 'md:right-auto lg:-left-25'} hidden md:block absolute -top-10 h-50 w-50 lg:h-70 lg:w-90 mx-auto opacity-40 z-1`}
           />
           <div className="absolute right-0 xl:right-auto xl:left-0 h-full top-0 md:-top-5 xl:top-0 xl:-ml-30 xl:pr-30 z-6">
             <div className="mt-2 rounded-full p-2 bg-gradient-to-tl bg-darkLight md:border-3 xl-border-0 border-white border-opacity-10">

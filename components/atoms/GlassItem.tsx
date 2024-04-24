@@ -1,4 +1,4 @@
-import { HTMLAttributes } from 'react'
+import { HTMLAttributes, ReactNode } from 'react'
 import tw from 'tailwind-styled-components'
 
 import BlurDot from '#atoms/BlurDot'
@@ -15,6 +15,7 @@ export const GlassItem = tw.div`
   rounded-md
   p-5
   flex-1
+  duration-500
   transition-transform
   text-light
   border-darkLightBorder
@@ -23,10 +24,10 @@ export const GlassItem = tw.div`
   bg-dark
 `
 
-interface GlassItemButtonProps extends HTMLAttributes<HTMLLIElement> {
-  icon: ICON_ID
+interface GlassItemButtonProps extends HTMLAttributes<HTMLDivElement> {
+  icon?: ICON_ID
   href?: string
-  label: string
+  label: string | ReactNode
   className?: string
 }
 
@@ -37,13 +38,13 @@ export const GlassItemButton = ({
   className,
   ...props
 }: GlassItemButtonProps) => (
-  <li className={`flex-1 ${className}`} {...props}>
-    <GlassItem className="scale-100 md:hover-scale-110 hover:text-warning">
-      <Link className="flex flex-col items-center gap-3" href={href || ''}>
+  <div className={`flex-1 ${className}`} {...props}>
+    <GlassItem className="scale-100 h-full md:hover-scale-110 hover:text-warning">
+      <Link className="flex flex-col items-center gap-3 h-full" href={href || ''}>
         <BlurDot className="w-90 h-90 mt-5 opacity-15" />
-        <Icon icon={icon} className="w-8 h-8 lg:w-10 lg:h-10" />
-        <span>{label}</span>
+        {icon && <Icon icon={icon} className="w-8 h-8 lg:w-10 lg:h-10" />}
+        {label}
       </Link>
     </GlassItem>
-  </li>
+  </div>
 )
