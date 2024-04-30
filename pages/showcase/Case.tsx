@@ -113,7 +113,7 @@ const Case = ({ caseItem, GsapStaggerElement, stagger, switchLayout, colDisplay 
           <GsapStaggerElement className="absolute bottom-0 left-0" fromBottom>
             <img
               className="w-30"
-              src={`${APP_CONFIG.viteMediaUrl}/decorators/ek/star.png`}
+              src={`${APP_CONFIG.viteMediaUrl}/decorators/ek/star.webp`}
               alt={caseItem.title}
             />
           </GsapStaggerElement>
