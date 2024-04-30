@@ -12,7 +12,7 @@ const Footer = () => {
   return (
     <footer className={`${isStartPage ? 'absolute bottom-0' : ''} w-full mt-40`}>
       <Layout className="text-center flex flex-col gap-2 items-center">
-        <BlurDot className="w-100 h-100 opacity-30 top-5/6 fixed" />
+        <BlurDot className="w-40 h-40 opacity-30 top-full -m-20 fixed" />
         <MainNavigation className="inline-block z-10" ulProps={{ className: 'gap-6' }} />
         <div className="pixi-hitbox pb-5 md:pb-7 inline-block">
           <div className="text-grayLight relative z-10">
