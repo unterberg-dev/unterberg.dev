@@ -1,6 +1,6 @@
 import { useGSAP } from '@gsap/react'
 import { gsap } from 'gsap'
-import { Attributes, HtmlHTMLAttributes, ReactNode, useState } from 'react'
+import { Attributes, FunctionComponent, HtmlHTMLAttributes, ReactNode, useState } from 'react'
 
 import { APP_CONFIG } from '#lib/constants'
 import { handleUpdateHitboxes } from '#pixi/events'
@@ -9,10 +9,13 @@ interface UsePageHeaderAnimationsProps {
   staggerContainer: React.RefObject<HTMLDivElement>
 }
 
+export type GsapStaggerFunctionComponent = FunctionComponent<GsapStaggerElementProps>
+
 export interface GsapStaggerElementProps extends HtmlHTMLAttributes<HTMLDivElement> {
   children: ReactNode
   fromBottom?: boolean
   className?: string
+  disable?: boolean
   props?: Attributes
 }
 
@@ -20,11 +23,14 @@ const GsapStaggerElement = ({
   children,
   fromBottom,
   className,
+  disable,
   ...props
 }: GsapStaggerElementProps) => (
   <div
-    className={`gsap-stagger-${fromBottom ? 'bottom' : 'top'} ${className || ''}`}
-    style={{ opacity: 0 }}
+    className={
+      !disable ? `gsap-stagger-${fromBottom ? 'bottom' : 'top'} ${className || ''}` : className
+    }
+    style={{ opacity: disable ? 1 : 0 }}
     {...props}
   >
     {children}

@@ -2,7 +2,7 @@ import { Atom, Orbit, Ship } from 'lucide-react'
 
 import { GlassItemButton } from '#atoms/GlassItem'
 import Layout from '#atoms/Layout'
-import { GsapStaggerFunctionComponent } from '#lib/types'
+import { GsapStaggerFunctionComponent } from '#gsap/usePageHeaderAnimations'
 import BelowHeroGlassArea from '#molecules/BelowHeroGlassArea'
 
 interface CollaborateHeroProps {

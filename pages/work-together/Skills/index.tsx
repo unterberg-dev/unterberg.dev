@@ -1,7 +1,7 @@
 import { useState } from 'react'
 
 import Layout from '#atoms/Layout'
-import { GsapStaggerFunctionComponent } from '#lib/types'
+import { GsapStaggerFunctionComponent } from '#gsap/usePageHeaderAnimations'
 import HeadlineArea from '#molecules/HeadlineArea'
 import Skillbox from '#pages/work-together/Skills/Skillbox'
 

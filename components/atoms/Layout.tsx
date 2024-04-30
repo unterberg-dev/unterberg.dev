@@ -6,7 +6,6 @@ interface LayoutTwProps {
 
 export default tw.div<LayoutTwProps>`
   m-auto
-  relative
   ${p => (p.$fullWidth ? 'w-full' : 'container max-w-screen-lg')}
   px-4
   px-lg-0

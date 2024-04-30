@@ -3,7 +3,7 @@ import { ICON_ID } from '#lib/icons/iconID'
 export const externalNavigation = [
   {
     name: 'Github',
-    path: 'https//github.com/richard-unterberg',
+    path: 'https://github.com/richard-unterberg',
     icon: ICON_ID.Github,
   },
   {

@@ -1,5 +1,6 @@
 import { HTMLAttributes } from 'react'
 
+import Icon from '#atoms/Icon'
 import Link from '#atoms/Link'
 import { mainNavigation } from '#pages/navigation'
 
@@ -8,16 +9,20 @@ interface MainNavigationProps extends HTMLAttributes<HTMLElement> {
   ulProps?: HTMLAttributes<HTMLUListElement>
 }
 
-const MainNavigation = ({ liProps, ulProps, ...props }: MainNavigationProps) => (
-  <nav {...props}>
-    <ul {...ulProps} className={`flex gap-2 ${ulProps?.className || ''}`}>
-      {Object.values(mainNavigation).map(item => (
-        <li {...liProps} key={item.path}>
-          <Link href={item.path}>{item.name}</Link>
-        </li>
-      ))}
-    </ul>
-  </nav>
-)
+const MainNavigation = ({ liProps, ulProps, ...props }: MainNavigationProps) => null
+// return (
+//   <nav {...props}>
+//     <ul {...ulProps} className={`flex gap-2 ${ulProps?.className || ''}`}>
+//       {Object.values(mainNavigation).map(item => (
+//         <li {...liProps} key={item.path}>
+//           <Link className="flex gap-2 items-center" href={item.path}>
+//             <Icon icon={item.icon} className="w-5 h-5" />
+//             {item.name}
+//           </Link>
+//         </li>
+//       ))}
+//     </ul>
+//   </nav>
+// )
 
 export default MainNavigation

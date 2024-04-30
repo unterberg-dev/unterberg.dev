@@ -6,6 +6,7 @@ import tw from 'tailwind-styled-components'
 
 import BlurDot from '#atoms/BlurDot'
 import H3Headline from '#atoms/H3Headline'
+import TagBubble from '#atoms/TagBubble'
 import { APP_CONFIG } from '#lib/constants'
 
 export const TechBubbleListItem = tw.li`
@@ -18,19 +19,6 @@ export const TechBubbleListItem = tw.li`
   py-1
   text-xs
   text-nowrap
-`
-
-export const TagBubble = tw.div`
-  bg-darkLightBorder
-  text-gray
-  hover:text-black
-  rounded-lg
-  inline-block
-  transition-colors
-  duration-500
-  px-2
-  py-1
-  text-xs
 `
 
 type SkillboxTagBubbleContent = {
@@ -51,6 +39,8 @@ interface SkillboxProps extends HTMLAttributes<HTMLDivElement> {
   imagePath: string
   setIsSomeTileHovered: (isSomeTileHovered: boolean) => void
 }
+
+const SkillboxTagBubbleDefaultClasses = 'bg-darkLightBorder text-gray hover:text-black'
 
 const Skillbox = ({
   className,
@@ -217,12 +207,12 @@ const Skillbox = ({
           >
             <div className="flex gap-2">
               {experience && (
-                <TagBubble className={`${experience.className}`}>
+                <TagBubble className={`${SkillboxTagBubbleDefaultClasses} ${experience.className}`}>
                   Experience: {experience.value} yrs
                 </TagBubble>
               )}
               {dedication && (
-                <TagBubble className={`${dedication.className}`}>
+                <TagBubble className={`${SkillboxTagBubbleDefaultClasses} ${dedication.className}`}>
                   Dedication: {dedication.value}/10
                 </TagBubble>
               )}
@@ -252,7 +242,7 @@ const Skillbox = ({
             className={`hidden z-20 relative md:block overflow-hidden z-4 col-span-12 md:col-span-3 ${switchLayout ? 'order-1' : 'order-1 md:order-2'}`}
           >
             <img
-              src={`${APP_CONFIG.viteSiteUrl}${imagePath}`}
+              src={`${APP_CONFIG.viteMediaUrl}${imagePath}`}
               width="100%"
               height="auto"
               className={`md:absolute z-2 ${!switchLayout ? 'right-0' : ''} w-auto top-0 md:h-44 xl:h-50 object-contain`}

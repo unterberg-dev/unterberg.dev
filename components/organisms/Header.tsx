@@ -1,7 +1,6 @@
-import MainNavigation from '#organisms/MainNavigation'
+import Hamburger from '#organisms/Hamburger'
 
-const Header = () => (
-  <MainNavigation className="inline-block z-10" ulProps={{ className: 'gap-6' }} />
-)
+// const Header = () => <Hamburger />
+const Header = () => null
 
 export default Header

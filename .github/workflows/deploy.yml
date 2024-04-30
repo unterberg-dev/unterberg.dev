@@ -11,6 +11,8 @@ env:
   VITE_DEV_PORT: ${{ secrets.VITE_DEV_PORT }}
   VITE_SITE_URL_DEV: ${{ secrets.VITE_SITE_URL_DEV }}
   VITE_SITE_URL_PROD: ${{ secrets.VITE_SITE_URL_PROD }}
+  VITE_MEDIA_URL_DEV: ${{ secrets.VITE_MEDIA_URL_DEV }}
+  VITE_MEDIA_URL_PROD: ${{ secrets.VITE_MEDIA_URL_PROD }}
 
 jobs:
   build:

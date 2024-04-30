@@ -1,13 +1,17 @@
 import BlurDot from '#atoms/BlurDot'
 import H4Headline from '#atoms/H4Headline'
 import Layout from '#atoms/Layout'
-import { GsapStaggerFunctionComponent } from '#lib/types'
+import { GsapStaggerFunctionComponent } from '#gsap/usePageHeaderAnimations'
 
 interface StaggerHeaderProps {
   GsapStaggerElement: GsapStaggerFunctionComponent
   postTitle?: string
   title?: string
   subtitle?: string
+}
+
+const dropShadowStyle = {
+  textShadow: 'rgba(2, 6, 23, 0.7) 2px 1px 3px',
 }
 
 const StaggerHeader = ({ GsapStaggerElement, postTitle, subtitle, title }: StaggerHeaderProps) => (
@@ -24,14 +28,20 @@ const StaggerHeader = ({ GsapStaggerElement, postTitle, subtitle, title }: Stagg
         )}
         {title && (
           <GsapStaggerElement>
-            <h2 className="mx-auto text-4xl md:text-7xl font-bold relative text-center text-light mb-4 md:mb-10">
+            <h2
+              className="mx-auto text-4xl md:text-7xl font-bold relative text-center text-light mb-4 md:mb-10"
+              style={{ ...dropShadowStyle }}
+            >
               {title}
             </h2>
           </GsapStaggerElement>
         )}
         {subtitle && (
           <GsapStaggerElement>
-            <H4Headline className="relative text-center text-gray inline-block">
+            <H4Headline
+              className="relative text-center text-gray inline-block"
+              style={{ ...dropShadowStyle }}
+            >
               {subtitle}
             </H4Headline>
           </GsapStaggerElement>

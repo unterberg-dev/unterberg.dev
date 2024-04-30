@@ -67,7 +67,7 @@ const BlurDot = ({
       {...props}
       ref={dotRef}
       style={{
-        backgroundImage: `url("${APP_CONFIG.viteSiteUrl}/decorators/bg/4.svg")`,
+        backgroundImage: `url("${APP_CONFIG.viteMediaUrl}/decorators/bg/4.svg")`,
         // backgroundRepeat: 'no-repeat',
         // backgroundSize: '100% 100%',
         ...(pulse === true ? { opacity: pulseOutOpacity } : {}), // set initial opacity to pulseInOpacity if pulse is true

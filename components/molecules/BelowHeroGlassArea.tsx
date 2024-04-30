@@ -1,20 +1,26 @@
 import { ReactNode } from 'react'
 
 import Layout from '#atoms/Layout'
-import { GsapStaggerFunctionComponent } from '#lib/types'
+import { GsapStaggerFunctionComponent } from '#gsap/usePageHeaderAnimations'
 
-interface BelowHeroGlassAreaProps {
+interface BelowHeroGlassAreaProps extends React.HTMLAttributes<HTMLDivElement> {
   GsapStaggerElement: GsapStaggerFunctionComponent
   children?: ReactNode
+  marginTopTwClass?: string
 }
 
-const BelowHeroGlassArea = ({ GsapStaggerElement, children }: BelowHeroGlassAreaProps) => (
-  <GsapStaggerElement fromBottom className="relative z-5 mt-60">
+const BelowHeroGlassArea = ({
+  GsapStaggerElement,
+  children,
+  marginTopTwClass = 'mt-60',
+}: BelowHeroGlassAreaProps) => (
+  <GsapStaggerElement fromBottom className={`relative z-5 ${marginTopTwClass || ''}`}>
     <Layout
       $fullWidth
-      className="pixi-hitbox relative pb-20 border-t-1 border-t-darkLightBorder bg-darkLightBorder bg-opacity-30 z-10"
+      className="pixi-hitbox relative pb-20 border-t-1 border-t-darkLightBorder bg-darkLight bg-opacity-50 z-10"
     >
-      <div className="absolute inset-0 bg-gradient-to-t from-dark opacity-100" />
+      <div className="absolute inset-0 bg-gradient-to-t from-dark opacity-100 h-40" />
+      <div className="absolute inset-0 top-40 bg-gradient-to-t bg-dark" />
       {children}
     </Layout>
   </GsapStaggerElement>
