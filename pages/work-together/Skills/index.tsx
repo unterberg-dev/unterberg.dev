@@ -34,7 +34,7 @@ const Skills = ({ GsapStaggerElement }: SkillProps) => {
               'React 18',
               'Styled Components',
             ]}
-            imagePath="/skills/react.png"
+            imagePath="/skills/react.webp"
             title="React, Declarative & Functional Coding"
             experience={{ value: 4, className: 'hover:bg-amber-3' }}
             dedication={{ value: 10, className: 'hover:bg-emerald-5' }}
@@ -67,7 +67,7 @@ const Skills = ({ GsapStaggerElement }: SkillProps) => {
             'post-CSS',
             'eslint',
           ]}
-          imagePath="/skills/node-2.png"
+          imagePath="/skills/node-2.webp"
           title="Typescript & Node"
           experience={{ value: 3, className: 'hover:bg-amber-3' }}
           dedication={{ value: 9, className: 'hover:bg-emerald-5' }}
@@ -98,7 +98,7 @@ const Skills = ({ GsapStaggerElement }: SkillProps) => {
             'Inpsyde WP VIP',
             'Page Builders (I know them all) 😅',
           ]}
-          imagePath="/skills/wordpress-2.png"
+          imagePath="/skills/wordpress-2.webp"
           title="Custom Wordpress Development & PHP"
           experience={{ value: 13, className: 'hover:bg-emerald-5' }}
           dedication={{ value: 7, className: 'hover:bg-amber-3' }}
@@ -118,7 +118,7 @@ const Skills = ({ GsapStaggerElement }: SkillProps) => {
         <Skillbox
           tags={['HTML', 'CSS', 'SASS', 'Bootstrap', 'Tailwind', 'Mobile First']}
           title="HTML, CSS and everything between"
-          imagePath="/skills/css.png"
+          imagePath="/skills/css.webp"
           experience={{ value: 15, className: 'hover:bg-amber-3' }}
           dedication={{ value: 7, className: 'hover:bg-emerald-5' }}
           excerpt="Okay this is a bit trivial that its listed here, but I started here with the very basics and I still love to think like that, because it is the foundation of what the browser renders at the end."
@@ -139,7 +139,7 @@ const Skills = ({ GsapStaggerElement }: SkillProps) => {
         <Skillbox
           tags={['Jira', 'Trello', 'Monday', 'Slack', 'Email', 'Agile', 'Scrum', 'Kanban', 'Git']}
           title="Be dedicated, be state of the art"
-          imagePath="/skills/flex.png"
+          imagePath="/skills/flex.webp"
           experience={{ value: 15, className: 'hover:bg-amber-3' }}
           dedication={{ value: 7, className: 'hover:bg-emerald-5' }}
           excerpt="Liquorice tiramisu fruitcake brownie candy sesame snaps. Caramels apple pie bonbon chocolate chocolate cake brownie sweet croissant pastry. Biscuit dragée halvah soufflé lollipop jujubes."
