@@ -5,7 +5,7 @@ export const APP_CONFIG = {
   viteMediaUrl: `${
     import.meta.env.PROD ? 'https://unterberg.b-cdn.net' : 'http://localhost:5247'
   }${import.meta.env.BASE_URL.slice(0, -1)}`,
-  defaultDuration: 0.5,
+  defaultDuration: 0.35,
   defaultDurationSlow: 2.5,
 }
 
