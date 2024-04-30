@@ -2,6 +2,9 @@ export const APP_CONFIG = {
   viteSiteUrl: `${
     import.meta.env.PROD ? import.meta.env.VITE_SITE_URL_PROD : import.meta.env.VITE_SITE_URL_DEV
   }${import.meta.env.BASE_URL.slice(0, -1)}`,
+  viteMediaUrl: `${
+    import.meta.env.PROD ? import.meta.env.VITE_SITE_URL_PROD : import.meta.env.VITE_SITE_URL_DEV
+  }${import.meta.env.BASE_URL.slice(0, -1)}`,
   defaultDuration: 0.5,
   defaultDurationSlow: 2.5,
 }
@@ -30,7 +33,7 @@ export const PixiConfig = {
   configMinDivider: 15,
   configMinDividerThreshold: 500,
   configMaxDividerThreshold: 1900,
-  configCursorRadius: 1.5,
+  configCursorRadius: 1,
   configEmitterIcons: [
     '😀',
     '😃',

@@ -4,7 +4,7 @@
   "author": "Richard Unterberg <https://github.com/richard-unterberg>",
   "repository": {
     "type": "git",
-    "url": "https://github.com/richard-unterberg/richard-unterberg.github.io.git"
+    "url": "https://github.com/richard-unterberg/unterberg.dev.git"
   },
   "private": true,
   "version": "1.1.0",
@@ -16,7 +16,7 @@
     "check:lint": "eslint --ext .js,.jsx,.ts,.tsx src/",
     "check:prettier": "prettier --check \"src/**/*.{js,jsx,ts,tsx,css,scss,md}\"",
     "dev": "vite --host",
-    "prod": "vite build && vite preview",
+    "prod": "vite build && vite preview --host",
     "build": "tsc && vite build",
     "preview": "vite preview"
   },
@@ -35,6 +35,7 @@
     "lucide-react": "^0.367.0",
     "pixi.js": "^8.1.0",
     "react": "^18.2.0",
+    "react-device-detect": "^2.2.3",
     "react-dom": "^18.2.0",
     "react-streaming": "^0.3.24",
     "styled-components": "^6.1.8",

@@ -1,5 +1,6 @@
+import { MAIN_NAV_KEY, mainNavigation } from '#pages/navigation'
+
 export default {
-  title: 'web dev & engineer | richard unterberg',
-  description:
-    'I am Richard, web developer with some years of experience in modern & legacy web development, rich frontend applications and product development processes.',
+  title: mainNavigation[MAIN_NAV_KEY.HOME].title,
+  description: mainNavigation[MAIN_NAV_KEY.HOME].description,
 }

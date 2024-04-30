@@ -24,8 +24,9 @@ export const registerSpawnerTimelines = ({ timeline, tile }: RegisterPositionTim
   ) => {
     const xDiff = accX - x
     const yDiff = accY - y
-    const scaleIn = R(0.4, 2.1)
-    const inDuration = R(0.23, 0.55)
+    const scaleIn = R(0.4, 1.9)
+    const scaleHitboxIn = R(0.1, 0.3)
+    const inDuration = R(0.24, 0.45)
 
     const outDuration = inDuration * 5
     const outDelay = inDuration / 2.5
@@ -49,6 +50,14 @@ export const registerSpawnerTimelines = ({ timeline, tile }: RegisterPositionTim
       {
         x: R(-1, 1),
         y: R(-1, 1),
+      },
+      `setup`,
+    )
+    timeline.set(
+      tile.sprite.scale,
+      {
+        x: 0.1,
+        y: 0.1,
       },
       `setup`,
     )
@@ -84,8 +93,8 @@ export const registerSpawnerTimelines = ({ timeline, tile }: RegisterPositionTim
       {
         duration: inDuration,
         ease: inEase,
-        x: !isInHitbox ? scaleIn : scaleIn / 4,
-        y: !isInHitbox ? scaleIn : scaleIn / 4,
+        x: !isInHitbox ? scaleIn : scaleHitboxIn,
+        y: !isInHitbox ? scaleIn : scaleHitboxIn,
       },
       'in',
     )
@@ -111,16 +120,6 @@ export const registerSpawnerTimelines = ({ timeline, tile }: RegisterPositionTim
       `in+=${outDelay}`,
     )
     timeline.to(
-      tile.innerContainer.scale,
-      {
-        duration: outDuration,
-        ease: outEase,
-        x: 0,
-        y: 0,
-      },
-      `in+=${outDelay}`,
-    )
-    timeline.to(
       tile.sprite,
       {
         duration: outDuration,
@@ -130,20 +129,22 @@ export const registerSpawnerTimelines = ({ timeline, tile }: RegisterPositionTim
       },
       `in+=${outDelay}`,
     )
+    timeline.to(
+      tile.sprite.scale,
+      {
+        duration: outDuration / 2,
+        ease: outEase,
+        x: 0.5,
+        y: 0.5,
+      },
+      `in+=${outDelay + 0.3}`,
+    )
     timeline.set(
       tile.sprite,
       {
         alpha: 0,
         x: 0,
         y: 0,
-      },
-      `out`,
-    )
-    timeline.set(
-      tile.innerContainer.scale,
-      {
-        x: 1,
-        y: 1,
       },
       `out`,
     )

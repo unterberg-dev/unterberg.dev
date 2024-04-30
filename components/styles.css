@@ -3,10 +3,18 @@
     transition: opacity 0.5s ease-in-out;
 }
 
+#stage {
+  pointer-events: none;
+}
+
 #stage canvas {
   margin: 0 auto;
 }
 
-body {
+/* body {
   overflow: hidden;
-}
+} */
+
+/* body.page-is-transitioning {
+  opacity: 0;
+} */

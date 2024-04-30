@@ -1,126 +1,52 @@
-import { useGSAP } from '@gsap/react'
-import gsap from 'gsap'
 import { useCallback, useRef, useState } from 'react'
 
-import BlurDot from '#atoms/BlurDot'
+import { GlassItemButton } from '#atoms/GlassItem'
 import Layout from '#atoms/Layout'
+import usePageHeaderAnimations from '#gsap/usePageHeaderAnimations'
+import { externalNavigation } from '#lib/navigation'
 import HideContent from '#molecules/HideContent'
-import { handleUpdateHitboxes } from '#pixi/events'
-import StartPageMenu from '#root/pages/index/Menu'
+import StaggerHeader from '#organisms/StaggerHeader'
 
 const StartPage = () => {
   const staggerContainer = useRef<HTMLDivElement>(null)
   const [uiHidden, setUiHidden] = useState(false)
-  const isAnimating = useRef(false)
 
-  const { contextSafe } = useGSAP(
-    () => {
-      gsap.fromTo(
-        '.gsap-stagger',
-        {
-          opacity: 0,
-          y: -50,
-        },
-        {
-          opacity: 1,
-          delay: 0.5,
-          y: 0,
-          ease: 'power1.Out',
-          stagger: {
-            amount: 0.4,
-            from: 'end',
-          },
-          onComplete: () => {
-            handleUpdateHitboxes()
-          },
-        },
-      )
-    },
-    { scope: staggerContainer },
-  )
-
-  const onClick = contextSafe((active: boolean) => {
-    if (active) {
-      gsap.to('.gsap-stagger', {
-        opacity: 0,
-        y: -50,
-        ease: 'power1.inOut',
-        stagger: {
-          // wrap advanced options in an object
-          amount: 0.1,
-          from: 'start',
-        },
-        onStart: () => {
-          isAnimating.current = true
-        },
-        onComplete: () => {
-          // we hide this to prevent hitboxes from being triggered
-          isAnimating.current = false
-          gsap.set('.gsap-stagger', {
-            display: 'none',
-          })
-          handleUpdateHitboxes()
-        },
-      })
-    } else {
-      gsap.to('.gsap-stagger', {
-        opacity: 1,
-        y: 0,
-        ease: 'power1.Out',
-        stagger: {
-          // wrap advanced options in an object
-          amount: 0.4,
-          from: 'end',
-        },
-        onStart: () => {
-          isAnimating.current = true
-          gsap.set('.gsap-stagger', {
-            display: 'block',
-          })
-        },
-        onComplete: () => {
-          isAnimating.current = false
-          handleUpdateHitboxes()
-        },
-      })
-    }
+  const { onClickAnimate, GsapStaggerElement, isAnimating } = usePageHeaderAnimations({
+    staggerContainer,
   })
 
   const handleClick = useCallback(() => {
-    if (isAnimating.current) return
+    if (isAnimating) return
 
     setUiHidden(prev => {
-      onClick(!prev)
+      onClickAnimate(!prev)
       return !prev
     })
-  }, [onClick])
+  }, [isAnimating, onClickAnimate])
 
   return (
-    // todo: state for hide content
     <Layout
-      className="flex flex-col relative max-w-xl mx-auto z-2 px-6 md:px-0 pt-20 md:pt-10 overflow-hidden md:overflow-inherit"
+      className="flex flex-col relative max-w-xl mx-auto z-2 px-6 md:px-0 overflow-x-hidden md:overflow-inherit"
       ref={staggerContainer}
     >
       <HideContent active={uiHidden} onClick={handleClick} />
-      <div className="gsap-stagger">
-        <BlurDot className="left-1/2 -ml-50 md:ml-inherit md:left-20 -top-20 w-100 h-100 opacity-20 fixed md:absolute" />
-      </div>
-      <div className="relative z-2">
-        <header className="pointer-events-none relative z-10 inline-flex flex-col mx-auto">
-          <h1 className="gsap-stagger text-grayDark font-mono mb-8 inline-block mx-auto">
-            Web & Software Development
-          </h1>
-          <h2 className="gsap-stagger hitbox relative text-4xl md:text-7xl font-bold text-center text-light inline-block mb-4 md:mb-10">
-            Hello
-          </h2>
-          <h2 className="gsap-stagger hitbox relative text-2xl md:text-2xl lg:text-2xl md:font-light text-center text-gray inline-block">
-            I love to create modern websites and interfaces. Let&apos;s build something together ✌️
-          </h2>
-        </header>
-        <div className="gsap-stagger">
-          <StartPageMenu />
+      <StaggerHeader
+        GsapStaggerElement={GsapStaggerElement}
+        postTitle="Web & Software Development"
+        title="Hello"
+        subtitle="I love to create modern websites and interfaces. Let's build something together ✌️"
+      />
+      <nav className="mt-10 md:mt-10 xl:mt-24">
+        <div className="pixi-hitbox relative w-full z-10 flex mx-auto gap-3 lg:gap-6">
+          {Object.values(externalNavigation)
+            .filter(item => item.path !== '')
+            .map(item => (
+              <GsapStaggerElement key={item.name} fromBottom className="flex-1">
+                <GlassItemButton icon={item.icon} href={item.path} label={item.name} />
+              </GsapStaggerElement>
+            ))}
         </div>
-      </div>
+      </nav>
     </Layout>
   )
 }

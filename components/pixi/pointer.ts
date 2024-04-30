@@ -62,7 +62,7 @@ export const triggerAnimateHover = ({
 
     // only fire n% of the time
     // todo: to constants
-    const chance = Math.random() < 0.5
+    const chance = Math.random() < 0
     if (chance) return
 
     spawnTile({
@@ -196,7 +196,7 @@ export const handlePointerMove = ({ event, manual }: HandlePointerMoveProps) => 
 }
 
 export const createHitboxes: () => Hitbox[] | undefined = () => {
-  const hitboxes = document.querySelectorAll('.hitbox')
+  const hitboxes = document.querySelectorAll('.pixi-hitbox ')
   if (!hitboxes || hitboxes.length === 0) return undefined
 
   return Object.values(hitboxes).flatMap((hitbox: Element) => {
