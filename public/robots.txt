@@ -1,0 +1,2 @@
+User-agent: *
+Disallow: https://unterberg.b-cdn.net
