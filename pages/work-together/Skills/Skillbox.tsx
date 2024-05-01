@@ -5,7 +5,7 @@ import { HTMLAttributes, useRef, useState } from 'react'
 import tw from 'tailwind-styled-components'
 
 import BlurDot from '#atoms/BlurDot'
-import H3Headline from '#atoms/H3Headline'
+import H4Headline from '#atoms/H4Headline'
 import TagBubble from '#atoms/TagBubble'
 import { APP_CONFIG } from '#lib/constants'
 
@@ -217,7 +217,7 @@ const Skillbox = ({
                 </TagBubble>
               )}
             </div>
-            <H3Headline className="w-3/4 sm:5/6 md:w-full mt-3">{title}</H3Headline>
+            <H4Headline className="w-3/4 sm:5/6 md:w-full mt-3">{title}</H4Headline>
             <div className="relative flex-1  text-lg">
               <div className="text-gray pt-5">{excerpt}</div>
               <div ref={skillboxOuterContentRef} className="text-gray overflow-hidden h-2">

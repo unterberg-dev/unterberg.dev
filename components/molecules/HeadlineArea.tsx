@@ -1,7 +1,7 @@
 import { HTMLAttributes } from 'react'
 
 import H2Headline from '#atoms/H2Headline'
-import H4Headline from '#atoms/H4Headline'
+import H3Headline from '#atoms/H3Headline'
 import Layout from '#atoms/Layout'
 
 interface HeadlineAreaProps extends HTMLAttributes<HTMLDivElement> {
@@ -15,9 +15,9 @@ const HeadlineArea = ({ className, headline, subHeadline, ...props }: HeadlineAr
     <H2Headline className="pixi-hitbox inline-block self-start mx-auto text-center">
       {headline}
     </H2Headline>
-    <H4Headline className="pixi-hitbox inline-block  w-3/4 md:w-auto mx-auto self-start text-center">
+    <H3Headline className="pixi-hitbox inline-block  w-3/4 md:w-auto mx-auto self-start text-center">
       {subHeadline}
-    </H4Headline>
+    </H3Headline>
   </Layout>
 )
 

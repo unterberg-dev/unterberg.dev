@@ -1,5 +1,5 @@
 import BlurDot from '#atoms/BlurDot'
-import H4Headline from '#atoms/H4Headline'
+import H3Headline from '#atoms/H3Headline'
 import Layout from '#atoms/Layout'
 import { GsapStaggerFunctionComponent } from '#gsap/usePageHeaderAnimations'
 
@@ -20,16 +20,18 @@ const StaggerHeader = ({ GsapStaggerElement, postTitle, subtitle, title }: Stagg
       <BlurDot className="left-1/2 -ml-50 md:ml-inherit md:left-20 -top-20 w-100 h-100 opacity-30 fixed md:absolute" />
     </GsapStaggerElement>
     <div>
-      <header className="pixi-hitbox pointer-events-none relative z-10 flex flex-col mx-auto items-center">
+      <header className="pointer-events-none relative z-10 flex flex-col mx-auto items-center">
         {postTitle && (
           <GsapStaggerElement>
-            <h1 className="text-grayDark font-mono mb-8 text-center text-sm">{postTitle}</h1>
+            <h1 className="pixi-hitbox text-grayDark font-mono mb-8 text-center text-sm">
+              {postTitle}
+            </h1>
           </GsapStaggerElement>
         )}
         {title && (
           <GsapStaggerElement>
             <h2
-              className="mx-auto text-4xl md:text-7xl font-bold relative text-center text-light mb-4 md:mb-10"
+              className="pixi-hitbox mx-auto text-4xl md:text-7xl font-bold relative text-center text-light mb-4 md:mb-10"
               style={{ ...dropShadowStyle }}
             >
               {title}
@@ -38,12 +40,12 @@ const StaggerHeader = ({ GsapStaggerElement, postTitle, subtitle, title }: Stagg
         )}
         {subtitle && (
           <GsapStaggerElement>
-            <H4Headline
-              className="relative text-center text-gray inline-block"
+            <H3Headline
+              className="pixi-hitbox relative text-center text-gray inline-block"
               style={{ ...dropShadowStyle }}
             >
               {subtitle}
-            </H4Headline>
+            </H3Headline>
           </GsapStaggerElement>
         )}
       </header>

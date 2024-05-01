@@ -1,6 +1,5 @@
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useState } from 'react'
 
-import H3Headline from '#atoms/H3Headline'
 import Icon from '#atoms/Icon'
 import Layout from '#atoms/Layout'
 import Link from '#atoms/Link'
@@ -89,7 +88,6 @@ const Hamburger = () => {
                 <Link
                   key={item.name}
                   href={item.path}
-                  external
                   className="relative text-xl text-grayLight hover:text-warning"
                 >
                   <Icon icon={item.icon} className="w-6 h-6" />

@@ -4,13 +4,12 @@ import { usePageContext } from '#root/renderer/usePageContext'
 
 interface LinkProps {
   href: string
-  external?: boolean
   children?: React.ReactNode | React.ReactNode[]
   className?: string
   button?: boolean
 }
 
-const Link = ({ href, external, children, className = '', button }: LinkProps) => {
+const Link = ({ href, children, className = '', button }: LinkProps) => {
   const pageContext = usePageContext()
   const { urlPathname } = pageContext
 
@@ -19,6 +18,14 @@ const Link = ({ href, external, children, className = '', button }: LinkProps) =
   const pathnameWithoutSlashes = urlPathname.replace(/^\/|\/$/g, '')
 
   const isAnchorLink = hrefWithoutSlashes.startsWith('#')
+
+  const isExternal = useMemo(() => {
+    if (hrefWithoutSlashes.startsWith('http') || hrefWithoutSlashes.startsWith('mailto')) {
+      return true
+    }
+
+    return false
+  }, [hrefWithoutSlashes])
 
   const isActive = useMemo(
     () =>
@@ -41,16 +48,16 @@ const Link = ({ href, external, children, className = '', button }: LinkProps) =
   }, [button, className, isActive])
 
   const linkCheckedExternal = useMemo(
-    () => `${!external ? import.meta.env.BASE_URL : ''}${href}`,
-    [external, href],
+    () => `${!isExternal ? import.meta.env.BASE_URL : ''}${href}`,
+    [href, isExternal],
   )
 
   return (
     <a
       href={isAnchorLink ? href : linkCheckedExternal}
       className={generatedClassName}
-      target={external ? '_blank' : '_self'}
-      rel={external ? 'noreferrer' : ''}
+      target={isExternal ? '_blank' : '_self'}
+      rel={isExternal ? 'noreferrer' : ''}
     >
       {children}
     </a>

@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 
 import { GlassItem } from '#atoms/GlassItem'
-import H3Headline from '#atoms/H3Headline'
+import H4Headline from '#atoms/H4Headline'
 import TagBubble from '#atoms/TagBubble'
 import { GsapStaggerFunctionComponent } from '#gsap/usePageHeaderAnimations'
 import { APP_CONFIG } from '#lib/constants'
@@ -79,7 +79,7 @@ const CaseContent = ({
           <TagBubble $size="md" className={`${project.className}`}>
             {project.name}
           </TagBubble>
-          <H3Headline className="mt-3">{title}</H3Headline>
+          <H4Headline className="mt-3">{title}</H4Headline>
         </GsapStaggerElement>
         <GsapStaggerElement
           fromBottom
