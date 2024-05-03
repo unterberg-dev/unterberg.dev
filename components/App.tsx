@@ -7,6 +7,7 @@ import { PageContextClient, PageContextServer } from 'vike/types'
 
 import Footer from '#organisms/Footer'
 import Header from '#organisms/Header'
+import PixiStageContextProvider from '#pixi/context/PixiStageContextProvider'
 import { ClientOnly } from '#renderer/ClientOnly'
 import { PageContextProvider } from '#renderer/usePageContext'
 
@@ -28,14 +29,16 @@ const App = ({
 
   return (
     <StrictMode>
-      <PageContextProvider pageContext={pageContext}>
-        <div className="relative min-h-lvh">
-          <Header />
-          <div className="page-portal">{children}</div>
-          <Footer />
-        </div>
-      </PageContextProvider>
-      {pixiStageMemo}
+      <PixiStageContextProvider>
+        <PageContextProvider pageContext={pageContext}>
+          <div className="relative min-h-lvh">
+            <Header />
+            <div className="page-portal">{children}</div>
+            <Footer />
+          </div>
+        </PageContextProvider>
+        {pixiStageMemo}
+      </PixiStageContextProvider>
     </StrictMode>
   )
 }

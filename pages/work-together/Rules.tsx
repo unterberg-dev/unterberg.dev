@@ -2,7 +2,7 @@ import { ReactNode } from 'react'
 
 import BlurDot from '#atoms/BlurDot'
 import { GlassItem } from '#atoms/GlassItem'
-import H5Headline from '#atoms/H5Headline'
+import H4Headline from '#atoms/H4Headline'
 import Layout from '#atoms/Layout'
 import Link from '#atoms/Link'
 import HeadlineArea from '#molecules/HeadlineArea'
@@ -16,7 +16,7 @@ const RuleContainer = ({ children, title }: RuleContainerProps) => (
   <GlassItem className="pixi-hitbox relative p-7">
     <BlurDot className="top-full -mt-50 -left-40 w-100 h-100 opacity-20 absolute" />
     <div className="flex flex-col gap-3 z-4">
-      <H5Headline>{title}</H5Headline>
+      <H4Headline>{title}</H4Headline>
       {children}
     </div>
   </GlassItem>

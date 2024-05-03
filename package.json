@@ -30,6 +30,7 @@
   "dependencies": {
     "@gsap/react": "^2.1.0",
     "@vitejs/plugin-react": "^4.2.1",
+    "body-scroll-lock": "^4.0.0-beta.0",
     "dotenv": "^16.4.1",
     "gsap": "^3.12.5",
     "lucide-react": "^0.367.0",
@@ -43,6 +44,7 @@
     "vike": "^0.4.168"
   },
   "devDependencies": {
+    "@types/body-scroll-lock": "^3.1.2",
     "@ianvs/prettier-plugin-sort-imports": "^4.1.1",
     "@types/node": "^20.10.4",
     "@types/react": "^18.2.45",

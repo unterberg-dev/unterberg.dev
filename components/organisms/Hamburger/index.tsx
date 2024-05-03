@@ -23,7 +23,6 @@ const Hamburger = () => {
     handleHoverIn,
     handleHoverLeave,
   } = useHamburgerAnimations()
-  const [pictureId, setPictureId] = useState(0)
 
   const handleClick = useCallback(
     (overlayClick?: boolean) => {
@@ -36,7 +35,6 @@ const Hamburger = () => {
           hoverTimeline.current?.reverse()
         }
       } else {
-        setPictureId(Math.floor(R(0, 8)))
         handleExpand()
       }
     },
@@ -55,7 +53,7 @@ const Hamburger = () => {
   }, [collapseOnMenuChangeTimeline, expandTimeline, hoverTimeline])
 
   return (
-    <div ref={hamburgerRef}>
+    <div ref={hamburgerRef} id="hamburger">
       <div className="fixed z-30 w-full left-0 top-0">
         <Layout className="relative" ref={layoutRef}>
           <div className="burger-button overflow-hidden pixi-hitbox border-1 border-darkLightBorder h-15 w-15 rounded-10 bg-dark bg-opacity-80 absolute right-0 top-3">
@@ -103,14 +101,9 @@ const Hamburger = () => {
           className="overlay fixed inset-0 bg-grayDark bg-opacity-60 opacity-0"
           style={{ backgroundImage: `url(${APP_CONFIG.viteMediaUrl}/pattern-big.svg)` }}
         >
-          <div className="pixi-hitbox absolute h-40 w-full left-0 top-0 bg-gradient-to-b from-darkLightBorder opacity-60" />
-          <div className="pixi-hitbox absolute h-40 w-full bottom-0 left-0 bg-gradient-to-t from-black opacity-30" />
+          <div className="absolute h-80 w-full left-0 top-0 bg-gradient-to-b from-darkLight opacity-80" />
+          <div className="absolute h-80 w-full bottom-0 left-0 bg-gradient-to-t from-black opacity-30" />
         </div>
-        <img
-          src={`${APP_CONFIG.viteMediaUrl}/decorators/ek/overlay-bg/${pictureId}.png`}
-          alt=""
-          className="overlay-article-stagger opacity-0 transform-translate-y-15 w-40 -ml-45 right-4 h-auto absolute bottom-4"
-        />
       </div>
     </div>
   )

@@ -1,8 +1,19 @@
 import { useGSAP } from '@gsap/react'
+import { clearAllBodyScrollLocks, disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
 import gsap from 'gsap'
 import { useRef, useState } from 'react'
 
 import { APP_CONFIG } from '#lib/constants'
+import usePixiStageContext from '#pixi/context/usePixiStageContext'
+import { handleUpdateHitboxes } from '#pixi/events'
+
+const enableScroll = () => {
+  clearAllBodyScrollLocks()
+}
+
+const disableScroll = () => {
+  disableBodyScroll(document.querySelector('#hamburger') as HTMLElement)
+}
 
 const useHamburgerAnimations = () => {
   const [isExpanded, setIsExpanded] = useState(false)
@@ -16,35 +27,50 @@ const useHamburgerAnimations = () => {
   const collapseOnMenuChangeTimeline = useRef<gsap.core.Timeline>()
   const hoverTimeline = useRef<gsap.core.Timeline>()
 
+  const modifiedDuration = APP_CONFIG.defaultDuration * 1.5
+
+  const { pixiStage } = usePixiStageContext()
+
   const { contextSafe } = useGSAP(
     () => {
       expandTimeline.current = gsap.timeline({
         paused: true,
+        repeatRefresh: true,
+        onRepeat: () => {
+          disableScroll()
+        },
+        onStart: () => {
+          disableScroll()
+        },
         onComplete: () => {
           setIsExpanded(true)
+
+          handleUpdateHitboxes(true)
         },
         onReverseComplete: () => {
           setIsExpanded(false)
+          enableScroll()
+          handleUpdateHitboxes()
         },
       })
       expandTimeline.current.set('.overlay-wrap', { display: 'block' }, '<')
       expandTimeline.current.to(
         '.overlay',
-        { opacity: 1, duration: APP_CONFIG.defaultDuration, ease: 'sine.inOut' },
+        { opacity: 1, duration: modifiedDuration, ease: 'sine.inOut' },
         '<',
       )
       expandTimeline.current.to(
         '.burger-button',
         {
           width: layoutRef.current?.scrollWidth,
-          duration: APP_CONFIG.defaultDuration,
+          duration: modifiedDuration,
           ease: 'sine.inOut',
         },
         '<',
       )
       expandTimeline.current.to(
         '.mid',
-        { width: '0%', left: '50%', duration: APP_CONFIG.defaultDuration, ease: 'sine.inOut' },
+        { width: '0%', left: '50%', duration: modifiedDuration, ease: 'sine.inOut' },
         '<',
       )
       expandTimeline.current.to(
@@ -52,7 +78,7 @@ const useHamburgerAnimations = () => {
         {
           rotate: '-45%',
           top: 0,
-          duration: APP_CONFIG.defaultDuration,
+          duration: modifiedDuration,
           ease: 'sine.inOut',
         },
         '<',
@@ -62,7 +88,7 @@ const useHamburgerAnimations = () => {
         {
           rotate: '45%',
           top: 0,
-          duration: APP_CONFIG.defaultDuration,
+          duration: modifiedDuration,
           ease: 'sine.inOut',
         },
         '<',
@@ -78,61 +104,39 @@ const useHamburgerAnimations = () => {
             each: 0.1,
             from: 'start',
           },
-          duration: APP_CONFIG.defaultDuration - 0.3,
+          duration: modifiedDuration - 0.3,
         },
         '<+.3',
       )
-      expandTimeline.current.to(
-        '.overlay-article-stagger',
-        {
-          ease: 'sine.inOut',
-          opacity: 1,
-          y: 0,
-          stagger: {
-            each: 0.1,
-            from: 'end',
-          },
-          duration: APP_CONFIG.defaultDuration - 0.3,
-        },
-        '<',
-      )
+      expandTimeline.current.set(pixiStage || document.body, { zIndex: 10 }, '<')
 
       collapseOnMenuChangeTimeline.current = gsap.timeline({
         paused: true,
         onComplete: () => {
           setIsExpanded(false)
+          setIsHovered(false)
+        },
+        onStart: () => {
+          enableScroll()
         },
       })
       collapseOnMenuChangeTimeline.current.to(
         '.overlay',
         {
           opacity: 0,
-          duration: APP_CONFIG.defaultDuration / 2,
+          duration: modifiedDuration / 2,
           ease: 'sine.inOut',
         },
-        '<',
+        '>',
       )
+      collapseOnMenuChangeTimeline.current.set(pixiStage || document.body, { zIndex: 1 }, '<')
       collapseOnMenuChangeTimeline.current.to(
         '.burger-button',
         {
           y: -40,
           opacity: 0,
-          duration: APP_CONFIG.defaultDuration / 2,
+          duration: modifiedDuration / 2,
           ease: 'sine.inOut',
-        },
-        '<',
-      )
-      collapseOnMenuChangeTimeline.current.to(
-        '.overlay-article-stagger',
-        {
-          ease: 'sine.inOut',
-          opacity: 0,
-          y: 0,
-          stagger: {
-            each: 0.1,
-            from: 'end',
-          },
-          duration: APP_CONFIG.defaultDuration / 2,
         },
         '<',
       )
@@ -157,8 +161,6 @@ const useHamburgerAnimations = () => {
         {
           width: '100%',
           left: '0%',
-          duration: APP_CONFIG.defaultDuration / 2,
-          ease: 'sine.inOut',
         },
         '<',
       )
@@ -168,8 +170,6 @@ const useHamburgerAnimations = () => {
           rotate: '0%',
           top: -10,
           left: 0,
-          duration: APP_CONFIG.defaultDuration / 2,
-          ease: 'sine.inOut',
         },
         '<',
       )
@@ -179,8 +179,6 @@ const useHamburgerAnimations = () => {
           rotate: '0%',
           top: 10,
           left: 0,
-          duration: APP_CONFIG.defaultDuration / 2,
-          ease: 'sine.inOut',
         },
         '<',
       )
@@ -190,7 +188,7 @@ const useHamburgerAnimations = () => {
         {
           y: 0,
           opacity: 1,
-          duration: APP_CONFIG.defaultDuration * 1.3,
+          duration: modifiedDuration * 1.3,
           ease: 'sine.inOut',
         },
         '>',
@@ -206,7 +204,7 @@ const useHamburgerAnimations = () => {
           backgroundColor: '#F1B650',
           scale: 1.08,
           ease: 'power1.inOut',
-          duration: APP_CONFIG.defaultDuration / 3,
+          duration: modifiedDuration / 3,
           stagger: {
             each: 0.1,
             from: 'end',
@@ -215,12 +213,12 @@ const useHamburgerAnimations = () => {
         '<',
       )
     },
-    { scope: hamburgerRef },
+    { scope: hamburgerRef, dependencies: [pixiStage] },
   )
 
   const handleHoverIn = contextSafe(() => {
     if (isExpanded) return
-    hoverTimeline.current?.restart()
+    hoverTimeline.current?.play()
     setIsHovered(true)
   })
 
@@ -239,6 +237,7 @@ const useHamburgerAnimations = () => {
   })
 
   const handleCollapse = contextSafe(() => {
+    setIsExpanded(true)
     handleHoverLeave()
     expandTimeline.current?.progress(1)
     expandTimeline.current?.reverse()

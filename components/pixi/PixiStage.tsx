@@ -1,11 +1,14 @@
 import { useEffect, useRef } from 'react'
-import { browserName, browserVersion, CustomView } from 'react-device-detect'
+import { browserName, browserVersion } from 'react-device-detect'
 
+import usePixiStageContext from '#pixi/context/usePixiStageContext'
 import { initStage } from '#pixi/initStage'
 
 const PixiStage = () => {
   const stageRef = useRef<HTMLDivElement>(null)
   const isInitialized = useRef(false)
+
+  const { setPixiStage } = usePixiStageContext()
 
   useEffect(() => {
     const stage = stageRef.current
@@ -17,9 +20,9 @@ const PixiStage = () => {
       return
     }
 
-    initStage(stage)
+    initStage(stage, setPixiStage)
     isInitialized.current = true
-  }, [])
+  }, [setPixiStage])
 
   return <div id="stage" className="z-1 fixed inset-0" ref={stageRef} />
 }

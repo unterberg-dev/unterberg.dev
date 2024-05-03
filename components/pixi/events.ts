@@ -2,10 +2,10 @@ import { registerAutoPointer } from '#components/pixi/autoPointer'
 import { getStore, setStore } from '#components/pixi/store'
 import { createHitboxes, handlePointerMove } from '#pixi/pointer'
 
-export const handleUpdateHitboxes = () => {
+export const handleUpdateHitboxes = (disable?: boolean) => {
   const store = getStore()
   const newHitboxes = createHitboxes()
-  setStore({ ...store, hitboxes: newHitboxes })
+  setStore({ ...store, hitboxes: disable ? undefined : newHitboxes })
 }
 
 // todo: little game - after 50000px crazy things happen :D
@@ -66,7 +66,7 @@ export const registerUserEvents = () => {
   })
 
   window.addEventListener('pointermove', event => handlePointerMove({ event }))
-  window.addEventListener('scrollend', handleUpdateHitboxes)
+  window.addEventListener('scrollend', () => handleUpdateHitboxes())
 
   // todo:
   // window.addEventListener('pointermove', handleMoveToRocketLaunch)

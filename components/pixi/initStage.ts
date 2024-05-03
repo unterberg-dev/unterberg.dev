@@ -3,7 +3,7 @@ import gsap from 'gsap'
 import { registerAutoPointer } from '#components/pixi/autoPointer'
 import { registerUserEvents } from '#components/pixi/events'
 import { createSpaceScene } from '#components/pixi/space/createSpaceScene'
-import { getStore, setEmitterStore, setStore } from '#components/pixi/store'
+import { setEmitterStore, setStore, Store } from '#components/pixi/store'
 import { createApp } from '#components/pixi/system/createApp'
 import { createTileGrid } from '#pixi/grid/createTileGrid'
 import { registerIdleTileTimelines } from '#pixi/grid/registerIdleTileTimelines'
@@ -14,14 +14,20 @@ import { registerSpawnerTimelines } from '#pixi/spawner/registerSpawnerTimelines
 import { getDimensions } from '#pixi/utils'
 import { EMITTER_TIMELINE, PixiConfig } from '#root/lib/constants'
 
-export const initStage = async (stage: HTMLDivElement | null) => {
+export const initStage = async (
+  stage: HTMLDivElement | null,
+  setPixiStage: React.Dispatch<React.SetStateAction<Store['stage'] | undefined>> | undefined,
+) => {
   if (!stage) return
   const { configCursorRadius } = PixiConfig
+
+  // set store for react context
+  setPixiStage?.(stage)
 
   // render timeout for mobile devices - pagespeed? :O
   const timeout = stage.clientWidth < 800 ? 4 : 2.3
 
-  gsap.delayedCall(timeout, async () => {
+  await gsap.delayedCall(timeout, async () => {
     const app = await createApp(stage)
     const { tileHeight, tileWidth } = getDimensions(app)
 
@@ -29,8 +35,7 @@ export const initStage = async (stage: HTMLDivElement | null) => {
     const spaceObjects = createSpaceScene(app)
     const hitboxes = createHitboxes()
 
-    // set the grid config
-    setStore({
+    const store = {
       app,
       stage,
       tiles,
@@ -41,7 +46,11 @@ export const initStage = async (stage: HTMLDivElement | null) => {
       tileWidth,
       spaceObjects,
       cursorRadius: configCursorRadius,
-    })
+    }
+
+    // set the grid config
+    setStore(store)
+
     // tile timelines setup
     registerIdleTileTimelines({ tiles })
     initStartSpaceTimelines({ spaceObjects })
