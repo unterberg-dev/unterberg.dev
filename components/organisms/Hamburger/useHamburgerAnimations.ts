@@ -1,5 +1,5 @@
 import { useGSAP } from '@gsap/react'
-import { clearAllBodyScrollLocks, disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
+import { clearAllBodyScrollLocks, disableBodyScroll } from 'body-scroll-lock'
 import gsap from 'gsap'
 import { useRef, useState } from 'react'
 
@@ -44,7 +44,6 @@ const useHamburgerAnimations = () => {
         },
         onComplete: () => {
           setIsExpanded(true)
-
           handleUpdateHitboxes(true)
         },
         onReverseComplete: () => {
@@ -108,7 +107,7 @@ const useHamburgerAnimations = () => {
         },
         '<+.3',
       )
-      expandTimeline.current.set(pixiStage || document.body, { zIndex: 10 }, '<')
+      expandTimeline.current.set(pixiStage || document.body, { zIndex: 10 }, '>')
 
       collapseOnMenuChangeTimeline.current = gsap.timeline({
         paused: true,

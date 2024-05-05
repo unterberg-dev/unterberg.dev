@@ -15,7 +15,7 @@ const HeadlineArea = ({ className, headline, subHeadline, ...props }: HeadlineAr
     <H2Headline className="pixi-hitbox inline-block self-start mx-auto text-center">
       {headline}
     </H2Headline>
-    <H3Headline className="pixi-hitbox inline-block  w-3/4 md:w-auto mx-auto self-start text-center">
+    <H3Headline className="pixi-hitbox inline-block w-3/4 md:w-auto mx-auto self-start text-center">
       {subHeadline}
     </H3Headline>
   </Layout>

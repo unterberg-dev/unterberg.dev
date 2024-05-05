@@ -1,19 +1,24 @@
-import { PROJECT_TYPE_KEY } from '#pages/showcase/projectTypes'
+export enum CASE_KEY {
+  GITHUB_STARTER,
+  GITHUB_MAP_STARTER,
+  SHOWCASE,
+  CLIENT_PROJECT,
+  YOURS,
+}
 
-export type ShowCaseItemImage = string[]
-
-export type ShowCaseItemLink = {
+type CaseImage = string[]
+type CaseLink = {
   preview: string
   repo?: string
 }
 
-export type ShowCaseItem = {
+export type Case = {
+  id: CASE_KEY
   title: string
   description: string[] | string
-  images?: ShowCaseItemImage
-  link: ShowCaseItemLink
+  images?: CaseImage
+  link: CaseLink
   libs: string[]
-  projectType: PROJECT_TYPE_KEY
   languages?: string[]
   framework?: string
   hosting?: string
@@ -21,9 +26,9 @@ export type ShowCaseItem = {
   draft?: boolean
 }
 
-const cases: ShowCaseItem[] = [
+const cases: Case[] = [
   {
-    projectType: PROJECT_TYPE_KEY.SHOWCASE,
+    id: CASE_KEY.SHOWCASE,
     title: 'unterberg.dev',
     description: [
       'After years of not having a personal website, I finally decided to create one. The goal was to create a simple, yet fast, and accessible website which features some of my core skills.',
@@ -40,7 +45,7 @@ const cases: ShowCaseItem[] = [
     spotlight: true,
   },
   {
-    projectType: PROJECT_TYPE_KEY.GITHUB_MAP_STARTER,
+    id: CASE_KEY.GITHUB_MAP_STARTER,
     title: 'Leaflet Nextjs Typescript',
     // todo: change text - it's just copy from the repo - better seo
     description:
@@ -56,7 +61,7 @@ const cases: ShowCaseItem[] = [
     libs: ['next.js', 'react', 'leaflet (+ react-leaflet)', 'leaflet.markercluster', 'tailwind'],
   },
   {
-    projectType: PROJECT_TYPE_KEY.GITHUB_MAP_STARTER,
+    id: CASE_KEY.GITHUB_MAP_STARTER,
     title: 'Maplibre/Mapbox Nextjs Typescript',
     // todo: change text - it's just copy from the repo - better seo
     description:
@@ -79,7 +84,7 @@ const cases: ShowCaseItem[] = [
     ],
   },
   {
-    projectType: PROJECT_TYPE_KEY.GITHUB_STARTER,
+    id: CASE_KEY.GITHUB_STARTER,
     title: 'GSAP Pixi.js Typescript',
     // todo: change text - it's just copy from the repo - better seo
     description:
@@ -95,7 +100,7 @@ const cases: ShowCaseItem[] = [
     libs: [],
   },
   {
-    projectType: PROJECT_TYPE_KEY.CLIENT_PROJECT,
+    id: CASE_KEY.CLIENT_PROJECT,
     title: 'CWE Chemnitz',
     // todo: change text - it's just copy from the repo - better seo
     description:
@@ -110,7 +115,7 @@ const cases: ShowCaseItem[] = [
     draft: true,
   },
   {
-    projectType: PROJECT_TYPE_KEY.CLIENT_PROJECT,
+    id: CASE_KEY.CLIENT_PROJECT,
     title: 'Azubimanufaktur',
     // todo: change text - it's just copy from the repo - better seo
     description: [
@@ -127,7 +132,7 @@ const cases: ShowCaseItem[] = [
     draft: true,
   },
   {
-    projectType: PROJECT_TYPE_KEY.YOURS,
+    id: CASE_KEY.YOURS,
     title: 'Yours?',
     // todo: change text - it's just copy from the repo - better seo
     description:

@@ -3,10 +3,8 @@ import { useMemo } from 'react'
 import { GlassItem } from '#atoms/GlassItem'
 import H4Headline from '#atoms/H4Headline'
 import TagBubble from '#atoms/TagBubble'
-import { GsapStaggerFunctionComponent } from '#gsap/usePageHeaderAnimations'
 import { APP_CONFIG } from '#lib/constants'
-import { ShowCaseItem } from '#pages/showcase/cases'
-import { PROJECT_TYPE_KEY } from '#pages/showcase/projectTypes'
+import { Case, CASE_KEY } from '#pages/showcase/cases'
 
 export type ProjectType = {
   name: string
@@ -14,58 +12,45 @@ export type ProjectType = {
 }
 
 export const projectTypes: {
-  [key in PROJECT_TYPE_KEY]: ProjectType
+  [key in CASE_KEY]: ProjectType
 } = {
-  [PROJECT_TYPE_KEY.GITHUB_STARTER]: {
+  [CASE_KEY.GITHUB_STARTER]: {
     name: 'Github Starter Template',
     className: 'bg-blue-4 text-dark',
   },
-  [PROJECT_TYPE_KEY.GITHUB_MAP_STARTER]: {
+  [CASE_KEY.GITHUB_MAP_STARTER]: {
     name: 'Github Mapping Starter',
     className: 'bg-emerald-8 text-dark',
   },
-  [PROJECT_TYPE_KEY.SHOWCASE]: {
+  [CASE_KEY.SHOWCASE]: {
     name: 'Website / Showcase',
     className: 'bg-green-4 text-dark',
   },
-  [PROJECT_TYPE_KEY.CLIENT_PROJECT]: {
+  [CASE_KEY.CLIENT_PROJECT]: {
     name: 'Client Website',
     className: 'bg-yellow-4 text-dark',
   },
-  [PROJECT_TYPE_KEY.YOURS]: {
+  [CASE_KEY.YOURS]: {
     name: 'Client Website',
     className: 'bg-orange-4 text-dark',
   },
 }
 
 interface CaseProps {
-  GsapStaggerElement: GsapStaggerFunctionComponent
-  caseItem: ShowCaseItem
-
-  stagger?: boolean
+  caseItem: Case
   colDisplay?: boolean
   switchLayout?: boolean
 }
 
-const CaseContent = ({
-  caseItem,
-  GsapStaggerElement,
-  stagger,
-  colDisplay,
-  switchLayout,
-}: CaseProps) => {
-  const { title, description, images, projectType } = caseItem
+const CaseContent = ({ caseItem, colDisplay, switchLayout }: CaseProps) => {
+  const { title, description, images, id: projectType } = caseItem
   const project = projectTypes[projectType]
 
   return (
     <div
       className={`${colDisplay ? 'flex flex-col' : 'grid grid-cols md:grid-cols-3'} gap-5 md:gap-8`}
     >
-      <GsapStaggerElement
-        className={`${switchLayout ? 'order-2' : 'order-1'} col-span-1`}
-        fromBottom
-        disable={!stagger}
-      >
+      <div className={`${switchLayout ? 'order-2' : 'order-1'} col-span-1`}>
         <div className="w-full h-50 overflow-hidden">
           <img
             className="object-cover w-full h-full"
@@ -73,64 +58,43 @@ const CaseContent = ({
             alt={title}
           />
         </div>
-      </GsapStaggerElement>
+      </div>
       <div className={`${switchLayout ? 'order-1' : 'order-2'} col-span-2`}>
-        <GsapStaggerElement fromBottom disable={!stagger}>
-          <TagBubble $size="md" className={`${project.className}`}>
-            {project.name}
-          </TagBubble>
-          <H4Headline className="mt-3">{title}</H4Headline>
-        </GsapStaggerElement>
-        <GsapStaggerElement
-          fromBottom
-          disable={!stagger}
-          className="text-gray flex flex-col gap-5 mt-5"
-        >
+        <TagBubble $size="md" className={`${project.className}`}>
+          {project.name}
+        </TagBubble>
+        <H4Headline className="mt-3">{title}</H4Headline>
+        <div className="text-gray flex flex-col gap-5 mt-5">
           {Array.isArray(description) ? (
             description.map(item => <p key={item}>{item}</p>)
           ) : (
             <p>{description}</p>
           )}
-        </GsapStaggerElement>
+        </div>
       </div>
     </div>
   )
 }
 
-const Case = ({ caseItem, GsapStaggerElement, stagger, switchLayout, colDisplay }: CaseProps) => {
+const CaseItem = ({ caseItem, switchLayout, colDisplay }: CaseProps) => {
   const isSpotlight = useMemo(() => !!caseItem.spotlight, [caseItem.spotlight])
 
   if (isSpotlight) {
     return (
-      <GsapStaggerElement fromBottom>
-        <GlassItem className="p-10">
-          <CaseContent
-            caseItem={caseItem}
-            GsapStaggerElement={GsapStaggerElement}
-            switchLayout={switchLayout}
-            stagger
+      <GlassItem className="p-10">
+        <CaseContent caseItem={caseItem} switchLayout={switchLayout} />
+        <div className="absolute bottom-0 left-0">
+          <img
+            className="w-30"
+            src={`${APP_CONFIG.viteMediaUrl}/decorators/ek/star.webp`}
+            alt={caseItem.title}
           />
-          <GsapStaggerElement className="absolute bottom-0 left-0" fromBottom>
-            <img
-              className="w-30"
-              src={`${APP_CONFIG.viteMediaUrl}/decorators/ek/star.webp`}
-              alt={caseItem.title}
-            />
-          </GsapStaggerElement>
-        </GlassItem>
-      </GsapStaggerElement>
+        </div>
+      </GlassItem>
     )
   }
 
-  return (
-    <CaseContent
-      caseItem={caseItem}
-      GsapStaggerElement={GsapStaggerElement}
-      stagger={stagger}
-      switchLayout={switchLayout}
-      colDisplay={colDisplay}
-    />
-  )
+  return <CaseContent caseItem={caseItem} switchLayout={switchLayout} colDisplay={colDisplay} />
 }
 
-export default Case
+export default CaseItem

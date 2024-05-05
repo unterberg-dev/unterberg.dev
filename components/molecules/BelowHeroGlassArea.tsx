@@ -12,7 +12,7 @@ interface BelowHeroGlassAreaProps extends React.HTMLAttributes<HTMLDivElement> {
 const BelowHeroGlassArea = ({
   GsapStaggerElement,
   children,
-  marginTopTwClass = 'mt-60',
+  marginTopTwClass = 'mt-50',
 }: BelowHeroGlassAreaProps) => (
   <GsapStaggerElement fromBottom className={`relative z-5 ${marginTopTwClass || ''}`}>
     <Layout

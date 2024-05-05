@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react'
+import { useCallback } from 'react'
 
 import Icon from '#atoms/Icon'
 import Layout from '#atoms/Layout'
@@ -7,7 +7,6 @@ import { APP_CONFIG } from '#lib/constants'
 import { externalNavigation } from '#lib/navigation'
 import useHamburgerAnimations from '#organisms/Hamburger/useHamburgerAnimations'
 import MainNavigation from '#organisms/MainNavigation'
-import { R } from '#pixi/utils'
 
 const Hamburger = () => {
   const {

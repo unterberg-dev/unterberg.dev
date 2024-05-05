@@ -15,7 +15,7 @@ export const GlassItem = tw.div`
   rounded-md
   p-5
   flex-1
-  duration-500
+  duration-350
   transition-transform
   text-light
   border-darkLightBorder

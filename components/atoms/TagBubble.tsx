@@ -26,7 +26,7 @@ const TagBubble = tw.div<TagBubbleProps>`
   ${p => mapSizeToFontSize(p.$size)}
   inline-block
   transition-colors
-  duration-500
+  duration-350
   px-2
   py-1
 `

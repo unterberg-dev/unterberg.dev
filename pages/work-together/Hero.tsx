@@ -31,7 +31,7 @@ const CollaborateHero = ({ GsapStaggerElement }: CollaborateHeroProps) => (
                 </div>
               </div>
             }
-            className="h-full w-full"
+            className="pixi-hitbox h-full w-full"
           />
         </GsapStaggerElement>
         <GsapStaggerElement className="h-full" fromBottom>
@@ -52,7 +52,7 @@ const CollaborateHero = ({ GsapStaggerElement }: CollaborateHeroProps) => (
                 </div>
               </div>
             }
-            className="h-full w-full"
+            className="pixi-hitbox h-full w-full"
           />
         </GsapStaggerElement>
         <GsapStaggerElement className="h-full" fromBottom>
@@ -71,7 +71,7 @@ const CollaborateHero = ({ GsapStaggerElement }: CollaborateHeroProps) => (
                 </div>
               </div>
             }
-            className="h-full w-full"
+            className="pixi-hitbox h-full w-full"
           />
         </GsapStaggerElement>
       </div>
