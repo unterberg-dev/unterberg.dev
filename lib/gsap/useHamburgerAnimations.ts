@@ -35,7 +35,6 @@ const useHamburgerAnimations = () => {
     () => {
       expandTimeline.current = gsap.timeline({
         paused: true,
-        repeatRefresh: true,
         onRepeat: () => {
           disableScroll()
         },

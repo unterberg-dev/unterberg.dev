@@ -36,11 +36,11 @@ const Skills = ({ GsapStaggerElement }: SkillProps) => {
                 <Skillbox
                   key={skill.id}
                   skill={skill}
-                  tileHovered={tileHovered}
+                  isExpanded={tileExpanded === skill.id}
                   isAnimating={isAnimating}
                   setIsAnimating={setIsAnimating}
                   setTileHovered={setTileHovered}
-                  tileExpanded={tileExpanded}
+                  isHovered={tileHovered === skill.id}
                   setTileExpanded={setTileExpanded}
                   switchLayout={skill.id % 2 === 0}
                 />

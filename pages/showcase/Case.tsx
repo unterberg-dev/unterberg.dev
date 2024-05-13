@@ -71,6 +71,17 @@ const CaseContent = ({ caseItem, colDisplay, switchLayout }: CaseProps) => {
             <p>{description}</p>
           )}
         </div>
+        <div className="flex flex-wrap gap-2 mt-5">
+          {caseItem.libs.map(lib => (
+            <TagBubble
+              key={lib}
+              $size="md"
+              className="bg-darkLight border-1 border-darkLightBorder text-gray"
+            >
+              {lib}
+            </TagBubble>
+          ))}
+        </div>
       </div>
     </div>
   )

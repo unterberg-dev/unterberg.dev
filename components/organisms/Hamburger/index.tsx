@@ -3,9 +3,9 @@ import { useCallback } from 'react'
 import Icon from '#atoms/Icon'
 import Layout from '#atoms/Layout'
 import Link from '#atoms/Link'
+import useHamburgerAnimations from '#gsap/useHamburgerAnimations'
 import { APP_CONFIG } from '#lib/constants'
 import { externalNavigation } from '#lib/navigation'
-import useHamburgerAnimations from '#organisms/Hamburger/useHamburgerAnimations'
 import MainNavigation from '#organisms/MainNavigation'
 
 const Hamburger = () => {

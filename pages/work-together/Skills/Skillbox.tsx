@@ -1,12 +1,11 @@
-import { useGSAP } from '@gsap/react'
-import gsap from 'gsap'
 import { ChevronDown } from 'lucide-react'
-import { HTMLAttributes, useMemo, useRef } from 'react'
+import { HTMLAttributes } from 'react'
 import tw from 'tailwind-styled-components'
 
 import BlurDot from '#atoms/BlurDot'
 import H4Headline from '#atoms/H4Headline'
 import TagBubble from '#atoms/TagBubble'
+import useSkillboxAnimations from '#gsap/useSkillboxAnimations'
 import { APP_CONFIG } from '#lib/constants'
 import { Skill, SKILL_KEY } from '#pages/work-together/skillsMap'
 
@@ -26,9 +25,9 @@ interface SkillboxProps extends HTMLAttributes<HTMLDivElement> {
   className?: string
   skill: Skill
   switchLayout?: boolean
-  tileHovered: SKILL_KEY | false
+  isHovered: boolean
   setTileHovered: (tileHovered: SKILL_KEY | false) => void
-  tileExpanded: SKILL_KEY | false
+  isExpanded: boolean
   setTileExpanded: (tileExpanded: SKILL_KEY | false) => void
   isAnimating: boolean
   setIsAnimating: (isAnimating: boolean) => void
@@ -40,176 +39,32 @@ const Skillbox = ({
   className,
   switchLayout,
   skill,
-  tileHovered,
+  isHovered,
   setTileHovered,
-  tileExpanded,
+  isExpanded,
   setTileExpanded,
   isAnimating,
   setIsAnimating,
   ...props
 }: SkillboxProps) => {
-  // register refs
-  const skillboxGsapWrapRef = useRef<HTMLDivElement>(null)
-  const skillboxGsapRef = useRef<HTMLDivElement>(null)
-  const skillboxContentRef = useRef<HTMLDivElement>(null)
-  const skillboxOuterContentRef = useRef<HTMLDivElement>(null)
-  const skillboxExcerptGradientRef = useRef<HTMLDivElement>(null)
-  const skillboxImageRef = useRef<HTMLImageElement>(null)
-
-  const skillboxOuterContentHeightRef = useRef<number>(0)
-  const skillboxContentRefHeightRef = useRef<number>(0)
-  const skillboxGsapHeightRef = useRef<number>(0)
-
-  const isHovered = useMemo(() => tileHovered === skill.id, [tileHovered, skill.id])
-  const isExpanded = useMemo(() => tileExpanded === skill.id, [tileExpanded, skill.id])
-
-  const inDuration = APP_CONFIG.defaultDuration
-  const inEase = 'power1.out'
-
-  const { contextSafe } = useGSAP(
-    () => {
-      skillboxOuterContentHeightRef.current = skillboxOuterContentRef.current?.clientHeight || 0
-      skillboxContentRefHeightRef.current = skillboxContentRef.current?.clientHeight || 0
-      skillboxGsapHeightRef.current = skillboxGsapRef.current?.clientHeight || 0
-
-      gsap.set(skillboxGsapWrapRef.current, {
-        height: skillboxGsapHeightRef.current,
-      })
-
-      gsap.set(skillboxGsapRef.current, {
-        position: 'absolute',
-        height: '100%',
-      })
-    },
-    { scope: skillboxGsapRef },
-  )
-
-  const handleHoverIn = contextSafe(() => {
-    if (!isHovered) {
-      gsap.to(skillboxOuterContentRef.current, {
-        height: skillboxOuterContentHeightRef.current + 30,
-        duration: inDuration,
-        ease: inEase,
-      })
-      gsap.to(skillboxGsapRef.current, {
-        height: skillboxGsapHeightRef.current + 30,
-        duration: inDuration,
-        ease: inEase,
-      })
-      gsap.to(skillboxImageRef.current, {
-        y: 10,
-        duration: inDuration,
-        ease: inEase,
-      })
-      setTileHovered(skill.id)
-    }
-  })
-
-  const handleHoverOut = contextSafe(() => {
-    if (isHovered) {
-      gsap.to(skillboxGsapRef.current, {
-        height: skillboxGsapHeightRef.current,
-        y: 0,
-        duration: inDuration,
-        ease: inEase,
-      })
-      gsap.to(skillboxOuterContentRef.current, {
-        height: skillboxOuterContentHeightRef.current,
-        duration: inDuration,
-        ease: inEase,
-      })
-      gsap.to(skillboxExcerptGradientRef.current, {
-        opacity: 1,
-        duration: inDuration,
-        ease: inEase,
-        onComplete: () => {
-          gsap.set(skillboxGsapWrapRef.current, {
-            zIndex: 10,
-          })
-          setIsAnimating(false)
-        },
-      })
-      gsap.to(skillboxImageRef.current, {
-        y: 0,
-        duration: inDuration,
-        ease: inEase,
-      })
-      setTileExpanded(false)
-      setTileHovered(false)
-    }
-  })
-
-  const handleExpand = contextSafe(() => {
-    if (isAnimating) return
-    setIsAnimating(true)
-
-    // expand action
-    if (!isExpanded) {
-      setTileExpanded(skill.id)
-
-      gsap.set(skillboxGsapWrapRef.current, {
-        zIndex: 100,
-      })
-      gsap.to(skillboxGsapRef.current, {
-        height: skillboxGsapHeightRef.current + skillboxContentRefHeightRef.current,
-        y: -20,
-        duration: inDuration,
-        ease: inEase,
-      })
-      gsap.to(skillboxOuterContentRef.current, {
-        height: skillboxContentRefHeightRef.current,
-        duration: inDuration,
-        ease: inEase,
-      })
-      gsap.to(skillboxImageRef.current, {
-        y: 40,
-        duration: inDuration,
-        ease: inEase,
-      })
-      gsap.to(skillboxExcerptGradientRef.current, {
-        opacity: 0,
-        duration: inDuration,
-        ease: inEase,
-        onComplete: () => {
-          setIsAnimating(false)
-        },
-      })
-    } else {
-      if (isAnimating) return
-      setIsAnimating(true)
-      setTileExpanded(false)
-
-      gsap.to(skillboxGsapRef.current, {
-        y: 0,
-        height: isHovered ? skillboxGsapHeightRef.current + 30 : skillboxGsapHeightRef.current,
-        duration: inDuration,
-        ease: inEase,
-      })
-      gsap.to(skillboxOuterContentRef.current, {
-        duration: inDuration,
-        ease: inEase,
-        height: isHovered
-          ? skillboxOuterContentHeightRef.current + 30
-          : skillboxGsapHeightRef.current,
-      })
-      gsap.to(skillboxImageRef.current, {
-        y: isHovered ? 10 : 0,
-        duration: inDuration,
-        ease: inEase,
-      })
-      gsap.to(skillboxExcerptGradientRef.current, {
-        opacity: 1,
-        duration: inDuration,
-        ease: inEase,
-        onComplete: () => {
-          gsap.set(skillboxGsapWrapRef.current, {
-            zIndex: 10,
-          })
-          setIsAnimating(false)
-          setTileExpanded(false)
-        },
-      })
-    }
+  const {
+    handleExpand,
+    handleHoverIn,
+    handleHoverOut,
+    skillboxContentRef,
+    skillboxExcerptGradientRef,
+    skillboxGsapRef,
+    skillboxGsapWrapRef,
+    skillboxImageRef,
+    skillboxOuterContentRef,
+  } = useSkillboxAnimations({
+    isExpanded,
+    isHovered,
+    isAnimating,
+    setIsAnimating,
+    setTileExpanded,
+    setTileHovered,
+    skill,
   })
 
   return (
@@ -218,7 +73,7 @@ const Skillbox = ({
         ref={skillboxGsapRef}
         onMouseEnter={handleHoverIn}
         onMouseLeave={handleHoverOut}
-        onClick={isAnimating ? undefined : handleExpand}
+        onClick={handleExpand}
         className="z-2 relative"
       >
         <div className="bg-dark position-absolute -inset-8" />
@@ -247,7 +102,7 @@ const Skillbox = ({
               )}
             </div>
             <H4Headline className="w-3/4 sm:5/6 md:w-full mt-3">{skill.title}</H4Headline>
-            <div className="relative flex-1  text-lg">
+            <div className="relative flex-1">
               <div className="text-gray pt-5">{skill.excerpt}</div>
               <div ref={skillboxOuterContentRef} className="text-gray overflow-hidden h-2">
                 <div ref={skillboxContentRef}>

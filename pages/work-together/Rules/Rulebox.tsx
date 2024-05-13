@@ -23,7 +23,7 @@ const Rulebox = ({ rule }: RuleboxProps) => (
       </div>
       <div className="grow w-full lg:pl-20">
         <H4Headline className="font-bold">{`${rule.id} - ${rule.title}`}</H4Headline>
-        <p className="mt-5 ">{rule.content}</p>
+        <p className="mt-5 text-gray">{rule.content}</p>
       </div>
     </div>
   </GlassItem>

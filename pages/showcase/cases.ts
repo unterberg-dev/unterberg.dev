@@ -55,7 +55,7 @@ const cases: Case[] = [
       repo: 'https://github.com/richard-unterberg/leaflet-nextjs-ts-starter',
     },
     languages: ['Typescript'],
-    images: ['showcase/mapping/leaflet.webp'],
+    images: ['showcase/mapping/leaflet-w-logo.png'],
     framework: 'Next.js',
     hosting: 'Vercel',
     libs: ['next.js', 'react', 'leaflet (+ react-leaflet)', 'leaflet.markercluster', 'tailwind'],
@@ -72,7 +72,7 @@ const cases: Case[] = [
     },
     languages: ['Typescript'],
     framework: 'Next.js',
-    images: ['showcase/mapping/maplibre.webp'],
+    images: ['showcase/mapping/maplibre-w-logo.webp'],
     hosting: 'Vercel',
     libs: [
       'react',
@@ -97,11 +97,11 @@ const cases: Case[] = [
     framework: 'None',
     hosting: 'Github Pages',
     images: ['showcase/git/vite-pixi.webp'],
-    libs: [],
+    libs: ['gsap', 'pixi.js', 'vite', 'typescript'],
   },
   {
     id: CASE_KEY.CLIENT_PROJECT,
-    title: 'CWE Chemnitz',
+    title: 'Chemnitzer Wirtschaftsförderungs- und Entwicklungsgesellschaft',
     // todo: change text - it's just copy from the repo - better seo
     description:
       'Wafer lemon drops donut tootsie roll sweet roll bear claw. Gingerbread sweet roll topping powder toffee. Chupa chups bonbon pudding jelly beans macaroon gummies chocolate cake candy canes caramels. Shortbread cotton candy cupcake fruitcake chocolate bar muffin dragée pudding.',
@@ -128,6 +128,21 @@ const cases: Case[] = [
     languages: ['PHP, HTML, SCSS, JS'],
     framework: 'Wordpress / Custom Theme',
     images: ['showcase/clients/spk.webp'],
+    libs: ['ACF', 'barba.js', 'GSAP'],
+    draft: true,
+  },
+  {
+    id: CASE_KEY.CLIENT_PROJECT,
+    title: 'Aufstand der Utopien',
+    // todo: change text - it's just copy from the repo - better seo
+    description:
+      'Wafer lemon drops donut tootsie roll sweet roll bear claw. Gingerbread sweet roll topping powder toffee. Chupa chups bonbon pudding jelly beans macaroon gummies chocolate cake candy canes caramels. Shortbread cotton candy cupcake fruitcake chocolate bar muffin dragée pudding.',
+    link: {
+      preview: 'https://www.cwe-chemnitz.de/',
+    },
+    languages: ['PHP, HTML, SCSS, JS'],
+    images: ['showcase/clients/aufstand.webp'],
+    framework: 'Wordpress / Custom Theme',
     libs: ['ACF', 'barba.js', 'GSAP'],
     draft: true,
   },
