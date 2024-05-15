@@ -10,21 +10,21 @@ interface RuleboxProps {
 
 const Rulebox = ({ rule }: RuleboxProps) => (
   <GlassItem className="relative p-7">
-    <BlurDot className="top-0 -mt-50 -left-40 w-100 h-100 opacity-10 absolute" />
-    <div className="flex lg:flex-col gap-8 z-4 h-full">
-      <div className="w-1/8 relative h-full lg:absolute lg:left-6">
-        <img
-          src={`${APP_CONFIG.viteMediaUrl}${rule.imagePath}`}
-          width="100%"
-          height="auto"
-          className="object-contain absolute inset-0"
-          alt=""
-        />
+    <div className="inset-0 absolute">
+      <div className="absolute w-30 h-30 z-1 right-0 bottom-0">
+        <BlurDot className="w-80 h-80 opacity-50" />
       </div>
-      <div className="grow w-full lg:pl-20">
-        <H4Headline className="font-bold">{`${rule.id} - ${rule.title}`}</H4Headline>
-        <p className="mt-5 text-gray">{rule.content}</p>
-      </div>
+      <img
+        src={`${APP_CONFIG.viteMediaUrl}${rule.imagePath}`}
+        width="200"
+        height="auto"
+        className="absolute right-0 bottom-2 transform-origin-br z-2 opacity-5"
+        alt=""
+      />
+    </div>
+    <div className="flex flex-col w-full relative z-3 h-full">
+      <H4Headline className="font-bold grow pb-4">{`$${rule.id} - ${rule.title}`}</H4Headline>
+      <p className="mt-5 text-gray w-3/4">{rule.content}</p>
     </div>
   </GlassItem>
 )

@@ -55,7 +55,7 @@ const cases: Case[] = [
       repo: 'https://github.com/richard-unterberg/leaflet-nextjs-ts-starter',
     },
     languages: ['Typescript'],
-    images: ['showcase/mapping/leaflet-w-logo.png'],
+    images: ['showcase/mapping/leaflet.webp'],
     framework: 'Next.js',
     hosting: 'Vercel',
     libs: ['next.js', 'react', 'leaflet (+ react-leaflet)', 'leaflet.markercluster', 'tailwind'],
@@ -72,7 +72,7 @@ const cases: Case[] = [
     },
     languages: ['Typescript'],
     framework: 'Next.js',
-    images: ['showcase/mapping/maplibre-w-logo.webp'],
+    images: ['showcase/mapping/maplibre.webp'],
     hosting: 'Vercel',
     libs: [
       'react',
@@ -111,7 +111,7 @@ const cases: Case[] = [
     languages: ['PHP, HTML, SCSS, JS'],
     images: ['showcase/clients/cwe.webp'],
     framework: 'Wordpress / Custom Theme',
-    libs: ['ACF', 'barba.js', 'GSAP'],
+    libs: ['Wordpress', 'SCSS', 'ACF', 'barba.js', 'GSAP'],
     draft: true,
   },
   {

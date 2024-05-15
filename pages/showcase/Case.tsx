@@ -2,6 +2,7 @@ import { useMemo } from 'react'
 
 import { GlassItem } from '#atoms/GlassItem'
 import H4Headline from '#atoms/H4Headline'
+import Link from '#atoms/Link'
 import TagBubble from '#atoms/TagBubble'
 import { APP_CONFIG } from '#lib/constants'
 import { Case, CASE_KEY } from '#pages/showcase/cases'
@@ -16,23 +17,23 @@ export const projectTypes: {
 } = {
   [CASE_KEY.GITHUB_STARTER]: {
     name: 'Github Starter Template',
-    className: 'bg-blue-4 text-dark',
+    className: 'text-blue-4 ',
   },
   [CASE_KEY.GITHUB_MAP_STARTER]: {
     name: 'Github Mapping Starter',
-    className: 'bg-emerald-8 text-dark',
+    className: 'text-emerald-8 ',
   },
   [CASE_KEY.SHOWCASE]: {
     name: 'Website / Showcase',
-    className: 'bg-green-4 text-dark',
+    className: 'text-green-4 ',
   },
   [CASE_KEY.CLIENT_PROJECT]: {
     name: 'Client Website',
-    className: 'bg-yellow-4 text-dark',
+    className: 'text-yellow-4',
   },
   [CASE_KEY.YOURS]: {
     name: 'Client Website',
-    className: 'bg-orange-4 text-dark',
+    className: 'text-orange-4',
   },
 }
 
@@ -51,31 +52,35 @@ const CaseContent = ({ caseItem, colDisplay, switchLayout }: CaseProps) => {
       className={`${colDisplay ? 'flex flex-col' : 'grid grid-cols md:grid-cols-3'} gap-5 md:gap-8`}
     >
       <div className={`${switchLayout ? 'order-2' : 'order-1'} col-span-1`}>
-        <div className="w-full h-50 overflow-hidden">
+        <div className="w-full h-50 relative border-2 border-darkLight">
+          <TagBubble
+            $size="sm"
+            className={`absolute shadow-md shadow-dark shadow-opacity-70 bg-darkLight border-1 border-darkLightBorder text-gray -top-4 ${switchLayout ? 'right-2' : 'left-2'}`}
+          >
+            {project.name}
+          </TagBubble>
           <img
-            className="object-cover w-full h-full"
+            className="object-cover w-full h-full rounded-md"
             src={`${APP_CONFIG.viteMediaUrl}/${images?.[0]}`}
             alt={title}
           />
         </div>
       </div>
       <div className={`${switchLayout ? 'order-1' : 'order-2'} col-span-2`}>
-        <TagBubble $size="md" className={`${project.className}`}>
-          {project.name}
-        </TagBubble>
-        <H4Headline className="mt-3">{title}</H4Headline>
+        <H4Headline>{title}</H4Headline>
         <div className="text-gray flex flex-col gap-5 mt-5">
           {Array.isArray(description) ? (
             description.map(item => <p key={item}>{item}</p>)
           ) : (
             <p>{description}</p>
           )}
+          {caseItem.link.preview && <Link href={`${caseItem.link.preview}`}>Preview</Link>}
         </div>
         <div className="flex flex-wrap gap-2 mt-5">
           {caseItem.libs.map(lib => (
             <TagBubble
               key={lib}
-              $size="md"
+              $size="sm"
               className="bg-darkLight border-1 border-darkLightBorder text-gray"
             >
               {lib}

@@ -48,17 +48,20 @@ const ShowcasePage = () => {
       </BelowHeroGlassArea>
       <GsapStaggerElement fromBottom className="relative z-10">
         <Layout $fullWidth className="pixi-hitbox bg-dark relative">
-          <HeadlineArea headline="Client Projects" subHeadline="Stuff I have done for money" />
+          <HeadlineArea headline="Client Projects" subHeadline="Stuff I have done for money *" />
           <Layout className="mt-20 flex flex-col gap-20">
             {clientCases.map((item, index) => (
               <Case key={item.title} caseItem={item} switchLayout={index % 2 === 0} />
             ))}
+            <p className="font-mono border-t-2 border-t-darkLightBorder pt-4 text-right text-gray">
+              <sup>*</sup> I`m not responsible for content on the above linked pages
+            </p>
           </Layout>
         </Layout>
       </GsapStaggerElement>
       <MapThemeArea>
         <HeadlineArea headline="JS Mapping Projects" subHeadline="Hello Open Source" />
-        <Layout className="flex gap-5 md:gap-10">
+        <Layout className="mt-20 flex gap-5 md:gap-10">
           {mappingCases.map(item => (
             <Case key={item.title} caseItem={item} colDisplay />
           ))}

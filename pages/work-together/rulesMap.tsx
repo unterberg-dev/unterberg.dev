@@ -23,21 +23,22 @@ const rules: Rule[] = [
     title: 'Only small projects',
     content: (
       <>
-        I have a main job I really like and Im not free for time consuming things or full time
-        projects. No Retainer or mid-term-contracts. I have a few hours a week spare to work on
-        projects and beeing especially open to new technologies and challenges.
+        I do have a main job I really like and not available for time consuming things or full time
+        projects. No Retainer or big contracts. A few hours a week spare I can offer to work on
+        projects and beeing especially open to new technologies and challenges in web development.
       </>
     ),
   },
   {
     id: RULE_KEY.NO_BUILDERS,
-    title: 'Wordpress: No support for Page Builder Sites',
+    title: 'No Wordpress Page Builders',
     imagePath: '/decorators/ek/sceptic-moon.png',
     content: (
       <>
-        Sorry to say that I&apos;m not able to support or maintain sites build with Page Builders
-        like Divi, Avada, Elementor, Salient or similar. We can find a new home for your content in
-        a much simpler built custom wordpress. See{' '}
+        While I&apos;m pretty confident in building or supporting any kind of site built with
+        Wordpress Page Builders, I do not offer this service anymore. Mainly due it&apos;s
+        unreliability and the &quot;blackbox&quot; we will open. We can find a new home for your
+        content in a much simpler built custom wordpress. See{' '}
         <Link className="text-primary" href="#skills">
           skills 👆
         </Link>
@@ -46,7 +47,7 @@ const rules: Rule[] = [
   },
   {
     id: RULE_KEY.NO_LEGACY,
-    title: 'No Legacy Software',
+    title: 'No E-Commerce',
     imagePath: '/decorators/ek/4.png',
     content: (
       <>
@@ -57,7 +58,7 @@ const rules: Rule[] = [
   },
   {
     id: RULE_KEY.NO_ISM,
-    title: 'No Racism or any kind of intertolerance',
+    title: 'No Racism or any kind of intolerance',
     imagePath: '/decorators/ek/1.png',
     content: (
       <>
