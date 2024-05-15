@@ -7,13 +7,17 @@ import { defineConfig } from 'vite'
 import 'dotenv/config'
 
 export default defineConfig({
-  base: process.env.VITE_BASE || '/',
+  base: process.env.NODE_ENV === 'production' ? 'https://unterberg.dev/' : 'http://localhost:5247',
   plugins: [
     UnoCSS(),
     react(),
     vike({
       prerender: true,
       trailingSlash: true,
+      baseAssets:
+        process.env.NODE_ENV === 'production'
+          ? 'https://cdn.unterberg.dev/'
+          : 'http://localhost:5247/',
     }),
   ],
   build: {
