@@ -1,7 +1,5 @@
 export const APP_CONFIG = {
-  viteSiteUrl: `${
-    import.meta.env.PROD ? import.meta.env.VITE_SITE_URL_PROD : import.meta.env.VITE_SITE_URL_DEV
-  }${import.meta.env.BASE_URL.slice(0, -1)}`,
+  viteSiteUrl: import.meta.env.PROD ? 'https://unterberg.dev/' : 'http://localhost:5247/',
   viteMediaUrl: `${
     import.meta.env.PROD ? '' : 'http://localhost:5247'
   }${import.meta.env.BASE_URL.slice(0, -1)}`,
