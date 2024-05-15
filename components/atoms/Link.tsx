@@ -47,10 +47,10 @@ const Link = ({ href, children, className = '', button }: LinkProps) => {
     return `${isActive ? 'text-warning' : ''} ${className} ${staticClassName}`
   }, [button, className, isActive])
 
-  // eslint-disable-next-line no-console
-  console.log(import.meta.env.BASE_URL)
-
-  const linkCheckedExternal = useMemo(() => `${href}`, [href])
+  const linkCheckedExternal = useMemo(
+    () => `${!isExternal ? 'https://unterberg.dev/' : ''}${href}`,
+    [href, isExternal],
+  )
 
   return (
     <a
