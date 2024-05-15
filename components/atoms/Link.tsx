@@ -47,10 +47,7 @@ const Link = ({ href, children, className = '', button }: LinkProps) => {
     return `${isActive ? 'text-warning' : ''} ${className} ${staticClassName}`
   }, [button, className, isActive])
 
-  const linkCheckedExternal = useMemo(
-    () => `${!isExternal ? 'https://unterberg.dev/' : ''}${href}`,
-    [href, isExternal],
-  )
+  const linkCheckedExternal = useMemo(() => `${!isExternal ? '/' : ''}${href}`, [href, isExternal])
 
   return (
     <a
