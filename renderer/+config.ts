@@ -2,7 +2,7 @@ import type { Config } from 'vike/types'
 
 // https://vike.dev/config
 export default {
-  passToClient: ['documentProps', 'pageProps'],
+  passToClient: ['pageProps'],
   clientRouting: true,
   hydrationCanBeAborted: true,
   meta: {
