@@ -12,7 +12,9 @@ interface ExtendedPageContext extends PageContextServer {
 }
 
 const onRenderHtml: OnRenderHtmlAsync = async (pageContext): ReturnType<OnRenderHtmlAsync> => {
-  const { Page, pageProps, userAgent } = pageContext as ExtendedPageContext
+  const { Page, pageProps, userAgent, urlPathname } = pageContext as ExtendedPageContext
+
+  const isStartPage = urlPathname === '/'
 
   if (!Page) throw new Error('My render() hook expects pageContext.Page to be defined')
   const stream = await renderToStream(
@@ -32,7 +34,7 @@ const onRenderHtml: OnRenderHtmlAsync = async (pageContext): ReturnType<OnRender
         <link rel="icon" href="${APP_CONFIG.viteMediaUrl}/favicon.ico" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="description" content="${description}" />
-        <meta name="robots" content="index, follow">
+        <meta name="robots" content="${isStartPage ? 'index, follow' : 'noindex'}">
         <link rel="canonical" href="https://unterberg.dev">
         <title>${title}</title>
       </head>
