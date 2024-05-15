@@ -35,7 +35,7 @@ const onRenderHtml: OnRenderHtmlAsync = async (pageContext): ReturnType<OnRender
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="description" content="${description}" />
         <meta name="robots" content="${isStartPage ? 'index, follow' : 'noindex'}">
-        <link rel="canonical" href="https://unterberg.dev">
+        <link rel="canonical" href="https://unterberg.dev${isStartPage ? '/' : urlPathname}">
         <title>${title}</title>
       </head>
       <body>
