@@ -14,10 +14,6 @@ export default defineConfig({
     vike({
       prerender: true,
       trailingSlash: true,
-      baseAssets:
-        process.env.NODE_ENV === 'production'
-          ? 'https://cdn.unterberg.dev/'
-          : 'http://localhost:5247/',
     }),
   ],
   build: {

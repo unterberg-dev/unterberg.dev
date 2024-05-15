@@ -3,7 +3,7 @@ export const APP_CONFIG = {
     import.meta.env.PROD ? import.meta.env.VITE_SITE_URL_PROD : import.meta.env.VITE_SITE_URL_DEV
   }${import.meta.env.BASE_URL.slice(0, -1)}`,
   viteMediaUrl: `${
-    import.meta.env.PROD ? '' : 'http://localhost:5247'
+    import.meta.env.PROD ? 'https://cdn.unterberg.dev' : 'http://localhost:5247'
   }${import.meta.env.BASE_URL.slice(0, -1)}`,
   defaultDuration: 0.35,
   defaultDurationSlow: 2.5,
