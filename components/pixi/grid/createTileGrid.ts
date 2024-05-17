@@ -1,4 +1,3 @@
-import gsap from 'gsap'
 import { Application, Texture } from 'pixi.js'
 
 import { createContainer } from '#components/pixi/system/createContainer'
@@ -6,17 +5,7 @@ import { createSprite } from '#components/pixi/system/createSprite'
 import createIconBaseTextures from '#pixi/system/createIconBaseTexture'
 import { Tile } from '#pixi/types'
 import { R } from '#pixi/utils'
-import { IDLE_TILE_TIMELINE, PixiConfig } from '#root/lib/constants'
-
-const addTileTimelines = () => ({
-  [IDLE_TILE_TIMELINE.DEFAULT]: gsap.timeline({
-    repeat: -1,
-    yoyo: true,
-    delay: R(0, 10.1),
-    repeatDelay: R(4, 8),
-    paused: true,
-  }),
-})
+import { PixiConfig } from '#root/lib/constants'
 
 export const createTileGrid = (app: Application, gridSize: number) => {
   const tilesPos: Tile[] = []
@@ -54,7 +43,6 @@ export const createTileGrid = (app: Application, gridSize: number) => {
         sprite,
         container,
         innerContainer,
-        timelines: addTileTimelines(),
       }
 
       app.stage.addChild(container)

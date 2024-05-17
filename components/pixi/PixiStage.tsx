@@ -24,7 +24,7 @@ const PixiStage = () => {
     isInitialized.current = true
   }, [setPixiStage])
 
-  return <div id="stage" className="z-1 fixed inset-0" ref={stageRef} />
+  return <div id="stage" className="z-1 fixed inset-0 opacity-0" ref={stageRef} />
 }
 
 export default PixiStage

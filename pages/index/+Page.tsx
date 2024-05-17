@@ -1,3 +1,4 @@
+import { clearAllBodyScrollLocks, disableBodyScroll } from 'body-scroll-lock'
 import { useCallback, useRef, useState } from 'react'
 
 import { GlassItemButton } from '#atoms/GlassItem'
@@ -6,6 +7,14 @@ import usePageHeaderAnimations from '#gsap/usePageHeaderAnimations'
 import { externalNavigation } from '#lib/navigation'
 import HideContent from '#molecules/HideContent'
 import StaggerHeader from '#organisms/StaggerHeader'
+
+const enableScroll = () => {
+  clearAllBodyScrollLocks()
+}
+
+const disableScroll = () => {
+  disableBodyScroll(document.querySelector('#stage') as HTMLElement)
+}
 
 const StartPage = () => {
   const staggerContainer = useRef<HTMLDivElement>(null)
@@ -19,6 +28,12 @@ const StartPage = () => {
     if (isAnimating) return
 
     setUiHidden(prev => {
+      if (prev) {
+        enableScroll()
+      } else {
+        disableScroll()
+      }
+
       onClickAnimate(!prev)
       return !prev
     })

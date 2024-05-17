@@ -64,6 +64,8 @@ export const initStage = async (
       registerSpawnerTimelines({ timeline: tile.timelines[EMITTER_TIMELINE.DEFAULT], tile })
     })
 
+    gsap.to(stage, { autoAlpha: 1, delay: 0.2, duration: 2 })
+
     // trigger pointer events
     registerUserEvents()
 

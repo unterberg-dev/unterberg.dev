@@ -18,10 +18,7 @@ export type Case = {
   description: string[] | string
   images?: CaseImage
   link: CaseLink
-  libs: string[]
-  languages?: string[]
-  framework?: string
-  hosting?: string
+  tags: string[]
   spotlight?: boolean
   draft?: boolean
 }
@@ -29,19 +26,25 @@ export type Case = {
 const cases: Case[] = [
   {
     id: CASE_KEY.SHOWCASE,
-    title: 'unterberg.dev',
+    title: 'Spotlight: unterberg.dev',
     description: [
       'After years of not having a personal website, I finally decided to create one. The goal was to create a simple, yet fast, and accessible website which features some of my core skills.',
-      'The main objective is surely the interaction with the mouse pointer on the pixi stage with the hitbox system, but Im also aiming for a good performance and accessibility. That was a challenge, not gonna lie',
+      'The main objective was surely the interaction with the mouse pointer on the pixi stage with the hitbox system, but I were also aiming for a good performance and accessibility. With a overall page speed ranking of 99 I am quite happy with the result.',
     ],
     link: {
       preview: 'https://unterberg.dev',
     },
-    framework: 'Vike (Vite SSR/Prerender) ❤️',
-    languages: ['TypeScript'],
-    hosting: 'Github Pages',
+    tags: [
+      'TypeScript',
+      'Node.js',
+      'SCSS',
+      'Vike',
+      'React',
+      'GSAP',
+      'Pixi',
+      'Uno CSS (Tailwind Preset)',
+    ],
     images: ['showcase/unterberg.dev/start-page.webp', 'showcase/unterberg.dev/collab-page.webp'],
-    libs: ['React', 'GSAP', 'Pixi', 'Uno CSS (Tailwind Preset)'],
     spotlight: true,
   },
   {
@@ -54,11 +57,18 @@ const cases: Case[] = [
       preview: 'https://next-leaflet-starter-typescript.vercel.app/map',
       repo: 'https://github.com/richard-unterberg/leaflet-nextjs-ts-starter',
     },
-    languages: ['Typescript'],
+    tags: [
+      'Typescript',
+      'Next.js',
+      'Leaflet',
+      'Tailwind',
+      'next.js',
+      'react',
+      'leaflet (+ react-leaflet)',
+      'leaflet.markercluster',
+      'tailwind',
+    ],
     images: ['showcase/mapping/leaflet.webp'],
-    framework: 'Next.js',
-    hosting: 'Vercel',
-    libs: ['next.js', 'react', 'leaflet (+ react-leaflet)', 'leaflet.markercluster', 'tailwind'],
   },
   {
     id: CASE_KEY.GITHUB_MAP_STARTER,
@@ -70,11 +80,10 @@ const cases: Case[] = [
       preview: 'https://maplibre-nextjs-ts-starter.vercel.app/',
       repo: 'https://github.com/richard-unterberg/maplibre-nextjs-ts-starter',
     },
-    languages: ['Typescript'],
-    framework: 'Next.js',
     images: ['showcase/mapping/maplibre.webp'],
-    hosting: 'Vercel',
-    libs: [
+    tags: [
+      'Typescript',
+      'Next.js',
       'react',
       'maplibre-gl (+react-map-gl)',
       'supercluster',
@@ -93,58 +102,45 @@ const cases: Case[] = [
       preview: 'https://richard-unterberg.github.io/pixi-gsap-vite-ts/',
       repo: 'https://github.com/richard-unterberg/pixi-gsap-vite-ts',
     },
-    languages: ['Typescript'],
-    framework: 'None',
-    hosting: 'Github Pages',
+    tags: ['Typescript', 'GSAP', 'pixi.js', 'vite', 'typescript'],
     images: ['showcase/git/vite-pixi.webp'],
-    libs: ['gsap', 'pixi.js', 'vite', 'typescript'],
   },
   {
     id: CASE_KEY.CLIENT_PROJECT,
     title: 'Chemnitzer Wirtschaftsförderungs- und Entwicklungsgesellschaft',
     // todo: change text - it's just copy from the repo - better seo
     description:
-      'Wafer lemon drops donut tootsie roll sweet roll bear claw. Gingerbread sweet roll topping powder toffee. Chupa chups bonbon pudding jelly beans macaroon gummies chocolate cake candy canes caramels. Shortbread cotton candy cupcake fruitcake chocolate bar muffin dragée pudding.',
+      'I originally created this webpage for my former employer (brands and beyond GmbH). It is based on a system The website is still maintained by the company. We continue working together.',
     link: {
       preview: 'https://www.cwe-chemnitz.de/',
     },
-    languages: ['PHP, HTML, SCSS, JS'],
+    tags: ['Wordpress', 'PHP', 'SCSS', 'JS', 'ACF', 'barba.js', 'GSAP'],
     images: ['showcase/clients/cwe.webp'],
-    framework: 'Wordpress / Custom Theme',
-    libs: ['Wordpress', 'SCSS', 'ACF', 'barba.js', 'GSAP'],
-    draft: true,
   },
   {
     id: CASE_KEY.CLIENT_PROJECT,
     title: 'Azubimanufaktur',
     // todo: change text - it's just copy from the repo - better seo
     description: [
-      'Ice cream apple pie caramels marshmallow pie pie ice cream biscuit. Tiramisu danish tootsie roll candy cotton candy apple pie. Gummies icing chocolate cake biscuit toffee wafer.',
-      'Cake croissant fruitcake pudding lemon drops fruitcake chocolate cake fruitcake. Cotton candy tart marzipan ice cream sweet roll bear claw. Brownie candy toffee lemon drops sugar plum pie caramels tootsie roll. Dragée pudding tootsie roll tart sesame snaps tart cookie.',
+      'Also created alongside for my former employer (brands and beyond GmbH), this website features modern layer animations and is running on the same custom theme which I am using in almost all my WP projects.',
     ],
     link: {
       preview: 'https://www.azubimanufaktur.de/',
     },
-    languages: ['PHP, HTML, SCSS, JS'],
-    framework: 'Wordpress / Custom Theme',
+    tags: ['Wordpress / Custom Theme', 'PHP', 'SCSS', 'JS', 'ACF', 'barba.js', 'GSAP'],
     images: ['showcase/clients/spk.webp'],
-    libs: ['ACF', 'barba.js', 'GSAP'],
-    draft: true,
   },
   {
     id: CASE_KEY.CLIENT_PROJECT,
     title: 'Aufstand der Utopien',
     // todo: change text - it's just copy from the repo - better seo
     description:
-      'Wafer lemon drops donut tootsie roll sweet roll bear claw. Gingerbread sweet roll topping powder toffee. Chupa chups bonbon pudding jelly beans macaroon gummies chocolate cake candy canes caramels. Shortbread cotton candy cupcake fruitcake chocolate bar muffin dragée pudding.',
+      'This is a project from back from 2019 - It is just here to showcase this very nice design from doppeldenk from dresden',
     link: {
-      preview: 'https://www.cwe-chemnitz.de/',
+      preview: 'https://aufstand-der-utopien.de/',
     },
-    languages: ['PHP, HTML, SCSS, JS'],
+    tags: ['Wordpress / Custom Theme', 'PHP, HTML, SCSS, JS', 'ACF', 'barba.js', 'GSAP'],
     images: ['showcase/clients/aufstand.webp'],
-    framework: 'Wordpress / Custom Theme',
-    libs: ['ACF', 'barba.js', 'GSAP'],
-    draft: true,
   },
   {
     id: CASE_KEY.YOURS,
@@ -156,8 +152,7 @@ const cases: Case[] = [
       preview: 'work-together#contact',
     },
     images: ['showcase/unterberg.dev/start-page.webp', 'showcase/unterberg.dev/collab-page.webp'],
-    languages: ['Typescript', 'Node', 'PHP', 'Go'],
-    libs: ['all of them :D'],
+    tags: ['Typescript', 'Node', 'PHP', '?'],
   },
 ]
 

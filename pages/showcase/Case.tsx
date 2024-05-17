@@ -60,6 +60,8 @@ const CaseContent = ({ caseItem, colDisplay, switchLayout }: CaseProps) => {
             {project.name}
           </TagBubble>
           <img
+            width={400}
+            height={200}
             className="object-cover w-full h-full rounded-md"
             src={`${APP_CONFIG.viteMediaUrl}/${images?.[0]}`}
             alt={title}
@@ -76,14 +78,14 @@ const CaseContent = ({ caseItem, colDisplay, switchLayout }: CaseProps) => {
           )}
           {caseItem.link.preview && <Link href={`${caseItem.link.preview}`}>Preview</Link>}
         </div>
-        <div className="flex flex-wrap gap-2 mt-5">
-          {caseItem.libs.map(lib => (
+        <div className="flex flex-wrap gap-1 mt-5">
+          {caseItem.tags.map(tag => (
             <TagBubble
-              key={lib}
-              $size="sm"
+              key={tag}
+              $size="xs"
               className="bg-darkLight border-1 border-darkLightBorder text-gray"
             >
-              {lib}
+              {tag}
             </TagBubble>
           ))}
         </div>
@@ -97,11 +99,13 @@ const CaseItem = ({ caseItem, switchLayout, colDisplay }: CaseProps) => {
 
   if (isSpotlight) {
     return (
-      <GlassItem className="p-10">
+      <GlassItem className="p-10 relative">
         <CaseContent caseItem={caseItem} switchLayout={switchLayout} />
-        <div className="absolute bottom-0 left-0">
+        <div className="absolute bottom-4 left-4 opacity-80">
           <img
-            className="w-30"
+            className="w-20 h-20"
+            width={80}
+            height={80}
             src={`${APP_CONFIG.viteMediaUrl}/decorators/ek/star.webp`}
             alt={caseItem.title}
           />

@@ -26,8 +26,8 @@ const ShowcasePage = () => {
     () =>
       cases
         .filter(item => !item.spotlight)
-        .filter(item => !item.draft)
-        .filter(item => item.id !== CASE_KEY.GITHUB_MAP_STARTER),
+        .filter(item => item.id !== CASE_KEY.GITHUB_MAP_STARTER)
+        .filter(item => item.id !== CASE_KEY.CLIENT_PROJECT),
     [],
   )
 
@@ -53,8 +53,8 @@ const ShowcasePage = () => {
             {clientCases.map((item, index) => (
               <Case key={item.title} caseItem={item} switchLayout={index % 2 === 0} />
             ))}
-            <p className="font-mono border-t-2 border-t-darkLightBorder pt-4 text-right text-gray">
-              <sup>*</sup> I`m not responsible for content on the above linked pages
+            <p className="border-t-2 border-t-darkLightBorder pt-4 text-right text-gray">
+              <sup>*</sup> I am not responsible for content on the linked pages above
             </p>
           </Layout>
         </Layout>

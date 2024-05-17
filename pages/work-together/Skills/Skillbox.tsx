@@ -115,11 +115,11 @@ const Skillbox = ({
               />
             </div>
             {skill.tags && (
-              <div className="flex flex-wrap gap-2 w-full md:w-3/4 mt-5">
+              <ul className="flex flex-wrap gap-2 w-full md:w-3/4 mt-5">
                 {skill.tags.map(tag => (
                   <TechBubbleListItem key={tag}>{tag}</TechBubbleListItem>
                 ))}
-              </div>
+              </ul>
             )}
           </div>
           <div
