@@ -1,9 +1,11 @@
 import { useMemo, useRef } from 'react'
 
+import H2Headline from '#atoms/H2Headline'
 import Layout from '#atoms/Layout'
 import usePageHeaderAnimations from '#gsap/usePageHeaderAnimations'
 import BelowHeroGlassArea from '#molecules/BelowHeroGlassArea'
 import HeadlineArea from '#molecules/HeadlineArea'
+import ContactModule from '#organisms/ContactModule'
 import StaggerHeader from '#organisms/StaggerHeader'
 import Case from '#pages/showcase/Case'
 import cases, { CASE_KEY } from '#pages/showcase/cases'
@@ -78,6 +80,7 @@ const ShowcasePage = () => {
         $fullWidth
         className="pixi-hitbox bg-gradient-to-b via-10% from-dark relative h-50 z-10"
       />
+      <ContactModule />
     </div>
   )
 }

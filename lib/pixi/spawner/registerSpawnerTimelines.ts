@@ -1,5 +1,5 @@
-import { EmitterTile } from '#components/pixi/types'
 import { getEmitterStore } from '#pixi/store'
+import { EmitterTile } from '#pixi/types'
 import { R } from '#pixi/utils'
 
 interface RegisterPositionTimelineProps {

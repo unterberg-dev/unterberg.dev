@@ -1,8 +1,8 @@
 import { Application, Texture } from 'pixi.js'
 
-import { createContainer } from '#components/pixi/system/createContainer'
-import { createSprite } from '#components/pixi/system/createSprite'
+import { createContainer } from '#pixi/system/createContainer'
 import createIconBaseTextures from '#pixi/system/createIconBaseTexture'
+import { createSprite } from '#pixi/system/createSprite'
 import { Tile } from '#pixi/types'
 import { R } from '#pixi/utils'
 import { PixiConfig } from '#root/lib/constants'

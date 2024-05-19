@@ -1,3 +1,4 @@
+import { GitBranchPlus, Globe } from 'lucide-react'
 import { useMemo } from 'react'
 
 import { GlassItem } from '#atoms/GlassItem'
@@ -31,10 +32,6 @@ export const projectTypes: {
     name: 'Client Website',
     className: 'text-yellow-4',
   },
-  [CASE_KEY.YOURS]: {
-    name: 'Client Website',
-    className: 'text-orange-4',
-  },
 }
 
 interface CaseProps {
@@ -59,13 +56,19 @@ const CaseContent = ({ caseItem, colDisplay, switchLayout }: CaseProps) => {
           >
             {project.name}
           </TagBubble>
-          <img
-            width={400}
-            height={200}
-            className="object-cover w-full h-full rounded-md"
-            src={`${APP_CONFIG.viteMediaUrl}/${images?.[0]}`}
-            alt={title}
-          />
+          <Link
+            label={caseItem.title}
+            href={caseItem.link?.preview || ''}
+            className="position-initial h-full w-full"
+          >
+            <img
+              width={400}
+              height={200}
+              className="object-cover w-full h-full rounded-md"
+              src={`${APP_CONFIG.viteMediaUrl}/${images?.[0]}`}
+              alt={title}
+            />
+          </Link>
         </div>
       </div>
       <div className={`${switchLayout ? 'order-1' : 'order-2'} col-span-2`}>
@@ -76,7 +79,26 @@ const CaseContent = ({ caseItem, colDisplay, switchLayout }: CaseProps) => {
           ) : (
             <p>{description}</p>
           )}
-          {caseItem.link.preview && <Link href={`${caseItem.link.preview}`}>Preview</Link>}
+          {(caseItem.link?.preview || caseItem.link?.repo) && (
+            <div className="flex gap-3">
+              {caseItem.link?.preview && (
+                <Link
+                  href={`${caseItem.link.preview}`}
+                  className="items-center gap-2 text-warning inline-flex shrink"
+                >
+                  <Globe className="h-4 w-4" /> Preview
+                </Link>
+              )}
+              {caseItem.link?.repo && (
+                <Link
+                  href={`${caseItem.link.repo}`}
+                  className="items-center gap-2 text-primary inline-flex"
+                >
+                  <GitBranchPlus className="h-4 w-4" /> Github Repo
+                </Link>
+              )}
+            </div>
+          )}
         </div>
         <div className="flex flex-wrap gap-1 mt-5">
           {caseItem.tags.map(tag => (

@@ -1,6 +1,6 @@
-import { getStore } from '#components/pixi/store'
-import { Hitbox } from '#components/pixi/types'
 import spawnTile from '#pixi/spawner/spawnTile'
+import { getStore } from '#pixi/store'
+import { Hitbox } from '#pixi/types'
 import { R } from '#pixi/utils'
 
 interface TriggerAnimateHoverProps {

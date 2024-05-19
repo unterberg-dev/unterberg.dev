@@ -4,12 +4,13 @@ import { usePageContext } from '#root/renderer/usePageContext'
 
 interface LinkProps {
   href: string
+  label?: string
   children?: React.ReactNode | React.ReactNode[]
   className?: string
   button?: boolean
 }
 
-const Link = ({ href, children, className = '', button }: LinkProps) => {
+const Link = ({ href, children, label, className = '', button }: LinkProps) => {
   const pageContext = usePageContext()
   const { urlPathname } = pageContext
 
@@ -36,7 +37,8 @@ const Link = ({ href, children, className = '', button }: LinkProps) => {
   )
 
   const generatedClassName = useMemo(() => {
-    const staticClassName = 'transition-colors duration-200 ease-in-out inline-block'
+    const staticClassName =
+      'transition-colors duration-200 ease-in-out inline-block hover:underline'
 
     if (button) {
       return `${
@@ -44,7 +46,7 @@ const Link = ({ href, children, className = '', button }: LinkProps) => {
       } p-3 ${className} ${staticClassName} `
     }
 
-    return `${isActive ? 'text-warning' : ''} ${className} ${staticClassName}`
+    return `${isActive ? 'text-warning  underline' : ''} ${className} ${staticClassName}`
   }, [button, className, isActive])
 
   const linkCheckedExternal = useMemo(() => `${!isExternal ? '/' : ''}${href}`, [href, isExternal])
@@ -55,6 +57,7 @@ const Link = ({ href, children, className = '', button }: LinkProps) => {
       className={generatedClassName}
       target={isExternal ? '_blank' : '_self'}
       rel={isExternal ? 'noreferrer' : ''}
+      aria-label={label || ''}
     >
       {children}
     </a>

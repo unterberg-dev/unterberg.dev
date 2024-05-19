@@ -37,7 +37,7 @@ export default defineConfig({
       '#atoms': path.resolve(__dirname, './components/atoms/'),
       '#molecules': path.resolve(__dirname, './components/molecules/'),
       '#organisms': path.resolve(__dirname, './components/organisms/'),
-      '#pixi': path.resolve(__dirname, './components/pixi/'),
+      '#pixi': path.resolve(__dirname, './lib/pixi/'),
       '#gsap': path.resolve(__dirname, './lib/gsap/'),
       '#renderer': path.resolve(__dirname, './renderer/'),
       '#pages': path.resolve(__dirname, './pages/'),

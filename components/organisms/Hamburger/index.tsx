@@ -85,6 +85,7 @@ const Hamburger = () => {
                 <Link
                   key={item.name}
                   href={item.path}
+                  label={item.label}
                   className="relative text-xl text-grayLight hover:text-warning"
                 >
                   <Icon icon={item.icon} className="w-6 h-6" />

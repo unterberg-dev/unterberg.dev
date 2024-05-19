@@ -3,7 +3,6 @@ export enum CASE_KEY {
   GITHUB_MAP_STARTER,
   SHOWCASE,
   CLIENT_PROJECT,
-  YOURS,
 }
 
 type CaseImage = string[]
@@ -17,7 +16,7 @@ export type Case = {
   title: string
   description: string[] | string
   images?: CaseImage
-  link: CaseLink
+  link?: CaseLink
   tags: string[]
   spotlight?: boolean
   draft?: boolean
@@ -31,9 +30,6 @@ const cases: Case[] = [
       'After years of not having a personal website, I finally decided to create one. The goal was to create a simple, yet fast, and accessible website which features some of my core skills.',
       'The main objective was surely the interaction with the mouse pointer on the pixi stage with the hitbox system, but I were also aiming for a good performance and accessibility. With a overall page speed ranking of 99 I am quite happy with the result.',
     ],
-    link: {
-      preview: 'https://unterberg.dev',
-    },
     tags: [
       'TypeScript',
       'Node.js',
@@ -97,7 +93,7 @@ const cases: Case[] = [
     title: 'GSAP Pixi.js Typescript',
     // todo: change text - it's just copy from the repo - better seo
     description:
-      'a maplibre-gl controller template for next.js with advanced category markers & clustering features. written in react-typescript and featuring zustand state management, tailwind and lucide-icons',
+      'pixi x gsap = ❤️ - modern barebone setup for interactive webGL stages. eslint setup, built with vite, written in typescript',
     link: {
       preview: 'https://richard-unterberg.github.io/pixi-gsap-vite-ts/',
       repo: 'https://github.com/richard-unterberg/pixi-gsap-vite-ts',
@@ -141,18 +137,6 @@ const cases: Case[] = [
     },
     tags: ['Wordpress / Custom Theme', 'PHP, HTML, SCSS, JS', 'ACF', 'barba.js', 'GSAP'],
     images: ['showcase/clients/aufstand.webp'],
-  },
-  {
-    id: CASE_KEY.YOURS,
-    title: 'Yours?',
-    // todo: change text - it's just copy from the repo - better seo
-    description:
-      'You are the ideal customer working in the bicycle industry or in geospatial or audio engineering webdevelopment.',
-    link: {
-      preview: 'work-together#contact',
-    },
-    images: ['showcase/unterberg.dev/start-page.webp', 'showcase/unterberg.dev/collab-page.webp'],
-    tags: ['Typescript', 'Node', 'PHP', '?'],
   },
 ]
 

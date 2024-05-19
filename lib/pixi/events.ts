@@ -1,6 +1,6 @@
-import { registerAutoPointer } from '#components/pixi/autoPointer'
-import { getStore, setStore } from '#components/pixi/store'
+import { registerAutoPointer } from '#pixi/autoPointer'
 import { createHitboxes, handlePointerMove } from '#pixi/pointer'
+import { getStore, setStore } from '#pixi/store'
 
 export const handleUpdateHitboxes = (disable?: boolean) => {
   const store = getStore()

@@ -1,11 +1,11 @@
 import gsap from 'gsap'
 import { Application, Texture, TextureSource } from 'pixi.js'
 
-import { createContainer } from '#components/pixi/system/createContainer'
-import { createSprite } from '#components/pixi/system/createSprite'
-import { createText } from '#components/pixi/system/createText'
-import { createTexture } from '#components/pixi/system/createTexture'
-import { SpaceObject, SpaceTimelines } from '#components/pixi/types'
+import { createContainer } from '#pixi/system/createContainer'
+import { createSprite } from '#pixi/system/createSprite'
+import { createText } from '#pixi/system/createText'
+import { createTexture } from '#pixi/system/createTexture'
+import { SpaceObject, SpaceTimelines } from '#pixi/types'
 import { R } from '#pixi/utils'
 import { PixiConfig, SPACE_TIMELINE } from '#root/lib/constants'
 

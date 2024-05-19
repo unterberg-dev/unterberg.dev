@@ -3,6 +3,7 @@ export const APP_CONFIG = {
   viteMediaUrl: `${
     import.meta.env.PROD ? 'https://cdn.unterberg.dev/' : 'http://localhost:5247'
   }${import.meta.env.BASE_URL.slice(0, -1)}`,
+  viteMailApi: 'https://mail.unterberg.dev/',
   defaultDuration: 0.35,
   defaultDurationSlow: 2.5,
 }
@@ -27,7 +28,7 @@ export const defaultCirclePath = {
 }
 
 export const PixiConfig = {
-  configMaxDivider: 50,
+  configMaxDivider: 70,
   configMinDivider: 15,
   configMinDividerThreshold: 500,
   configMaxDividerThreshold: 1900,

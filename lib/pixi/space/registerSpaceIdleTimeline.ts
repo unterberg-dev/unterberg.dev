@@ -1,7 +1,7 @@
 import gsap from 'gsap'
 
-import { getStore } from '#components/pixi/store'
-import { SpaceObject } from '#components/pixi/types'
+import { getStore } from '#pixi/store'
+import { SpaceObject } from '#pixi/types'
 import { R } from '#pixi/utils'
 
 interface RegisterSpaceIdleTimelineProps {

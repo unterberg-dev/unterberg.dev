@@ -1,6 +1,6 @@
 import gsap from 'gsap'
 
-import { Tile } from '#components/pixi/types'
+import { Tile } from '#pixi/types'
 import { R } from '#pixi/utils'
 
 interface CreateTileTimelinesProps {

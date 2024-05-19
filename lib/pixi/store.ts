@@ -1,6 +1,6 @@
 import { Application, Renderer } from 'pixi.js'
 
-import { EmitterTile, Hitbox, SpaceObject, Tile } from '#components/pixi/types'
+import { EmitterTile, Hitbox, SpaceObject, Tile } from '#pixi/types'
 
 export type Store = {
   app: Application<Renderer>
