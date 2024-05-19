@@ -5,19 +5,15 @@ import Layout from '#atoms/Layout'
 import HeadlineArea from '#molecules/HeadlineArea'
 
 const ContactModule = () => {
-  const {
-    data: token,
-    error,
-    refetch,
-  } = useQuery({
+  const { data: token, error } = useQuery({
     queryKey: ['contactFormToken'],
-    enabled: false,
     queryFn: async () => {
-      const response = await fetch('https://mail.unterberg.dev/token', {
+      const response = await fetch('https://mail.unterberg.dev/token/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
+        body: JSON.stringify({}),
       })
       if (!response.ok) {
         throw new Error('Network response was not ok')
@@ -26,9 +22,9 @@ const ContactModule = () => {
     },
   })
 
-  useEffect(() => {
-    refetch()
-  }, [refetch])
+  // useEffect(() => {
+  //   refetch()
+  // }, [refetch])
 
   useEffect(() => {
     // eslint-disable-next-line no-console
