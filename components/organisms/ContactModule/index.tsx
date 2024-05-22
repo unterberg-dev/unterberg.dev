@@ -4,7 +4,8 @@ import { FormEvent, useRef } from 'react'
 import Layout from '#atoms/Layout'
 import HeadlineArea from '#molecules/HeadlineArea'
 
-const getToken = () => axios.post('https://mail.unterberg.dev/token/')
+const getToken = () =>
+  axios.post('https://mail.unterberg.dev/token/', null, { withCredentials: true })
 
 const ContactModule = () => {
   const formRef = useRef<HTMLFormElement>(null)
@@ -17,7 +18,7 @@ const ContactModule = () => {
     formData.append('token', tokenQuery.data.token)
 
     axios.post('https://mail.unterberg.dev/hello/', formData, {
-      withCredentials: true, // Ensure cookies are included in the request
+      withCredentials: true,
       headers: {
         'Content-Type': 'multipart/form-data',
       },
