@@ -1,44 +1,44 @@
-import { useQuery } from '@tanstack/react-query'
-import { useEffect } from 'react'
+import axios from 'axios'
+import { FormEvent, useRef } from 'react'
 
 import Layout from '#atoms/Layout'
 import HeadlineArea from '#molecules/HeadlineArea'
 
+const getToken = () => axios.post('https://mail.unterberg.dev/token/')
+
 const ContactModule = () => {
-  const { data: token, error } = useQuery({
-    queryKey: ['contactFormToken'],
-    queryFn: async () => {
-      const response = await fetch('https://mail.unterberg.dev/token/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({}),
-      })
-      if (!response.ok) {
-        throw new Error('Network response was not ok')
-      }
-      return response.json()
-    },
-  })
+  const formRef = useRef<HTMLFormElement>(null)
 
-  // useEffect(() => {
-  //   refetch()
-  // }, [refetch])
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
 
-  useEffect(() => {
-    // eslint-disable-next-line no-console
-    console.log(token)
-  }, [token])
+    const tokenQuery = await getToken()
+    const formData = new FormData(formRef.current ? formRef.current : undefined)
+    formData.append('token', tokenQuery.data.token)
 
-  useEffect(() => {
-    // eslint-disable-next-line no-console
-    console.log(error)
-  }, [error])
+    axios.post('https://mail.unterberg.dev/hello/', formData, {
+      withCredentials: true, // Ensure cookies are included in the request
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    })
+    // .then(response => {
+    //   // console.log('Form submitted successfully:', response.data)
+    // })
+    // .catch(error => {
+    //   // console.error('Error submitting the form:', error)
+    // })
+  }
 
   return (
     <Layout>
       <HeadlineArea headline="Still wanna collaborate? 😅" subHeadline="Get in touch with me" />
+      <form ref={formRef} method="POST" onSubmit={event => handleSubmit(event)}>
+        <input type="text" name="name" placeholder="Name" />
+        <input type="email" name="email" placeholder="Email" />
+        <textarea name="message" placeholder="Message" />
+        <button type="submit">Send</button>
+      </form>
     </Layout>
   )
 }
