@@ -4,17 +4,6 @@ import { defineConfig, presetUno } from 'unocss'
 
 export default defineConfig({
   presets: [presetUno()],
-  content: {
-    // needed for uno css to properly parse the content
-    pipeline: {
-      include: [
-        // the default
-        /\.(vue|svelte|[jt]sx|mdx?|astro|elm|php|phtml|html)($|\?)/,
-        // include js/ts files
-        'src/**/*.{js,ts}',
-      ],
-    },
-  },
   theme: {
     colors: {
       transparent: 'transparent',
@@ -34,9 +23,8 @@ export default defineConfig({
       error: colors.red[500],
     },
     fontSize: {
-      base: ['18px', '24px'],
-      small: ['16px', '20px'],
-      micro: ['10px', '12px'],
+      base: ['16px', '20px'],
+      small: ['14px', '17px'],
     },
     fontFamily: {
       sans: 'Helvetica Neue, Arial, Tahoma, sans-serif',
@@ -54,15 +42,20 @@ export default defineConfig({
             }
           })
         }
-
         return `
           body, html {
             background-color: ${theme.colors?.dark};
             color: ${theme.colors?.light};
             font-family: ${theme.fontFamily?.sans};
+            font-size: ${theme.fontSize?.base[0]};
           }
           :root {
             ${cssVariables}
+          }
+          input:focus,
+          textarea:focus {
+            outline: none !important;
+            box-shadow: none!important;
           }
         `
       },

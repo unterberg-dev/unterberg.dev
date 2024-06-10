@@ -1,6 +1,5 @@
-import { useMemo, useRef } from 'react'
+import { useRef } from 'react'
 
-import H2Headline from '#atoms/H2Headline'
 import Layout from '#atoms/Layout'
 import usePageHeaderAnimations from '#gsap/usePageHeaderAnimations'
 import BelowHeroGlassArea from '#molecules/BelowHeroGlassArea'
@@ -8,8 +7,16 @@ import HeadlineArea from '#molecules/HeadlineArea'
 import ContactModule from '#organisms/ContactModule'
 import StaggerHeader from '#organisms/StaggerHeader'
 import Case from '#pages/showcase/Case'
-import cases, { CASE_KEY } from '#pages/showcase/cases'
+import cases, { CASE_KEY } from '#pages/showcase/casesMap'
 import MapThemeArea from '#pages/showcase/layouts/MapThemeArea'
+
+const spotlightCase = cases.find(item => !!item.spotlight)
+const mappingCases = cases.filter(item => item.id === CASE_KEY.GITHUB_MAP_STARTER)
+const clientCases = cases.filter(item => item.id === CASE_KEY.CLIENT_PROJECT)
+const filteredCases = cases
+  .filter(item => !item.spotlight)
+  .filter(item => item.id !== CASE_KEY.GITHUB_MAP_STARTER)
+  .filter(item => item.id !== CASE_KEY.CLIENT_PROJECT)
 
 const ShowcasePage = () => {
   const staggerContainer = useRef<HTMLDivElement>(null)
@@ -17,21 +24,6 @@ const ShowcasePage = () => {
   const { GsapStaggerElement } = usePageHeaderAnimations({
     staggerContainer,
   })
-
-  const spotlightCase = useMemo(() => cases.find(item => !!item.spotlight), [])
-  const mappingCases = useMemo(
-    () => cases.filter(item => item.id === CASE_KEY.GITHUB_MAP_STARTER),
-    [],
-  )
-  const clientCases = useMemo(() => cases.filter(item => item.id === CASE_KEY.CLIENT_PROJECT), [])
-  const filteredCases = useMemo(
-    () =>
-      cases
-        .filter(item => !item.spotlight)
-        .filter(item => item.id !== CASE_KEY.GITHUB_MAP_STARTER)
-        .filter(item => item.id !== CASE_KEY.CLIENT_PROJECT),
-    [],
-  )
 
   return (
     <div ref={staggerContainer}>
@@ -55,15 +47,22 @@ const ShowcasePage = () => {
             {clientCases.map((item, index) => (
               <Case key={item.title} caseItem={item} switchLayout={index % 2 === 0} />
             ))}
-            <p className="border-t-2 border-t-darkLightBorder pt-4 text-right text-gray">
-              <sup>*</sup> I am not responsible for content on the linked pages above
-            </p>
+            <div className="border-t-2 border-t-darkLightBorder w-full">
+              <p className="text-right text-gray pt-4">
+                <sup>*</sup> I am not responsible for content on the linked pages above
+              </p>
+              <p className="pt-16 px-20 text-xl text-center">
+                Sure, this is just a selection and there are more projects I have done for clients,
+                but I cannot show them here. If you are interested in my work, please get in touch
+                with me.
+              </p>
+            </div>
           </Layout>
         </Layout>
       </GsapStaggerElement>
       <MapThemeArea>
         <HeadlineArea headline="JS Mapping Projects" subHeadline="Hello Open Source" />
-        <Layout className="mt-20 flex gap-5 md:gap-10">
+        <Layout className="flex gap-5 md:gap-10">
           {mappingCases.map(item => (
             <Case key={item.title} caseItem={item} colDisplay />
           ))}
@@ -76,10 +75,7 @@ const ShowcasePage = () => {
           ))}
         </Layout>
       </Layout>
-      <Layout
-        $fullWidth
-        className="pixi-hitbox bg-gradient-to-b via-10% from-dark relative h-50 z-10"
-      />
+
       <ContactModule />
     </div>
   )

@@ -17,7 +17,7 @@ export type Case = {
   description: string[] | string
   images?: CaseImage
   link?: CaseLink
-  tags: string[]
+  tags?: string[]
   spotlight?: boolean
   draft?: boolean
 }
@@ -110,21 +110,7 @@ const cases: Case[] = [
     link: {
       preview: 'https://www.cwe-chemnitz.de/',
     },
-    tags: ['Wordpress', 'PHP', 'SCSS', 'JS', 'ACF', 'barba.js', 'GSAP'],
     images: ['showcase/clients/cwe.webp'],
-  },
-  {
-    id: CASE_KEY.CLIENT_PROJECT,
-    title: 'Azubimanufaktur',
-    // todo: change text - it's just copy from the repo - better seo
-    description: [
-      'Also created alongside for my former employer (brands and beyond GmbH), this website features modern layer animations and is running on the same custom theme which I am using in almost all my WP projects.',
-    ],
-    link: {
-      preview: 'https://www.azubimanufaktur.de/',
-    },
-    tags: ['Wordpress / Custom Theme', 'PHP', 'SCSS', 'JS', 'ACF', 'barba.js', 'GSAP'],
-    images: ['showcase/clients/spk.webp'],
   },
   {
     id: CASE_KEY.CLIENT_PROJECT,
@@ -135,7 +121,6 @@ const cases: Case[] = [
     link: {
       preview: 'https://aufstand-der-utopien.de/',
     },
-    tags: ['Wordpress / Custom Theme', 'PHP, HTML, SCSS, JS', 'ACF', 'barba.js', 'GSAP'],
     images: ['showcase/clients/aufstand.webp'],
   },
 ]

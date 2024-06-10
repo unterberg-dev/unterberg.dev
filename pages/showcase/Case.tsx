@@ -6,7 +6,7 @@ import H4Headline from '#atoms/H4Headline'
 import Link from '#atoms/Link'
 import TagBubble from '#atoms/TagBubble'
 import { APP_CONFIG } from '#lib/constants'
-import { Case, CASE_KEY } from '#pages/showcase/cases'
+import { Case, CASE_KEY } from '#pages/showcase/casesMap'
 
 export type ProjectType = {
   name: string
@@ -101,7 +101,7 @@ const CaseContent = ({ caseItem, colDisplay, switchLayout }: CaseProps) => {
           )}
         </div>
         <div className="flex flex-wrap gap-1 mt-5">
-          {caseItem.tags.map(tag => (
+          {caseItem.tags?.map(tag => (
             <TagBubble
               key={tag}
               $size="xs"

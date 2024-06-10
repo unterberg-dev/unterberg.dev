@@ -11,7 +11,7 @@ interface HeadlineAreaProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 const HeadlineArea = ({ className, headline, subHeadline, ...props }: HeadlineAreaProps) => (
-  <Layout className={`flex flex-col gap-3 items-center ${className || ''}`} {...props}>
+  <Layout className={`flex flex-col gap-3 pt-24 mb-24 items-center ${className || ''}`} {...props}>
     <H2Headline className="pixi-hitbox inline-block self-start mx-auto text-center">
       {headline}
     </H2Headline>

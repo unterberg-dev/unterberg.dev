@@ -7,3 +7,13 @@ export type NavigationItem = {
   title: string
   description: string
 }
+
+// RESPONSE TYPES
+
+export type GetTokenResponse = {
+  token: string
+}
+
+export type PostMailResponse = {
+  message: string
+}

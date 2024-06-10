@@ -7,6 +7,7 @@ interface ButtonProps {
   label?: React.ReactNode
   icon?: ICON_ID
   iconSize?: number
+  type?: 'link' | 'button' | 'submit'
   link?: string
   noGutter?: boolean
   onClick?: (e: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement>) => void
@@ -18,6 +19,7 @@ const Button = ({
   label,
   icon,
   iconSize = 16,
+  type,
   link,
   noGutter,
   onClick,
@@ -25,11 +27,11 @@ const Button = ({
   className,
 }: ButtonProps) => {
   const buttonStyle = useMemo(
-    () => `flex items-center ${noGutter ? 'p-0' : 'px-4 py-2'} rounded-sm gap-2 ${className}`,
+    () => `flex items-center ${noGutter ? 'p-0' : 'py-2 px-4'} rounded-sm gap-2 ${className}`,
     [className, noGutter],
   )
 
-  if (link) {
+  if (type === 'link' && link) {
     return (
       <a
         href={link}
@@ -45,7 +47,7 @@ const Button = ({
 
   return (
     <button
-      type="button"
+      type={type === 'submit' ? 'submit' : 'button'}
       onClick={onClick}
       className={`${buttonStyle}`}
       ref={ref as MutableRefObject<HTMLButtonElement>}

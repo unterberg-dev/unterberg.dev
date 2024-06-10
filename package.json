@@ -33,6 +33,7 @@
     "axios": "^1.7.2",
     "body-scroll-lock": "^4.0.0-beta.0",
     "dotenv": "^16.4.1",
+    "formik": "^2.4.6",
     "gsap": "^3.12.5",
     "lucide-react": "^0.367.0",
     "pixi.js": "^8.1.0",
@@ -42,7 +43,8 @@
     "react-streaming": "^0.3.24",
     "styled-components": "^6.1.8",
     "tailwind-styled-components": "^2.2.0",
-    "vike": "^0.4.168"
+    "vike": "^0.4.168",
+    "yup": "^1.4.0"
   },
   "devDependencies": {
     "@types/body-scroll-lock": "^3.1.2",
