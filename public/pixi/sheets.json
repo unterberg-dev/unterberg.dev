@@ -1,0 +1,12 @@
+{
+  "sheets": [
+    {
+      "name": "Moon",
+      "key": "moon"
+    },
+    {
+      "name": "Sun",
+      "key": "sun"
+    }
+  ]
+}

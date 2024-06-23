@@ -1,6 +1,7 @@
 import { Application, Renderer } from 'pixi.js'
 
-import { EmitterTile, Hitbox, SpaceObject, Tile } from '#pixi/types'
+import { PixiConfigType } from '#lib/constants'
+import { EmitterTile, Hitbox, Tile } from '#pixi/types'
 
 export type Store = {
   app: Application<Renderer>
@@ -10,11 +11,9 @@ export type Store = {
   colsCount: number
   tileWidth: number
   tileHeight: number
-  cursorRadius: number
   hitboxes?: Hitbox[]
-  spaceObjects: SpaceObject[]
   autoPointerTimeline?: gsap.core.Timeline
-}
+} & PixiConfigType
 
 let store: Store
 export const getStore = () => store

@@ -1,7 +1,29 @@
+import { PixiConfig } from '#lib/constants'
 import spawnTile from '#pixi/spawner/spawnTile'
-import { getStore } from '#pixi/store'
+import { getStore, setStore } from '#pixi/store'
 import { Hitbox } from '#pixi/types'
 import { R } from '#pixi/utils'
+
+export const createHitboxes: () => Hitbox[] | undefined = () => {
+  const hitboxes = document.querySelectorAll('.pixi-hitbox ')
+  if (!hitboxes || hitboxes.length === 0) return undefined
+
+  return Object.values(hitboxes).flatMap((hitbox: Element) => {
+    const { x, y, width, height } = hitbox.getBoundingClientRect()
+    return {
+      x,
+      y,
+      width,
+      height,
+    }
+  })
+}
+
+export const handleUpdateHitboxes = (disable?: boolean) => {
+  const store = getStore()
+  const newHitboxes = createHitboxes()
+  setStore({ ...store, hitboxes: disable ? undefined : newHitboxes })
+}
 
 interface TriggerAnimateHoverProps {
   triggerIDs: number[]
@@ -19,8 +41,23 @@ export const triggerAnimateHover = ({
   accX,
   accY,
 }: TriggerAnimateHoverProps) => {
-  const { hitboxes, tileWidth, cursorRadius } = getStore()
+  const {
+    hitboxes,
+    tileWidth,
+    emitter: {
+      cursorRadius: { value: cursorRadius },
+      gravity: { value: gravity },
+      pointerInertia: { value: pointerMoveModifier },
+      pointerMomentumModifier: { value: pointerMomentumModifier },
+      pointerMissRate: { value: pointerMissRate },
+    },
+  } = getStore()
   const noAcceleration = !accX && !accY
+
+  // only fire n% of the time
+  // todo: to constants
+  const chance = Math.random() < pointerMissRate
+  if (chance) return
 
   triggerIDs.forEach(() => {
     const movementX = accX || 0
@@ -29,12 +66,10 @@ export const triggerAnimateHover = ({
     const clampedMovementX = Math.min(Math.max(movementX, -50), 50)
     const clampedMovementY = Math.min(Math.max(movementY, -50), 50)
 
-    // todo: to constants
-    const mouseMovementModifier = 1.5
-    const outAccelerationModifier = 2.5
+    const gravityModifier = gravity * 100
 
-    const newX = mouseX + clampedMovementX * mouseMovementModifier
-    const newY = mouseY + clampedMovementY * mouseMovementModifier
+    const newX = mouseX + clampedMovementX * pointerMoveModifier
+    const newY = mouseY + clampedMovementY * pointerMoveModifier
 
     const allActiveTilesSize = tileWidth * (cursorRadius * 2)
     const xPosition = newX + R(-allActiveTilesSize, allActiveTilesSize)
@@ -42,10 +77,13 @@ export const triggerAnimateHover = ({
 
     const accXPosition = noAcceleration
       ? xPosition
-      : xPosition + clampedMovementX * outAccelerationModifier + R(-tileWidth, tileWidth)
+      : xPosition + clampedMovementX * pointerMomentumModifier + R(-tileWidth, tileWidth)
     const accYPosition = noAcceleration
-      ? yPosition
-      : yPosition + clampedMovementY * outAccelerationModifier + R(-tileWidth, tileWidth)
+      ? yPosition + gravityModifier
+      : yPosition +
+        clampedMovementY * pointerMomentumModifier +
+        R(-tileWidth, tileWidth) +
+        gravityModifier
 
     const isInHitbox = hitboxes?.some(hitbox => {
       const minX = hitbox.x - tileWidth * cursorRadius
@@ -59,11 +97,6 @@ export const triggerAnimateHover = ({
 
       return isInXYHitbox
     })
-
-    // only fire n% of the time
-    // todo: to constants
-    const chance = Math.random() < 0
-    if (chance) return
 
     spawnTile({
       mouseX,
@@ -167,7 +200,7 @@ export const handlePointerMove = ({ event, manual }: HandlePointerMoveProps) => 
   const isManual = manual?.x && manual?.y
   const x = isManual ? manual.x : event?.clientX
   const y = isManual ? manual.y : event?.clientY
-  const { cursorRadius } = getStore()
+  const cursorRadius = getStore().emitter.cursorRadius.value
 
   if (!x || !y) return
 
@@ -192,20 +225,5 @@ export const handlePointerMove = ({ event, manual }: HandlePointerMoveProps) => 
     accY: event?.movementY,
     mouseX: x,
     mouseY: y,
-  })
-}
-
-export const createHitboxes: () => Hitbox[] | undefined = () => {
-  const hitboxes = document.querySelectorAll('.pixi-hitbox ')
-  if (!hitboxes || hitboxes.length === 0) return undefined
-
-  return Object.values(hitboxes).flatMap((hitbox: Element) => {
-    const { x, y, width, height } = hitbox.getBoundingClientRect()
-    return {
-      x,
-      y,
-      width,
-      height,
-    }
   })
 }

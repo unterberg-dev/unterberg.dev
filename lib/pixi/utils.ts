@@ -1,20 +1,35 @@
 import { Application, Renderer } from 'pixi.js'
 
+import { Tile } from '#pixi/types'
 import { PixiConfig } from '#root/lib/constants'
 
+// todo: mixed function - split into smaller functions - one for creating the grid, one for creating the tiles
+export const createTileGrid = (gridSize: number, stageWidth: number, stageHeight: number) => {
+  const tilesPos: Tile[] = []
+  let tileId = 0
+
+  for (let y = 0; y < stageHeight; y += gridSize) {
+    for (let x = 0; x < stageWidth; x += gridSize) {
+      const tile: Tile = {
+        id: (tileId += 1),
+        x,
+        y,
+      }
+      tilesPos.push(tile)
+    }
+  }
+
+  return tilesPos
+}
+
 export const getDimensions = (app: Application<Renderer>) => {
-  const {
-    configMaxDivider,
-    configMinDivider,
-    configMinDividerThreshold,
-    configMaxDividerThreshold,
-  } = PixiConfig
+  const { maxDivider, minDivider, minDividerThreshold, maxDividerThreshold } = PixiConfig
 
   let divider =
-    configMinDivider +
-    ((app.renderer.width - configMinDividerThreshold) * (configMaxDivider - configMinDivider)) /
-      (configMaxDividerThreshold - configMinDividerThreshold)
-  divider = Math.max(configMinDivider, Math.min(divider, configMaxDivider))
+    minDivider +
+    ((app.renderer.width - minDividerThreshold) * (maxDivider - minDivider)) /
+      (maxDividerThreshold - minDividerThreshold)
+  divider = Math.max(minDivider, Math.min(divider, maxDivider))
 
   const tileWidth = Math.floor(app.renderer.width / divider)
   const tileHeight = tileWidth

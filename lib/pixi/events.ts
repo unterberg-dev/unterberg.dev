@@ -1,12 +1,6 @@
 import { registerAutoPointer } from '#pixi/autoPointer'
-import { createHitboxes, handlePointerMove } from '#pixi/pointer'
-import { getStore, setStore } from '#pixi/store'
-
-export const handleUpdateHitboxes = (disable?: boolean) => {
-  const store = getStore()
-  const newHitboxes = createHitboxes()
-  setStore({ ...store, hitboxes: disable ? undefined : newHitboxes })
-}
+import { handlePointerMove, handleUpdateHitboxes } from '#pixi/pointer'
+import { getStore } from '#pixi/store'
 
 // todo: little game - after 50000px crazy things happen :D
 // todo: outsource to rocket launch

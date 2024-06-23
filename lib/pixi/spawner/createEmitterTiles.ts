@@ -2,8 +2,10 @@ import gsap from 'gsap'
 import { Application, Texture } from 'pixi.js'
 
 import { EMITTER_TIMELINE, PixiConfig } from '#lib/constants'
+import { registerSpawnerTimelines } from '#pixi/spawner/registerSpawnerTimelines'
+import { getAllSpritesheets } from '#pixi/spritesheet'
+import { setEmitterStore } from '#pixi/store'
 import { createContainer } from '#pixi/system/createContainer'
-import createIconBaseTextures from '#pixi/system/createIconBaseTexture'
 import { createSprite } from '#pixi/system/createSprite'
 import { EmitterTile } from '#pixi/types'
 import { R } from '#pixi/utils'
@@ -18,16 +20,25 @@ const addEmitterTimelines = () => ({
 
 // todo: redundant to createTileGrid -> refactor to be a single function
 // needs count and size as arguments - rely on constants mainly!
-const createEmitterTiles = (app: Application, tileSize: number) => {
+const createEmitterTiles = async (app: Application, tileSize: number) => {
   const tilesPos: EmitterTile[] = []
 
   // todo: constants
-  const emitterCount = 3000
+  const { bufferCount, scaleModifier } = PixiConfig.emitter
 
-  const baseTextures = createIconBaseTextures(app, tileSize / 2, PixiConfig.configEmitterIcons)
+  const isDayTime = new Date().getHours() > 6 && new Date().getHours() < 18
+
+  const sheets = await getAllSpritesheets()
+  const moonTextures = sheets.find(sheet => sheet.key === (isDayTime ? 'sun' : 'moon'))?.sheet
+  if (!moonTextures) return
+
+  const baseTextures = Object.values(moonTextures).map(texture => texture)
 
   let tileId = 0
-  for (let i = 0; i < emitterCount; i += 1) {
+  for (let i = 0; i < bufferCount; i += 1) {
+    const randomBaseTexture = baseTextures[Math.floor(Math.random() * baseTextures.length)]
+    const clonedTexture = new Texture(randomBaseTexture)
+
     const container = createContainer({
       x: app.renderer.width / 2,
       y: app.renderer.height / 2,
@@ -38,9 +49,9 @@ const createEmitterTiles = (app: Application, tileSize: number) => {
       x: 0,
       y: 0,
     })
-
-    const randomBaseTexture = baseTextures[Math.floor(Math.random() * baseTextures.length)]
-    const clonedTexture = Texture.from(randomBaseTexture)
+    innerContainer.scale.set(
+      (tileSize / (clonedTexture.frame.width * app.renderer.resolution)) * scaleModifier.value,
+    )
 
     const sprite = createSprite({
       texture: clonedTexture,
@@ -63,7 +74,13 @@ const createEmitterTiles = (app: Application, tileSize: number) => {
     tilesPos.push(tile)
   }
 
-  return tilesPos
+  setEmitterStore({
+    emitterTiles: tilesPos,
+    activeEmitterTiles: new Set(),
+  })
+  tilesPos.forEach(tile => {
+    registerSpawnerTimelines({ timeline: tile.timelines[EMITTER_TIMELINE.DEFAULT], tile })
+  })
 }
 
 export default createEmitterTiles

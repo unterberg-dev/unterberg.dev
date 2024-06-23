@@ -5,7 +5,7 @@ import { useRef, useState } from 'react'
 
 import { APP_CONFIG } from '#lib/constants'
 import usePixiStageContext from '#pixi/context/usePixiStageContext'
-import { handleUpdateHitboxes } from '#pixi/events'
+import { handleUpdateHitboxes } from '#pixi/pointer'
 
 const enableScroll = () => {
   clearAllBodyScrollLocks()

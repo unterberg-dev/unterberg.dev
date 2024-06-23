@@ -3,7 +3,7 @@ import { gsap } from 'gsap'
 import { Attributes, FunctionComponent, HtmlHTMLAttributes, ReactNode, useState } from 'react'
 
 import { APP_CONFIG } from '#lib/constants'
-import { handleUpdateHitboxes } from '#pixi/events'
+import { handleUpdateHitboxes } from '#pixi/pointer'
 
 interface UsePageHeaderAnimationsProps {
   staggerContainer: React.RefObject<HTMLDivElement>
