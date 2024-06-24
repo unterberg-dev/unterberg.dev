@@ -1,4 +1,3 @@
-import { PixiConfig } from '#lib/constants'
 import spawnTile from '#pixi/spawner/spawnTile'
 import { getStore, setStore } from '#pixi/store'
 import { Hitbox } from '#pixi/types'
