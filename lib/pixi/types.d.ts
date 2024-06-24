@@ -1,40 +1,5 @@
 import { Container, Sprite } from 'pixi.js'
 
-import {
-  EMITTER_TIMELINE,
-  IDLE_TILE_TIMELINE,
-  SPACE_TIMELINE,
-  TILE_TIMELINE,
-} from '#root/lib/constants'
-
-export type TileTimelines = {
-  [key in TILE_TIMELINE]: gsap.core.Timeline
-}
-
-export type TileIdleTimeline = {
-  [key in IDLE_TILE_TIMELINE]: gsap.core.Timeline
-}
-
-export type SpaceTimelines = {
-  [key in SPACE_TIMELINE]: gsap.core.Timeline
-}
-
-export type EmitterTimelines = {
-  [key in EMITTER_TIMELINE]: gsap.core.Timeline
-}
-
-export type SetPositionFncType = (x: number, y: number, accX: number, accY: number) => void
-export type SetPositionFncTypeExt = (
-  x: number,
-  y: number,
-  accX: number,
-  accY: number,
-  mouseX: number,
-  mouseY: number,
-  id: number,
-  isInHitbox: boolean,
-) => void
-
 export type Hitbox = {
   x: number
   y: number
@@ -46,27 +11,35 @@ export type Tile = {
   id: number
   x: number
   y: number
-  sprite: Sprite
-  container: Container
-  innerContainer: Container
-  timelines?: TileTimelines | TileIdleTimeline
-  setPosition?: SetPositionFncType
 }
+
+export type EmitterSetPositionFncType = (x: number, y: number, accX: number, accY: number) => void
+export type EmitterSetPositionFncTypeExt = (
+  x: number,
+  y: number,
+  accX: number,
+  accY: number,
+  mouseX: number,
+  mouseY: number,
+  id: number,
+  isInHitbox: boolean,
+) => void
 
 export type EmitterTile = {
   id: number
   sprite: Sprite
   container: Container
   innerContainer: Container
-  timelines: EmitterTimelines
-  setPosition?: SetPositionFncTypeExt
+  timeline: gsap.core.Timeline
+  setPosition?: EmitterSetPositionFncTypeExt
 }
 
-export type SpaceObject = {
-  id: number
-  x: number
-  y: number
-  timelines?: SpaceTimelines
-  sprite: Sprite
-  container: Container
+export type SpaceSetPositionFncType = (x: number, y: number) => void
+export type SpaceTile = {
+  layer1: Sprite
+  layer1ToX: gsap.QuickToFunc
+  layer1ToY: gsap.QuickToFunc
+  layer2: Sprite
+  layer2ToX: gsap.QuickToFunc
+  layer2ToY: gsap.QuickToFunc
 }

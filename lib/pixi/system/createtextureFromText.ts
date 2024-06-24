@@ -4,7 +4,7 @@ import { createText } from '#pixi/system/createText'
 import { createTexture } from '#pixi/system/createTexture'
 
 /* todo: test if this text-texture-sprite conversion affects the SEO TBT score */
-const createIconBaseTextures = (app: Application, size: number, input: string[]) =>
+const createtextureFromText = (app: Application, size: number, input: string[]) =>
   input.map(icon => {
     const text = createText({
       value: icon,
@@ -19,4 +19,4 @@ const createIconBaseTextures = (app: Application, size: number, input: string[])
     return texture.source
   })
 
-export default createIconBaseTextures
+export default createtextureFromText

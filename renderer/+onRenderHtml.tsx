@@ -31,7 +31,9 @@ const onRenderHtml: OnRenderHtmlAsync = async (pageContext): ReturnType<OnRender
     <html lang="en">
       <head>
         <meta charset="UTF-8" />
-        <link rel="icon" href="${APP_CONFIG.viteMediaUrl}/favicon.ico" />
+        <link rel="icon" href="${APP_CONFIG.viteMediaUrl}/favicon.ico" sizes="32x32">
+        <link rel="apple-touch-icon" href="${APP_CONFIG.viteMediaUrl}/apple-touch-icon.png">
+        <link rel="manifest" href="${APP_CONFIG.viteMediaUrl}/site.webmanifest">
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="description" content="${description}" />
         <meta name="robots" content="${isStartPage ? 'index, follow' : 'noindex'}">

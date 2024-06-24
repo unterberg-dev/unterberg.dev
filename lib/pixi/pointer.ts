@@ -1,7 +1,28 @@
 import spawnTile from '#pixi/spawner/spawnTile'
-import { getStore } from '#pixi/store'
+import { getSpaceStore, getStore, setStore } from '#pixi/store'
 import { Hitbox } from '#pixi/types'
 import { R } from '#pixi/utils'
+
+export const createHitboxes: () => Hitbox[] | undefined = () => {
+  const hitboxes = document.querySelectorAll('.pixi-hitbox ')
+  if (!hitboxes || hitboxes.length === 0) return undefined
+
+  return Object.values(hitboxes).flatMap((hitbox: Element) => {
+    const { x, y, width, height } = hitbox.getBoundingClientRect()
+    return {
+      x,
+      y,
+      width,
+      height,
+    }
+  })
+}
+
+export const handleUpdateHitboxes = (disable?: boolean) => {
+  const store = getStore()
+  const newHitboxes = createHitboxes()
+  setStore({ ...store, hitboxes: disable ? undefined : newHitboxes })
+}
 
 interface TriggerAnimateHoverProps {
   triggerIDs: number[]
@@ -19,8 +40,23 @@ export const triggerAnimateHover = ({
   accX,
   accY,
 }: TriggerAnimateHoverProps) => {
-  const { hitboxes, tileWidth, cursorRadius } = getStore()
+  const {
+    hitboxes,
+    tileWidth,
+    emitter: {
+      cursorRadius: { value: cursorRadius },
+      gravity: { value: gravity },
+      pointerInertia: { value: pointerMoveModifier },
+      pointerMomentumModifier: { value: pointerMomentumModifier },
+      pointerMissRate: { value: pointerMissRate },
+    },
+  } = getStore()
   const noAcceleration = !accX && !accY
+
+  // only fire n% of the time
+  // todo: to constants
+  const chance = Math.random() < pointerMissRate
+  if (chance) return
 
   triggerIDs.forEach(() => {
     const movementX = accX || 0
@@ -29,12 +65,10 @@ export const triggerAnimateHover = ({
     const clampedMovementX = Math.min(Math.max(movementX, -50), 50)
     const clampedMovementY = Math.min(Math.max(movementY, -50), 50)
 
-    // todo: to constants
-    const mouseMovementModifier = 1.5
-    const outAccelerationModifier = 2.5
+    const gravityModifier = gravity * 100
 
-    const newX = mouseX + clampedMovementX * mouseMovementModifier
-    const newY = mouseY + clampedMovementY * mouseMovementModifier
+    const newX = mouseX + clampedMovementX * pointerMoveModifier
+    const newY = mouseY + clampedMovementY * pointerMoveModifier
 
     const allActiveTilesSize = tileWidth * (cursorRadius * 2)
     const xPosition = newX + R(-allActiveTilesSize, allActiveTilesSize)
@@ -42,10 +76,13 @@ export const triggerAnimateHover = ({
 
     const accXPosition = noAcceleration
       ? xPosition
-      : xPosition + clampedMovementX * outAccelerationModifier + R(-tileWidth, tileWidth)
+      : xPosition + clampedMovementX * pointerMomentumModifier + R(-tileWidth, tileWidth)
     const accYPosition = noAcceleration
-      ? yPosition
-      : yPosition + clampedMovementY * outAccelerationModifier + R(-tileWidth, tileWidth)
+      ? yPosition + gravityModifier
+      : yPosition +
+        clampedMovementY * pointerMomentumModifier +
+        R(-tileWidth, tileWidth) +
+        gravityModifier
 
     const isInHitbox = hitboxes?.some(hitbox => {
       const minX = hitbox.x - tileWidth * cursorRadius
@@ -59,11 +96,6 @@ export const triggerAnimateHover = ({
 
       return isInXYHitbox
     })
-
-    // only fire n% of the time
-    // todo: to constants
-    const chance = Math.random() < 0
-    if (chance) return
 
     spawnTile({
       mouseX,
@@ -148,64 +180,70 @@ export const getTileOnPointer = (mouseX: number, mouseY: number): number | null 
 }
 
 interface HandlePointerMoveProps {
-  manual?: {
-    x: number
-    y: number
-  }
-  event?: PointerEvent
+  x: number
+  y: number
 }
 
+// Global variables to keep track of the previous cursor position and the previous hovered tile ID
+let previousX: number | null = null
+let previousY: number | null = null
 let previousHoveredTileId: number | null = null
 
 /**
  * Handles the pointer move event.
- * @param {PointerEvent} event - The pointer event.
- * @param  {Object} manual.x - The manual x and y coordinates.
- * @param {Object} manual.y - The manual x and y coordinates.
+ * @param {Object} props - The function parameters.
+ * @param {number} props.clientX - The x coordinate of the pointer.
+ * @param {number} props.clientY - The y coordinate of the pointer.
+ * @param {Object} [manual] - The manual x and y coordinates.
+ * @param {number} [manual.x] - The manual x coordinate.
+ * @param {number} [manual.y] - The manual y coordinate.
  */
-export const handlePointerMove = ({ event, manual }: HandlePointerMoveProps) => {
-  const isManual = manual?.x && manual?.y
-  const x = isManual ? manual.x : event?.clientX
-  const y = isManual ? manual.y : event?.clientY
-  const { cursorRadius } = getStore()
+export const handlePointerMove = ({ x, y }: HandlePointerMoveProps) => {
+  // Determine if manual coordinates are provided
+  const cursorRadius = getStore().emitter.cursorRadius.value
 
-  if (!x || !y) return
+  // Return early if x or y are not defined
+  if (x == null || y == null) return
 
+  // Calculate acceleration based on the difference between the current and previous coordinates
+  let accX = 0
+  let accY = 0
+  if (previousX !== null && previousY !== null) {
+    accX = x - previousX
+    accY = y - previousY
+  }
+
+  // Update the previous coordinates for the next movement
+  previousX = x
+  previousY = y
+
+  // Get the current hovered tile ID
   const currentHoveredTileId = getTileOnPointer(x, y)
   if (currentHoveredTileId === null || currentHoveredTileId === previousHoveredTileId) return
 
   previousHoveredTileId = currentHoveredTileId
 
-  // get neighbouring tiles
+  // Get neighbouring tiles
   const neighbours = getNeighbors({
     mouseX: x,
     mouseY: y,
     radius: cursorRadius,
   })
 
-  // todo: we do not want to rely on movementX and movementY: instead try the basic js way:
-  // we wanna set the calculation here to used it also for auto pointer - event should be omitted
-  // https://codepen.io/zFunx/pen/WjVzWo
+  // Trigger animation with the calculated acceleration and current coordinates
   triggerAnimateHover({
     triggerIDs: neighbours,
-    accX: event?.movementX,
-    accY: event?.movementY,
+    accX,
+    accY,
     mouseX: x,
     mouseY: y,
   })
-}
 
-export const createHitboxes: () => Hitbox[] | undefined = () => {
-  const hitboxes = document.querySelectorAll('.pixi-hitbox ')
-  if (!hitboxes || hitboxes.length === 0) return undefined
+  // todo: outsource
+  const { layer1ToX, layer1ToY, layer2ToX, layer2ToY } = getSpaceStore().spaceBg
 
-  return Object.values(hitboxes).flatMap((hitbox: Element) => {
-    const { x, y, width, height } = hitbox.getBoundingClientRect()
-    return {
-      x,
-      y,
-      width,
-      height,
-    }
-  })
+  layer1ToX(-x / 50)
+  layer1ToY(-y / 50)
+  layer2ToX(-x / 80)
+  layer2ToY(-y / 80)
 }

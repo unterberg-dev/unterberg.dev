@@ -21,6 +21,7 @@
       "#atoms/*": ["./components/atoms/*"],
       "#molecules/*": ["./components/molecules/*"],
       "#organisms/*": ["./components/organisms/*"],
+      "#utils/*": ["./lib/utils/*"],
       "#pixi/*": ["lib/pixi/*"],
       "#gsap/*": ["lib/gsap/*"],
       "#renderer/*": ["renderer/*"],
