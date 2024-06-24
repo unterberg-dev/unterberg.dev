@@ -51,8 +51,8 @@ export const initStage = async (
     // trigger pointer events
     registerUserEvents()
     registerAutoPointer({
-      width: 100,
-      height: 100,
+      width: 300,
+      height: 300,
       offsetY: -200,
     })
 

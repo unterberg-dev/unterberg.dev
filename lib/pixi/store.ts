@@ -1,6 +1,6 @@
 import { Application, Renderer } from 'pixi.js'
 
-import { PixiConfigType } from '#lib/constants'
+import { PixiConfigType } from '#lib/types'
 import { EmitterTile, Hitbox, Tile } from '#pixi/types'
 
 export type Store = {

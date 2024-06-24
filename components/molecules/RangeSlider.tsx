@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import tw from 'tailwind-styled-components'
 
+import { getPercent } from '#lib/utils'
+
 const StyledSlider = tw.div`
   slider
   relative
@@ -21,7 +23,7 @@ const StyledSliderRange = tw.div`
   absolute
   rounded-sm
   h-[5px]
-  bg-primary
+  bg-warning
 `
 
 const StyledThumb = tw.input`
@@ -36,28 +38,21 @@ const StyledThumb = tw.input`
 `
 
 interface RangeSliderProps {
-  initialValue?: number | [number, number]
-  min?: number
-  max?: number
+  initialValue?: number | [number, number] // must be between 1 and 100 (%)
   onChange: (value: number, type?: 'min' | 'max') => void
   step?: number
   multi?: boolean
 }
 
-const getPercent = (value: number, min: number, max: number) =>
-  Math.round(((value - min) / (max - min)) * 100)
+// this is fixed - we convert always to input percent ( 0 - 100 )
+// initialValue.value must be always 1 - 100
+const sliderPercentRange = {
+  min: 0,
+  max: 100,
+}
 
-export const getValueBasedOnMinMax = (value: number, min: number, max: number) =>
-  ((value - min) / (max - min)) * 100
-
-const RangeSlider = ({
-  min = 0,
-  max = 100,
-  multi,
-  step = 1,
-  onChange,
-  initialValue,
-}: RangeSliderProps) => {
+const RangeSlider = ({ multi, step = 1, onChange, initialValue }: RangeSliderProps) => {
+  const { min, max } = sliderPercentRange
   const [minVal, setMinVal] = useState(min)
   const [maxVal, setMaxVal] = useState(max)
   const [singleValue, setSingleValue] = useState((min + max) / 2)
@@ -65,6 +60,7 @@ const RangeSlider = ({
   const minValRef = useRef(min)
   const maxValRef = useRef(max)
   const rangeRef = useRef<HTMLDivElement>(null)
+  const sliderRef = useRef<HTMLDivElement>(null)
 
   const changeSingleStyle = useCallback(
     (singleVal: number) => {
@@ -131,18 +127,21 @@ const RangeSlider = ({
       changeMultiStyle(minVal, maxVal)
 
       if (initialValue && !isTouched) {
-        const [minValue, maxValue] = initialValue as [number, number]
-        setMinVal(minValue)
-        setMaxVal(maxValue)
-        minValRef.current = minValue
-        maxValRef.current = maxValue
+        const [initMinVal, initMaxVal] = initialValue as [number, number]
+
+        setMinVal(initMinVal)
+        setMaxVal(initMaxVal)
+        minValRef.current = initMinVal
+        maxValRef.current = initMaxVal
       }
     } else {
       changeSingleStyle(singleValue)
 
       if (initialValue && !isTouched) {
-        const val = getValueBasedOnMinMax(initialValue as number, min, max)
-        setSingleValue(val)
+        const initSingleValue = initialValue as number
+
+        // calculation here
+        setSingleValue(initSingleValue)
       }
     }
   }, [
@@ -163,6 +162,27 @@ const RangeSlider = ({
     min,
     max,
     step,
+  }
+
+  const handleTrackClick = (event: React.MouseEvent<HTMLDivElement>) => {
+    if (!sliderRef.current) return
+
+    const rect = sliderRef.current.getBoundingClientRect()
+    const clickPosition = event.clientX - rect.left
+    const clickValue = Math.round((clickPosition / rect.width) * (max - min) + min)
+
+    if (multi) {
+      const minDiff = Math.abs(clickValue - minVal)
+      const maxDiff = Math.abs(clickValue - maxVal)
+
+      if (minDiff < maxDiff) {
+        handleChangeMultiType(clickValue, 'min')
+      } else {
+        handleChangeMultiType(clickValue, 'max')
+      }
+    } else {
+      handleChangeSingleType(clickValue)
+    }
   }
 
   return (
@@ -190,7 +210,7 @@ const RangeSlider = ({
           {...thumbDefaultProps}
         />
       )}
-      <StyledSlider>
+      <StyledSlider ref={sliderRef} onClick={handleTrackClick}>
         <StyledSliderTrack />
         <StyledSliderRange ref={rangeRef} />
       </StyledSlider>

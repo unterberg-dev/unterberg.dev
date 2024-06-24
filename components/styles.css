@@ -24,6 +24,8 @@ body.page-is-transitioning .page-portal {
   position: absolute;
   height: 0;
   width: 200px;
+  border: none;
+  box-shadow: none;
   outline: none;
 }
 .thumb--left {
@@ -35,10 +37,8 @@ body.page-is-transitioning .page-portal {
 
 /* For Chrome browsers */
 .thumb::-webkit-slider-thumb {
-  background-color: #f1f5f7;
-  border: none;
+  background-color: var(--color-warning);
   border-radius: 50%;
-  box-shadow: 0 0 1px 1px #ced4da;
   cursor: pointer;
   height: 18px;
   width: 18px;
@@ -51,8 +51,8 @@ body.page-is-transitioning .page-portal {
 .thumb::-moz-range-thumb {
   background-color: #f1f5f7;
   border: none;
+  outline: none;
   border-radius: 50%;
-  box-shadow: 0 0 1px 1px #ced4da;
   cursor: pointer;
   height: 18px;
   width: 18px;

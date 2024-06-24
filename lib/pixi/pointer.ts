@@ -181,48 +181,61 @@ export const getTileOnPointer = (mouseX: number, mouseY: number): number | null 
 }
 
 interface HandlePointerMoveProps {
-  manual?: {
-    x: number
-    y: number
-  }
-  event?: PointerEvent
+  x: number
+  y: number
 }
 
+// Global variables to keep track of the previous cursor position and the previous hovered tile ID
+let previousX: number | null = null
+let previousY: number | null = null
 let previousHoveredTileId: number | null = null
 
 /**
  * Handles the pointer move event.
- * @param {PointerEvent} event - The pointer event.
- * @param  {Object} manual.x - The manual x and y coordinates.
- * @param {Object} manual.y - The manual x and y coordinates.
+ * @param {Object} props - The function parameters.
+ * @param {number} props.clientX - The x coordinate of the pointer.
+ * @param {number} props.clientY - The y coordinate of the pointer.
+ * @param {Object} [manual] - The manual x and y coordinates.
+ * @param {number} [manual.x] - The manual x coordinate.
+ * @param {number} [manual.y] - The manual y coordinate.
  */
-export const handlePointerMove = ({ event, manual }: HandlePointerMoveProps) => {
-  const isManual = manual?.x && manual?.y
-  const x = isManual ? manual.x : event?.clientX
-  const y = isManual ? manual.y : event?.clientY
+export const handlePointerMove = ({ x, y }: HandlePointerMoveProps) => {
+  // Determine if manual coordinates are provided
   const cursorRadius = getStore().emitter.cursorRadius.value
 
-  if (!x || !y) return
+  // Return early if x or y are not defined
+  if (x == null || y == null) return
 
+  // Calculate acceleration based on the difference between the current and previous coordinates
+  let accX = 0
+  let accY = 0
+  if (previousX !== null && previousY !== null) {
+    accX = x - previousX
+    accY = y - previousY
+  }
+
+  // Update the previous coordinates for the next movement
+  previousX = x
+  previousY = y
+
+  // Get the current hovered tile ID
   const currentHoveredTileId = getTileOnPointer(x, y)
   if (currentHoveredTileId === null || currentHoveredTileId === previousHoveredTileId) return
 
   previousHoveredTileId = currentHoveredTileId
 
-  // get neighbouring tiles
+  // Get neighbouring tiles
   const neighbours = getNeighbors({
     mouseX: x,
     mouseY: y,
     radius: cursorRadius,
   })
 
-  // todo: we do not want to rely on movementX and movementY: instead try the basic js way:
-  // we wanna set the calculation here to used it also for auto pointer - event should be omitted
-  // https://codepen.io/zFunx/pen/WjVzWo
+  // Trigger animation with the calculated acceleration and current coordinates
   triggerAnimateHover({
     triggerIDs: neighbours,
-    accX: event?.movementX,
-    accY: event?.movementY,
+    accX,
+    accY,
     mouseX: x,
     mouseY: y,
   })

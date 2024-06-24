@@ -59,7 +59,9 @@ export const registerUserEvents = () => {
     }, pointerDetectionTiming)
   })
 
-  window.addEventListener('pointermove', event => handlePointerMove({ event }))
+  window.addEventListener('pointermove', event =>
+    handlePointerMove({ x: event.clientX, y: event.clientY }),
+  )
   window.addEventListener('scrollend', () => handleUpdateHitboxes())
 
   // todo:

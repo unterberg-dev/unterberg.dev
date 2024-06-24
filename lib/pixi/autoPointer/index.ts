@@ -58,7 +58,8 @@ export const registerAutoPointer = ({
         duration,
         onUpdate: () => {
           handlePointerMove({
-            manual: { x: posX + point.x, y: posY + point.y },
+            x: posX + point.x,
+            y: posY + point.y,
           })
         },
       },

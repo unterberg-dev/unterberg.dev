@@ -26,13 +26,10 @@ const createEmitterTiles = async (app: Application, tileSize: number) => {
   // todo: constants
   const { bufferCount, scaleModifier } = PixiConfig.emitter
 
-  const isDayTime = new Date().getHours() > 6 && new Date().getHours() < 18
-
   const sheets = await getAllSpritesheets()
-  const moonTextures = sheets.find(sheet => sheet.key === (isDayTime ? 'sun' : 'moon'))?.sheet
-  if (!moonTextures) return
-
-  const baseTextures = Object.values(moonTextures).map(texture => texture)
+  const baseTextures = sheets
+    .map(sheet => Object.values(sheet.sheet).map(texture => texture))
+    .flat()
 
   let tileId = 0
   for (let i = 0; i < bufferCount; i += 1) {

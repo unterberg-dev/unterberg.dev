@@ -1,3 +1,5 @@
+import { PixiConfigType } from '#lib/types'
+
 export const APP_CONFIG = {
   viteSiteUrl: import.meta.env.PROD ? 'https://unterberg.dev/' : 'http://localhost:5247/',
   viteMediaUrl: `${
@@ -16,45 +18,6 @@ export enum EMITTER_TIMELINE {
 export const defaultCirclePath = {
   d: 'M200 6.25942e-06C90.3739 1.10182 0.773361 90.3687 0.500015 200C0.225974 309.91 90.0953 398.395 200 399.5C311.004 400.616 399.777 311.009 399.5 200C399.224 89.2669 310.728 -1.11288 200 6.25942e-06Z',
   viewBox: '0 0 400 400',
-}
-
-export type PixiConfigMinMax = {
-  min: number
-  max: number
-}
-
-export type PixiConfigSingleValue = {
-  value: number
-} & PixiConfigMinMax
-
-export type PixiConfigMultiValue = {
-  value: [number, number]
-} & PixiConfigMinMax
-
-export type PixiConfigType = {
-  maxDivider: number
-  minDivider: number
-  minDividerThreshold: number
-  maxDividerThreshold: number
-  emitter: {
-    cursorRadius: PixiConfigSingleValue
-    scaleModifier: PixiConfigSingleValue
-    bufferCount: number
-    gravity: PixiConfigSingleValue
-    pointerInertia: PixiConfigSingleValue
-    pointerMomentumModifier: PixiConfigSingleValue
-    pointerMissRate: PixiConfigSingleValue
-    scaleHitboxIn: PixiConfigMultiValue
-    inDuration: PixiConfigMultiValue
-    skewFrom: PixiConfigMultiValue
-    skewTo: PixiConfigMultiValue
-    scaleIn: PixiConfigMultiValue
-    rotationIn: PixiConfigMultiValue
-    alphaIn: PixiConfigMultiValue
-    pixelSpread: PixiConfigMultiValue
-    outDuration: PixiConfigMultiValue
-    outDelay: PixiConfigMultiValue
-  }
 }
 
 export const PixiConfig: PixiConfigType = {

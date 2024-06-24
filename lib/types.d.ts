@@ -1,5 +1,44 @@
 import { ICON_ID } from '#lib/icons/iconID'
 
+export type PixiConfigMinMax = {
+  min: number
+  max: number
+}
+
+export type PixiConfigSingleValue = {
+  value: number
+} & PixiConfigMinMax
+
+export type PixiConfigMultiValue = {
+  value: [number, number]
+} & PixiConfigMinMax
+
+export type PixiConfigType = {
+  maxDivider: number
+  minDivider: number
+  minDividerThreshold: number
+  maxDividerThreshold: number
+  emitter: {
+    cursorRadius: PixiConfigSingleValue
+    scaleModifier: PixiConfigSingleValue
+    bufferCount: number
+    gravity: PixiConfigSingleValue
+    pointerInertia: PixiConfigSingleValue
+    pointerMomentumModifier: PixiConfigSingleValue
+    pointerMissRate: PixiConfigSingleValue
+    scaleHitboxIn: PixiConfigMultiValue
+    inDuration: PixiConfigMultiValue
+    skewFrom: PixiConfigMultiValue
+    skewTo: PixiConfigMultiValue
+    scaleIn: PixiConfigMultiValue
+    rotationIn: PixiConfigMultiValue
+    alphaIn: PixiConfigMultiValue
+    pixelSpread: PixiConfigMultiValue
+    outDuration: PixiConfigMultiValue
+    outDelay: PixiConfigMultiValue
+  }
+}
+
 export type NavigationItem = {
   name: string
   path: string
