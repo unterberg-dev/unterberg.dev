@@ -1,7 +1,7 @@
 import { Application, Renderer } from 'pixi.js'
 
 import { PixiConfigType } from '#lib/types'
-import { EmitterTile, Hitbox, Tile } from '#pixi/types'
+import { EmitterTile, Hitbox, SpaceTile, Tile } from '#pixi/types'
 
 export type Store = {
   app: Application<Renderer>
@@ -31,4 +31,15 @@ let emitterStore: EmitterStore
 export const getEmitterStore = () => emitterStore
 export const setEmitterStore = (newStore: EmitterStore) => {
   emitterStore = newStore
+}
+
+export type SpaceStore = {
+  spaceBg: SpaceTile
+}
+
+let spaceStore: SpaceStore
+
+export const getSpaceStore = () => spaceStore
+export const setSpaceStore = (newStore: SpaceStore) => {
+  spaceStore = newStore
 }

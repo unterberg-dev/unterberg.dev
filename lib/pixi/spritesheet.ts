@@ -33,7 +33,7 @@ export const getAllSpritesheets = async (): Promise<PixiSpriteSheetParsed[]> => 
 
   const promises = sheets.map(async sheet => {
     const sheetResponse = await getSpritesheet<GetSpritesheetResponse>(sheet.key)
-    const url = `${APP_CONFIG.viteMediaUrl}/pixi/${sheet.key}/${sheetResponse.meta.image}`
+    const url = `${APP_CONFIG.viteSiteUrl}/pixi/${sheet.key}/${sheetResponse.meta.image}`
     const texture = await Assets.load(url)
 
     const spritesheet = new Spritesheet(texture, sheetResponse)

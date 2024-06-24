@@ -3,6 +3,7 @@ import gsap from 'gsap'
 import { registerAutoPointer } from '#pixi/autoPointer'
 import { registerUserEvents } from '#pixi/events'
 import { createHitboxes } from '#pixi/pointer'
+import createSpaceBg from '#pixi/spaceBg/createSpaceBg'
 import createEmitterTiles from '#pixi/spawner/createEmitterTiles'
 import { getStore, setStore, Store } from '#pixi/store'
 import { createApp } from '#pixi/system/createApp'
@@ -40,11 +41,12 @@ export const initStage = async (
       colsCount: Math.ceil(app.renderer.width / tileWidth),
       tileHeight,
       tileWidth,
-      ...PixiConfig,
+      ...PixiConfig, // todo: refactor to be a single store
     }
     setStore(store)
 
     await createEmitterTiles(app, tileWidth)
+    await createSpaceBg(app)
 
     gsap.to(stage, { autoAlpha: 1, delay: 0.2, duration: 2 })
 

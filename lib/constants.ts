@@ -14,6 +14,10 @@ export enum EMITTER_TIMELINE {
   DEFAULT,
 }
 
+export enum SPACE_TIMELINE {
+  DEFAULT,
+}
+
 // path created with figma
 export const defaultCirclePath = {
   d: 'M200 6.25942e-06C90.3739 1.10182 0.773361 90.3687 0.500015 200C0.225974 309.91 90.0953 398.395 200 399.5C311.004 400.616 399.777 311.009 399.5 200C399.224 89.2669 310.728 -1.11288 200 6.25942e-06Z',
@@ -37,16 +41,16 @@ export const PixiConfig: PixiConfigType = {
       max: 7,
     },
     gravity: {
-      value: 1,
+      value: 0,
       min: -5,
       max: 5,
     },
+    // they need to change together - inertia and momentum
     pointerInertia: {
       value: 1.5,
       min: 0.5,
       max: 5,
     },
-    // they need to change together
     pointerMomentumModifier: {
       value: 2,
       min: 0,

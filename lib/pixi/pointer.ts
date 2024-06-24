@@ -1,5 +1,5 @@
 import spawnTile from '#pixi/spawner/spawnTile'
-import { getStore, setStore } from '#pixi/store'
+import { getSpaceStore, getStore, setStore } from '#pixi/store'
 import { Hitbox } from '#pixi/types'
 import { R } from '#pixi/utils'
 
@@ -238,4 +238,12 @@ export const handlePointerMove = ({ x, y }: HandlePointerMoveProps) => {
     mouseX: x,
     mouseY: y,
   })
+
+  // todo: outsource
+  const { layer1ToX, layer1ToY, layer2ToX, layer2ToY } = getSpaceStore().spaceBg
+
+  layer1ToX(-x / 50)
+  layer1ToY(-y / 50)
+  layer2ToX(-x / 80)
+  layer2ToY(-y / 80)
 }
