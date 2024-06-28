@@ -178,8 +178,7 @@ const StartPage = () => {
           title="Hello"
           subtitle="I love to create modern websites and interfaces. Let's build something together ✌️"
         />
-
-        <nav className="mt-10 md:mt-10 xl:mt-24">
+        <nav className="mt-10 xl:mt-16">
           <div className="pixi-hitbox relative w-full z-10 flex mx-auto gap-3 lg:gap-6">
             {Object.values(externalNavigation)
               .filter(item => item.path !== '')

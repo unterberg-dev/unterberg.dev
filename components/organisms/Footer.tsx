@@ -33,19 +33,23 @@ const Footer = () => {
               </Link>
             </p>
             <div className="flex justify-between gap-x-1">
-              <Link className="text-primary" href="https://vitejs.dev/">
+              <Link className="text-primary" href="https://vitejs.dev/" aria-label="Vite Build">
                 Vite
               </Link>
               <FooterSeparator />
-              <Link className="text-primary" href="https://vike.dev/">
+              <Link className="text-primary" href="https://vike.dev/" aria-label="Vike prerenders">
                 Vike
               </Link>
               <FooterSeparator />
-              <Link className="text-primary" href="https://pixijs.com/">
+              <Link
+                className="text-primary"
+                href="https://pixijs.com/"
+                aria-label="pixi.js WebGL rendering"
+              >
                 Pixi.js
               </Link>
               <FooterSeparator />
-              <Link className="text-primary" href="https://gsap.com/">
+              <Link className="text-primary" href="https://gsap.com/" aria-label="GSAP Tweening">
                 GSAP
               </Link>
             </div>

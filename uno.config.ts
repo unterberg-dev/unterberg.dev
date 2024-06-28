@@ -34,7 +34,7 @@ export default defineConfig({
       error: colors.red[500],
     },
     fontSize: {
-      base: ['16px', '24px'],
+      base: ['14px', '24px'],
       small: ['14px', '20px'],
       micro: ['10px', '12px'],
     },
