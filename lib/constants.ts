@@ -36,28 +36,22 @@ export const PixiConfig: PixiConfigType = {
       max: 1.5,
     },
     scaleModifier: {
-      value: 1,
+      value: 1.2,
       min: 0.3,
       max: 7,
     },
     gravity: {
       value: 0,
-      min: -5,
-      max: 5,
+      min: -3,
+      max: 3,
     },
-    // they need to change together - inertia and momentum
     pointerInertia: {
-      value: 1.5,
-      min: 0.5,
-      max: 5,
-    },
-    pointerMomentumModifier: {
-      value: 2,
-      min: 0,
-      max: 10,
+      value: 1.2,
+      min: 1,
+      max: 3,
     },
     pointerMissRate: {
-      value: 0.1, // 0.1 = 10%,
+      value: 0.05, // 0.1 = 10%,
       min: 0,
       max: 1,
     },
@@ -74,7 +68,7 @@ export const PixiConfig: PixiConfigType = {
     skewFrom: {
       min: -2,
       max: 2,
-      value: [-1, -1],
+      value: [-1.1, 1.1],
     },
     skewTo: {
       min: -2,
@@ -105,13 +99,17 @@ export const PixiConfig: PixiConfigType = {
     pixelSpread: {
       min: 0,
       max: 150,
-      value: [0, 0],
+      value: [0, 10],
     },
     outDelay: {
       min: 0.04,
       max: 0.15,
       value: [0.04, 0.15],
     },
-    bufferCount: 4000,
+    bufferCount: {
+      min: 10,
+      max: 10000,
+      value: 4000,
+    },
   },
 }

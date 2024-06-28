@@ -1,38 +1,21 @@
 import { registerAutoPointer } from '#pixi/autoPointer'
 import { handlePointerMove, handleUpdateHitboxes } from '#pixi/pointer'
+import moveBg from '#pixi/spaceBg/moveBg'
 import { getStore } from '#pixi/store'
+import { R } from '#pixi/utils'
 
-// todo: little game - after 50000px crazy things happen :D
-// todo: outsource to rocket launch
-// let totalDistance = 0
-// const lastSeenAt = { x: 0, y: 0 }
-// const handleMoveToRocketLaunch = (event: MouseEvent) => {
-//   if (lastSeenAt.x) {
-//     totalDistance += Math.sqrt(
-//       Math.pow(lastSeenAt.y - event.clientY, 2) + Math.pow(lastSeenAt.x - event.clientX, 2),
-//     )
-
-//     if (totalDistance > 50000) {
-//       // trigger rocket launch hereeeeee
-
-//       // cleanup
-//       window.removeEventListener('pointermove', handleMoveToRocketLaunch)
-//     }
-//   }
-//   lastSeenAt.x = event.clientX
-//   lastSeenAt.y = event.clientY
-// }
-
-const triggerPointerStopped = (event: PointerEvent) => {
-  const { autoPointerTimeline } = getStore()
-  if (!autoPointerTimeline) return
+export const triggerPointerStopped = (event: PointerEvent) => {
+  const randomDim = R(40, 100)
 
   registerAutoPointer({
     x: event.clientX,
     y: event.clientY,
-    width: 100,
-    height: 100,
-    duration: 0.05,
+    width: randomDim,
+    height: randomDim,
+    duration: R(0.03, 0.1),
+    // randomly true
+    reversed: Math.random() > 0.5,
+    progress: R(0.1, 1),
   })
 }
 
@@ -43,30 +26,44 @@ const triggerPointerStarted = () => {
 
 let pointerStarted = false
 let windowPointerMoveTimer: NodeJS.Timeout
-const pointerDetectionTiming = 200
+const pointerIdleDetectionTiming = 200
+
+const handlePointerMoveEvent = (event: PointerEvent) => {
+  clearTimeout(windowPointerMoveTimer)
+
+  if (getStore().settingsHovered) {
+    pointerStarted = true
+    return
+  }
+
+  if (!pointerStarted) {
+    triggerPointerStarted()
+    pointerStarted = true
+  }
+
+  windowPointerMoveTimer = setTimeout(() => {
+    triggerPointerStopped(event)
+    pointerStarted = false
+  }, pointerIdleDetectionTiming)
+
+  handlePointerMove({ x: event.clientX, y: event.clientY })
+  moveBg(event.clientX, event.clientY)
+}
+
+const handleScrollEndEvent = () => handleUpdateHitboxes()
 
 export const registerUserEvents = () => {
-  window.addEventListener('pointermove', event => {
-    clearTimeout(windowPointerMoveTimer)
-
-    if (!pointerStarted) {
-      triggerPointerStarted()
-      pointerStarted = true
-    }
-    windowPointerMoveTimer = setTimeout(() => {
-      triggerPointerStopped(event)
-      pointerStarted = false
-    }, pointerDetectionTiming)
-  })
-
-  window.addEventListener('pointermove', event =>
-    handlePointerMove({ x: event.clientX, y: event.clientY }),
-  )
-  window.addEventListener('scrollend', () => handleUpdateHitboxes())
+  window.addEventListener('pointermove', handlePointerMoveEvent)
+  window.addEventListener('scrollend', handleScrollEndEvent)
 
   // todo:
   // window.addEventListener('pointermove', handleMoveToRocketLaunch)
 
   // WIP
   // window.addEventListener('scroll', handleScroll)
+}
+
+export const unregisterUserEvents = () => {
+  window.removeEventListener('pointermove', handlePointerMoveEvent)
+  window.removeEventListener('scrollend', handleScrollEndEvent)
 }

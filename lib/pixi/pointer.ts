@@ -1,5 +1,5 @@
 import spawnTile from '#pixi/spawner/spawnTile'
-import { getSpaceStore, getStore, setStore } from '#pixi/store'
+import { getStore, setStore } from '#pixi/store'
 import { Hitbox } from '#pixi/types'
 import { R } from '#pixi/utils'
 
@@ -47,12 +47,9 @@ export const triggerAnimateHover = ({
       cursorRadius: { value: cursorRadius },
       gravity: { value: gravity },
       pointerInertia: { value: pointerMoveModifier },
-      pointerMomentumModifier: { value: pointerMomentumModifier },
       pointerMissRate: { value: pointerMissRate },
     },
   } = getStore()
-  const noAcceleration = !accX && !accY
-
   // only fire n% of the time
   // todo: to constants
   const chance = Math.random() < pointerMissRate
@@ -65,24 +62,24 @@ export const triggerAnimateHover = ({
     const clampedMovementX = Math.min(Math.max(movementX, -50), 50)
     const clampedMovementY = Math.min(Math.max(movementY, -50), 50)
 
-    const gravityModifier = gravity * 100
+    const gravityModifier = gravity * R(100, 200)
 
     const newX = mouseX + clampedMovementX * pointerMoveModifier
     const newY = mouseY + clampedMovementY * pointerMoveModifier
+
+    const pointerMomentumModifier = pointerMoveModifier * R(0.6, 1.1)
 
     const allActiveTilesSize = tileWidth * (cursorRadius * 2)
     const xPosition = newX + R(-allActiveTilesSize, allActiveTilesSize)
     const yPosition = newY + R(-allActiveTilesSize, allActiveTilesSize)
 
-    const accXPosition = noAcceleration
-      ? xPosition
-      : xPosition + clampedMovementX * pointerMomentumModifier + R(-tileWidth, tileWidth)
-    const accYPosition = noAcceleration
-      ? yPosition + gravityModifier
-      : yPosition +
-        clampedMovementY * pointerMomentumModifier +
-        R(-tileWidth, tileWidth) +
-        gravityModifier
+    const accXPosition =
+      xPosition + clampedMovementX * pointerMomentumModifier + R(-tileWidth, tileWidth)
+    const accYPosition =
+      yPosition +
+      clampedMovementY * pointerMomentumModifier +
+      R(-tileWidth, tileWidth) +
+      gravityModifier
 
     const isInHitbox = hitboxes?.some(hitbox => {
       const minX = hitbox.x - tileWidth * cursorRadius
@@ -238,12 +235,4 @@ export const handlePointerMove = ({ x, y }: HandlePointerMoveProps) => {
     mouseX: x,
     mouseY: y,
   })
-
-  // todo: outsource
-  const { layer1ToX, layer1ToY, layer2ToX, layer2ToY } = getSpaceStore().spaceBg
-
-  layer1ToX(-x / 50)
-  layer1ToY(-y / 50)
-  layer2ToX(-x / 80)
-  layer2ToY(-y / 80)
 }

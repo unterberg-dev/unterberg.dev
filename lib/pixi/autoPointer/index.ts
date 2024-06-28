@@ -13,6 +13,8 @@ interface AutoPointerProps {
   duration?: number
   offsetX?: number
   offsetY?: number
+  reversed?: boolean
+  progress?: number
 }
 
 export const registerAutoPointer = ({
@@ -20,14 +22,21 @@ export const registerAutoPointer = ({
   y,
   width,
   height,
-  duration = 0.1,
+  duration = 0.05,
   offsetX = 0,
   offsetY = 0,
+  reversed = false,
+  progress = 0,
 }: AutoPointerProps) => {
   const store = getStore()
 
   const stageWidth = store.app.renderer.width
   const stageHeight = store.app.renderer.height
+
+  const isOldTimelineGsapTimeline = !!store.autoPointerTimeline
+  if (isOldTimelineGsapTimeline) {
+    store.autoPointerTimeline?.kill()
+  }
 
   const tl = gsap.timeline({ repeat: -1 })
   setStore({ ...store, autoPointerTimeline: tl })
@@ -46,7 +55,10 @@ export const registerAutoPointer = ({
     ellipse.height,
   )
 
-  const points = generatePathPoints(scalePath, 20).reverse()
+  const pointNumber = Math.min(Math.max(0, 100), ellipse.width / 4)
+  const points = reversed
+    ? generatePathPoints(scalePath, pointNumber)
+    : generatePathPoints(scalePath, pointNumber).reverse()
 
   const posX = (x || stageWidth / 2) - ellipse.width / 2 + (!x ? ellipse.offsetX : 0)
   const posY = (y || stageHeight / 2) - ellipse.height / 2 + (!y ? ellipse.offsetY : 0)
@@ -56,6 +68,7 @@ export const registerAutoPointer = ({
       {},
       {
         duration,
+        ease: 'linear',
         onUpdate: () => {
           handlePointerMove({
             x: posX + point.x,
@@ -66,5 +79,13 @@ export const registerAutoPointer = ({
       '>',
     )
   })
+  tl.progress(progress)
   tl.play()
+}
+
+export const removeAutoPointer = () => {
+  const { autoPointerTimeline } = getStore()
+  autoPointerTimeline?.pause()
+  autoPointerTimeline?.kill()
+  setStore({ ...getStore(), autoPointerTimeline: undefined })
 }

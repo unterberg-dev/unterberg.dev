@@ -31,7 +31,7 @@ const createEmitterTiles = async (app: Application, tileSize: number) => {
     .flat()
 
   let tileId = 0
-  for (let i = 0; i < bufferCount; i += 1) {
+  for (let i = 0; i < bufferCount.value; i += 1) {
     const randomBaseTexture = baseTextures[Math.floor(Math.random() * baseTextures.length)]
     const clonedTexture = new Texture(randomBaseTexture)
 

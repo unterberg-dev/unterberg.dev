@@ -9,4 +9,10 @@ export enum ICON_ID {
   Smile,
   Code,
   Handshake,
+  Sparkles,
+  EyeOff,
+  Eye,
+  MousePointerClick,
+  Hourglass,
+  Shell,
 }
