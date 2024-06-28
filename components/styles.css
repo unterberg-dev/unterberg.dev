@@ -27,6 +27,7 @@ body.page-is-transitioning .page-portal {
   border: none;
   box-shadow: none;
   outline: none;
+  margin-top: 4px;
 }
 .thumb--left {
   z-index: 3;
@@ -45,7 +46,6 @@ body.page-is-transitioning .page-portal {
   background-color: var(--color-warning);
   border: none;
   outline: none;
-  margin-top: 6.5px;
   pointer-events: all;
   position: relative;
 }
@@ -59,7 +59,7 @@ body.page-is-transitioning .page-portal {
   cursor: pointer;
   height: 18px;
   width: 18px;
-  margin-top: 6.5px;
+  margin-top: 40px;
   pointer-events: all;
   position: relative;
 }

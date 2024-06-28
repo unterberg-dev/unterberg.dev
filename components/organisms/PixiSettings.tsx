@@ -120,7 +120,12 @@ const PixiSettings = ({ className = '', gsapRef }: PixiSettingsProps) => {
     setStore({ ...getStore(), settingsHovered: true })
 
     gsap.set(stage, { zIndex: 9 })
-    gsap.set('.gsap-startpage-content', { autoAlpha: 0.3 })
+    gsap.to('.gsap-startpage-content', {
+      autoAlpha: 0.5,
+      duration: APP_CONFIG.defaultDuration,
+      ease: 'power.in',
+      filter: 'blur(5px)',
+    })
 
     registerAutoPointer({
       width: app.renderer.width - 400,
@@ -136,7 +141,14 @@ const PixiSettings = ({ className = '', gsapRef }: PixiSettingsProps) => {
 
     setStore({ ...getStore(), settingsHovered: false })
     removeAutoPointer()
-    gsap.set('.gsap-startpage-content', { autoAlpha: 1 })
+    handleUpdateHitboxes()
+    gsap.to('.gsap-startpage-content', {
+      autoAlpha: 1,
+      duration: APP_CONFIG.defaultDuration,
+      ease: 'power.in',
+      filter: 'blur(0px)',
+    })
+
     gsap.set(stage, { zIndex: 1 })
   }, [])
 
