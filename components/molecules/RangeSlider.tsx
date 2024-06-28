@@ -6,24 +6,28 @@ import { getPercent } from '#lib/utils'
 const StyledSlider = tw.div`
   slider
   relative
-  w-[200px]
+  w-[150px]
 `
 
 const StyledSliderTrack = tw.div`
   slider__track
   absolute
   rounded-sm
+  cursor-pointer
   w-full
-  h-[5px]
-  bg-white
+  h-[7px]
+  bg-grayDark
+  hover:bg-gray
 `
 
 const StyledSliderRange = tw.div`
   slider__range
   absolute
   rounded-sm
-  h-[5px]
+  cursor-pointer
+  h-[7px]
   bg-warning
+  hover:bg-amber-600
 `
 
 const StyledThumb = tw.input`
@@ -33,7 +37,7 @@ const StyledThumb = tw.input`
   pointer-events: none;
   position: absolute;
   height: 0;
-  width: 200px;
+  width: 150px;
   outline: none;
 `
 
@@ -105,14 +109,16 @@ const RangeSlider = ({ multi, step = 1, onChange, initialValue }: RangeSliderPro
         setIsTouched(true)
       }
 
+      const offsetPercent = 5
+
       if (type === 'min') {
-        if (value >= maxValRef.current) return
+        if (value >= maxValRef.current - offsetPercent) return
         setMinVal(Math.min(value, maxValRef.current - 1))
         onChange(value, 'min')
         changeMultiStyle(value, maxValRef.current)
         minValRef.current = value
       } else {
-        if (value <= minValRef.current) return
+        if (value <= minValRef.current + offsetPercent) return
         setMaxVal(Math.max(value, minValRef.current + 1))
         onChange(value, 'max')
         changeMultiStyle(minValRef.current, value)
@@ -186,7 +192,7 @@ const RangeSlider = ({ multi, step = 1, onChange, initialValue }: RangeSliderPro
   }
 
   return (
-    <div className="py-5">
+    <div className="py-3">
       {multi ? (
         <>
           <StyledThumb

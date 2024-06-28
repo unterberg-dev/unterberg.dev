@@ -23,7 +23,7 @@ body.page-is-transitioning .page-portal {
   pointer-events: none;
   position: absolute;
   height: 0;
-  width: 200px;
+  width: 150px;
   border: none;
   box-shadow: none;
   outline: none;
@@ -42,21 +42,24 @@ body.page-is-transitioning .page-portal {
   cursor: pointer;
   height: 18px;
   width: 18px;
-  margin-top: 4px;
+  background-color: var(--color-warning);
+  border: none;
+  outline: none;
+  margin-top: 6.5px;
   pointer-events: all;
   position: relative;
 }
 
 /* For Firefox browsers */
 .thumb::-moz-range-thumb {
-  background-color: #f1f5f7;
+  background-color: var(--color-warning);
   border: none;
   outline: none;
   border-radius: 50%;
   cursor: pointer;
   height: 18px;
   width: 18px;
-  margin-top: 4px;
+  margin-top: 6.5px;
   pointer-events: all;
   position: relative;
 }

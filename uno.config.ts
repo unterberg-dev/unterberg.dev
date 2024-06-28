@@ -34,8 +34,8 @@ export default defineConfig({
       error: colors.red[500],
     },
     fontSize: {
-      base: ['18px', '24px'],
-      small: ['16px', '20px'],
+      base: ['16px', '24px'],
+      small: ['14px', '20px'],
       micro: ['10px', '12px'],
     },
     fontFamily: {
@@ -55,11 +55,20 @@ export default defineConfig({
           })
         }
 
+        if (theme.fontSize) {
+          Object.keys(theme.fontSize).forEach(size => {
+            if (Array.isArray(theme.fontSize?.[size])) {
+              cssVariables += `--font-size-${size}: ${theme.fontSize?.[size][0]};\n`
+            }
+          })
+        }
+
         return `
           body, html {
             background-color: ${theme.colors?.dark};
             color: ${theme.colors?.light};
             font-family: ${theme.fontFamily?.sans};
+            font-size: ${theme.fontSize?.base[0]};
           }
           :root {
             ${cssVariables}

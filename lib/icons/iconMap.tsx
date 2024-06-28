@@ -8,12 +8,18 @@ import {
   ChevronsUp,
   Code,
   ExternalLink,
+  Eye,
+  EyeOff,
   Github,
   Handshake,
+  Hourglass,
   Linkedin,
   LucideProps,
   Mail,
+  MousePointerClick,
+  Shell,
   Smile,
+  Sparkles,
 } from 'lucide-react'
 
 import { ICON_ID } from './iconID'
@@ -36,6 +42,12 @@ const APP_ICON: ICON_TYPE = {
   [ICON_ID.Smile]: { component: Smile },
   [ICON_ID.Code]: { component: Code },
   [ICON_ID.Handshake]: { component: Handshake },
+  [ICON_ID.Sparkles]: { component: Sparkles },
+  [ICON_ID.EyeOff]: { component: EyeOff },
+  [ICON_ID.Eye]: { component: Eye },
+  [ICON_ID.MousePointerClick]: { component: MousePointerClick },
+  [ICON_ID.Hourglass]: { component: Hourglass },
+  [ICON_ID.Shell]: { component: Shell },
 }
 
 export default APP_ICON

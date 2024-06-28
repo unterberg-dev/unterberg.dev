@@ -41,6 +41,7 @@ export const initStage = async (
       colsCount: Math.ceil(app.renderer.width / tileWidth),
       tileHeight,
       tileWidth,
+      settingsHovered: false,
       ...PixiConfig, // todo: refactor to be a single store
     }
     setStore(store)

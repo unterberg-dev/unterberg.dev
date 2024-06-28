@@ -12,6 +12,7 @@ export type Store = {
   tileWidth: number
   tileHeight: number
   hitboxes?: Hitbox[]
+  settingsHovered: boolean
   autoPointerTimeline?: gsap.core.Timeline
 } & PixiConfigType
 

@@ -21,10 +21,9 @@ export type PixiConfigType = {
   emitter: {
     cursorRadius: PixiConfigSingleValue
     scaleModifier: PixiConfigSingleValue
-    bufferCount: number
+    bufferCount: PixiConfigSingleValue
     gravity: PixiConfigSingleValue
     pointerInertia: PixiConfigSingleValue
-    pointerMomentumModifier: PixiConfigSingleValue
     pointerMissRate: PixiConfigSingleValue
     scaleHitboxIn: PixiConfigMultiValue
     inDuration: PixiConfigMultiValue
