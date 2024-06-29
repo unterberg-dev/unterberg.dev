@@ -4,7 +4,8 @@ import Icon from '#atoms/Icon'
 import { ICON_ID } from '#lib/icons/iconID'
 
 interface ButtonProps {
-  label?: React.ReactNode
+  children?: React.ReactNode
+  label?: string
   icon?: ICON_ID
   iconSize?: number
   link?: string
@@ -15,7 +16,8 @@ interface ButtonProps {
 }
 
 const Button = ({
-  label,
+  children,
+  label = 'Button',
   icon,
   iconSize = 16,
   link,
@@ -36,9 +38,10 @@ const Button = ({
         onClick={onClick}
         className={`${buttonStyle}`}
         ref={ref as MutableRefObject<HTMLAnchorElement>}
+        aria-label={label}
       >
         {icon && <Icon icon={icon} size={iconSize} />}
-        {label}
+        {children}
       </a>
     )
   }
@@ -49,9 +52,10 @@ const Button = ({
       onClick={onClick}
       className={`${buttonStyle}`}
       ref={ref as MutableRefObject<HTMLButtonElement>}
+      aria-label={label}
     >
       {icon && <Icon icon={icon} size={iconSize} />}
-      {label}
+      {children}
     </button>
   )
 }

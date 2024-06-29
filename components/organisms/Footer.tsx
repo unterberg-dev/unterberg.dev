@@ -5,7 +5,11 @@ import { APP_CONFIG } from '#lib/constants'
 import MainNavigation from '#organisms/MainNavigation'
 import { usePageContext } from '#renderer/usePageContext'
 
-const FooterSeparator = () => <div className="text-primary opacity-50 pointer-events-none">+</div>
+const FooterSeparator = () => (
+  <span className="text-primary inline-block opacity-50 pointer-events-none" aria-label="decorator">
+    +
+  </span>
+)
 
 const Footer = () => {
   const pageContext = usePageContext()
@@ -25,31 +29,39 @@ const Footer = () => {
         />
         <div className="pixi-hitbox pb-5 inline-block">
           <p className="mb-1">2024, Richard Unterberg</p>
-          <div className="text-grayLight relative text-sm">
+          <div className="text-grayLight relative">
             <p className="">
               Emojis from:{' '}
-              <Link className="text-warning" href="https://emojikitchen.dev/">
+              <Link
+                className="text-warning"
+                href="https://emojikitchen.dev/"
+                label="Link to emojikitchen website"
+              >
                 Emoji-Kitchen
               </Link>
             </p>
             <div className="flex justify-between gap-x-1">
-              <Link className="text-primary" href="https://vitejs.dev/" aria-label="Vite Build">
+              <Link
+                className="text-primary"
+                href="https://vitejs.dev/"
+                label="Link to Vite Website"
+              >
                 Vite
               </Link>
               <FooterSeparator />
-              <Link className="text-primary" href="https://vike.dev/" aria-label="Vike prerenders">
+              <Link className="text-primary" href="https://vike.dev/" label="Link to Vike Website">
                 Vike
               </Link>
               <FooterSeparator />
               <Link
                 className="text-primary"
                 href="https://pixijs.com/"
-                aria-label="pixi.js WebGL rendering"
+                label="Link to Pixi.js Website"
               >
                 Pixi.js
               </Link>
               <FooterSeparator />
-              <Link className="text-primary" href="https://gsap.com/" aria-label="GSAP Tweening">
+              <Link className="text-primary" href="https://gsap.com/" label="Link to GSAP Website">
                 GSAP
               </Link>
             </div>

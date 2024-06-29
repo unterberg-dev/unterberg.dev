@@ -22,7 +22,7 @@ export const initStage = async (
   }
 
   // render timeout for mobile devices - pagespeed? :O
-  const timeout = stage.clientWidth < 800 ? 4 : 2.3
+  const timeout = stage.clientWidth < 800 ? 4.2 : 2.3
 
   await gsap.delayedCall(import.meta.env.DEV ? 0 : timeout, async () => {
     const app = await createApp(stage)

@@ -47,8 +47,8 @@
     "vike": "^0.4.168"
   },
   "devDependencies": {
-    "@types/body-scroll-lock": "^3.1.2",
     "@ianvs/prettier-plugin-sort-imports": "^4.1.1",
+    "@types/body-scroll-lock": "^3.1.2",
     "@types/node": "^20.10.4",
     "@types/react": "^18.2.45",
     "@types/react-dom": "^18.2.18",
@@ -68,6 +68,7 @@
     "husky": "^8.0.3",
     "lint-staged": "^15.2.0",
     "prettier": "^3.1.1",
+    "rollup-plugin-visualizer": "^5.12.0",
     "typescript": "^5.3.3",
     "unocss": "^0.59.1",
     "vike-react": "^0.3.8",

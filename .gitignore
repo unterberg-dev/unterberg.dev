@@ -27,3 +27,5 @@ dist-ssr
 .env.local
 
 node_modules/
+stats.html
+stats.json

@@ -14,6 +14,7 @@ const HideContentToggle = ({ onClick, active }: HideContentProps) => (
       icon={active ? ICON_ID.Eye : ICON_ID.EyeOff}
       className="text-white"
       onClick={onClick}
+      label="Hide UI"
     />
   </Latch>
 )

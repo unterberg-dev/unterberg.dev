@@ -13,7 +13,7 @@ const ShowSettingsToggle = ({ onClick }: HideContentProps) => (
       icon={ICON_ID.Sparkles}
       className="text-dark "
       onClick={onClick}
-      aria-label="Interactive Buttons"
+      label="Show animated cursor settings"
     />
   </Latch>
 )

@@ -1,8 +1,9 @@
 import path from 'path'
 import react from '@vitejs/plugin-react'
+import { visualizer } from 'rollup-plugin-visualizer'
 import UnoCSS from 'unocss/vite'
 import vike from 'vike/plugin'
-import { defineConfig } from 'vite'
+import { defineConfig, type PluginOption } from 'vite'
 
 import 'dotenv/config'
 
@@ -11,6 +12,10 @@ export default defineConfig({
   plugins: [
     UnoCSS(),
     react(),
+    visualizer({
+      open: true,
+      gzipSize: true,
+    }) as PluginOption,
     vike({
       prerender: true,
       trailingSlash: true,
