@@ -19,6 +19,10 @@ export default defineConfig({
     vike({
       prerender: true,
       trailingSlash: true,
+      baseAssets:
+        process.env.NODE_ENV === 'production'
+          ? 'https://cdn.unterberg.dev/'
+          : `http://localhost:${process.env.VITE_DEV_PORT}/`,
     }),
   ],
   build: {
