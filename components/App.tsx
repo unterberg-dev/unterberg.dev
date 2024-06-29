@@ -2,7 +2,7 @@ import '#components/styles.css'
 import '@unocss/reset/tailwind.css'
 import 'virtual:uno.css'
 
-import { ReactNode, StrictMode, useMemo } from 'react'
+import { ReactNode, StrictMode, useCallback, useMemo, useState } from 'react'
 import { PageContextClient, PageContextServer } from 'vike/types'
 
 import Footer from '#organisms/Footer'
@@ -18,20 +18,28 @@ const App = ({
   pageContext: PageContextClient | PageContextServer
   children: ReactNode
 }) => {
+  const [mouseMoved, setMouseMoved] = useState(false)
+
+  const handleMouseMove = useCallback(() => {
+    if (mouseMoved) return
+    setMouseMoved(true)
+  }, [mouseMoved])
+
   const pixiStageMemo = useMemo(
-    () => (
-      <ClientOnly load={() => import('#pixi/PixiStage')} fallback={null}>
-        {PixiStage => <PixiStage />}
-      </ClientOnly>
-    ),
-    [],
+    () =>
+      mouseMoved ? (
+        <ClientOnly load={() => import('#pixi/PixiStage')} fallback={null}>
+          {PixiStage => <PixiStage />}
+        </ClientOnly>
+      ) : null,
+    [mouseMoved],
   )
 
   return (
     <StrictMode>
       <PixiStageContextProvider>
         <PageContextProvider pageContext={pageContext}>
-          <div className="relative min-h-lvh">
+          <div className="relative min-h-lvh" onMouseEnter={handleMouseMove}>
             <Header />
             <div className="page-portal">{children}</div>
             <Footer />

@@ -46,50 +46,91 @@ const usePageHeaderAnimations = ({ staggerContainer }: UsePageHeaderAnimationsPr
       const container = staggerContainer.current || undefined
       const checkStaggerTopExist = container?.querySelector('.gsap-stagger-top')
       const checkStaggerBottomExist = container?.querySelector('.gsap-stagger-bottom')
+      const mm = gsap.matchMedia()
 
-      if (checkStaggerTopExist) {
-        gsap.fromTo(
-          '.gsap-stagger-top',
-          {
-            opacity: 0,
-            y: -50,
-          },
-          {
-            opacity: 1,
-            y: 0,
-            ease: 'power1.Out',
-            stagger: {
-              amount: amoutDuration,
-              from: 'end',
+      mm.add('(min-width: 800px)', () => {
+        if (checkStaggerTopExist) {
+          gsap.fromTo(
+            '.gsap-stagger-top',
+            {
+              opacity: 0,
+              y: -50,
             },
-            onComplete: () => {
-              handleUpdateHitboxes()
+            {
+              opacity: 1,
+              y: 0,
+              ease: 'power1.out',
+              stagger: {
+                amount: amoutDuration,
+                from: 'end',
+              },
+              onComplete: () => {
+                handleUpdateHitboxes()
+              },
             },
-          },
-        )
-      }
+          )
+        }
 
-      if (checkStaggerBottomExist) {
-        gsap.fromTo(
-          '.gsap-stagger-bottom',
-          {
-            opacity: 0,
-            y: 50,
-          },
-          {
-            opacity: 1,
-            y: 0,
-            ease: 'power1.out',
-            stagger: {
-              amount: amoutDuration,
-              from: 'start',
+        if (checkStaggerBottomExist) {
+          gsap.fromTo(
+            '.gsap-stagger-bottom',
+            {
+              opacity: 0,
+              y: 50,
             },
-            onComplete: () => {
-              handleUpdateHitboxes()
+            {
+              opacity: 1,
+              y: 0,
+              ease: 'power1.out',
+              stagger: {
+                amount: amoutDuration,
+                from: 'start',
+              },
+              onComplete: () => {
+                handleUpdateHitboxes()
+              },
             },
-          },
-        )
-      }
+          )
+        }
+      })
+
+      mm.add('(max-width: 799px)', () => {
+        if (checkStaggerTopExist) {
+          gsap.fromTo(
+            '.gsap-stagger-top',
+            {
+              opacity: 0,
+              y: 0,
+            },
+            {
+              duration: amoutDuration,
+              opacity: 1,
+              ease: 'power1.in',
+              onComplete: () => {
+                handleUpdateHitboxes()
+              },
+            },
+          )
+        }
+
+        if (checkStaggerBottomExist) {
+          gsap.fromTo(
+            '.gsap-stagger-bottom',
+            {
+              opacity: 0,
+              y: 0,
+            },
+            {
+              duration: amoutDuration,
+              opacity: 1,
+              ease: 'power1.in',
+              onComplete: () => {
+                handleUpdateHitboxes()
+              },
+            },
+          )
+        }
+      })
     },
     { scope: staggerContainer },
   )

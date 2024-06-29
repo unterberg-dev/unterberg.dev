@@ -40,28 +40,36 @@ const Footer = () => {
                 Emoji-Kitchen
               </Link>
             </p>
-            <div className="flex justify-between gap-x-1">
+            <div className="flex justify-between">
               <Link
-                className="text-primary"
+                className="text-primary px-1"
                 href="https://vitejs.dev/"
                 label="Link to Vite Website"
               >
                 Vite
               </Link>
               <FooterSeparator />
-              <Link className="text-primary" href="https://vike.dev/" label="Link to Vike Website">
+              <Link
+                className="text-primary px-1"
+                href="https://vike.dev/"
+                label="Link to Vike Website"
+              >
                 Vike
               </Link>
               <FooterSeparator />
               <Link
-                className="text-primary"
+                className="text-primary px-1"
                 href="https://pixijs.com/"
                 label="Link to Pixi.js Website"
               >
                 Pixi.js
               </Link>
               <FooterSeparator />
-              <Link className="text-primary" href="https://gsap.com/" label="Link to GSAP Website">
+              <Link
+                className="text-primary px-1"
+                href="https://gsap.com/"
+                label="Link to GSAP Website"
+              >
                 GSAP
               </Link>
             </div>

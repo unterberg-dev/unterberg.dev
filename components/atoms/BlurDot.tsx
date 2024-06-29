@@ -19,9 +19,9 @@ const BlurDot = ({ ...props }: React.HTMLAttributes<HTMLDivElement>) => {
       {...props}
       ref={dotRef}
       style={{
-        backgroundImage: `url(${APP_CONFIG.viteMediaUrl}/decorators/bg/4.svg)`,
+        backgroundImage: `url(${APP_CONFIG.viteMediaUrl}/decorators/bg/4-comp.webp)`,
         backgroundRepeat: 'no-repeat',
-        // backgroundSize: '100% 100%',
+        backgroundSize: '100% 100%',
         ...props.style,
       }}
     />
