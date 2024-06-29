@@ -33,16 +33,16 @@ const Footer = () => {
             <p className="">
               Emojis from:{' '}
               <Link
-                className="text-warning"
+                className="text-warning block p-1 min-w-8 text-center"
                 href="https://emojikitchen.dev/"
                 label="Link to emojikitchen website"
               >
                 Emoji-Kitchen
               </Link>
             </p>
-            <div className="flex justify-between">
+            <div className="flex justify-between items-center">
               <Link
-                className="text-primary px-1"
+                className="text-primary block p-1 min-w-10 text-center"
                 href="https://vitejs.dev/"
                 label="Link to Vite Website"
               >
@@ -50,7 +50,7 @@ const Footer = () => {
               </Link>
               <FooterSeparator />
               <Link
-                className="text-primary px-1"
+                className="text-primary block p-1 min-w-10 text-center"
                 href="https://vike.dev/"
                 label="Link to Vike Website"
               >
@@ -58,7 +58,7 @@ const Footer = () => {
               </Link>
               <FooterSeparator />
               <Link
-                className="text-primary px-1"
+                className="text-primary block p-1 min-w-10 text-center"
                 href="https://pixijs.com/"
                 label="Link to Pixi.js Website"
               >
@@ -66,7 +66,7 @@ const Footer = () => {
               </Link>
               <FooterSeparator />
               <Link
-                className="text-primary px-1"
+                className="text-primary block p-1 min-w-10 text-center"
                 href="https://gsap.com/"
                 label="Link to GSAP Website"
               >
