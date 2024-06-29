@@ -39,7 +39,10 @@ const App = ({
     <StrictMode>
       <PixiStageContextProvider>
         <PageContextProvider pageContext={pageContext}>
-          <div className="relative min-h-lvh" onMouseEnter={handleMouseMove}>
+          <div
+            className="relative min-h-lvh"
+            onMouseMove={mouseMoved ? undefined : handleMouseMove}
+          >
             <Header />
             <div className="page-portal">{children}</div>
             <Footer />
