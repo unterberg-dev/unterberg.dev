@@ -2,7 +2,7 @@ import BlurDot from '#atoms/BlurDot'
 import { GlassItem } from '#atoms/GlassItem'
 import H4Headline from '#atoms/H4Headline'
 import { APP_CONFIG } from '#lib/constants'
-import { Rule } from '#pages/work-together/rulesMap'
+import { Rule } from '#pages/_dev/work-together/rulesMap'
 
 interface RuleboxProps {
   rule: Rule

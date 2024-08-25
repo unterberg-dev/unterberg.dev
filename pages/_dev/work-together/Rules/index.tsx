@@ -1,7 +1,7 @@
 import Layout from '#atoms/Layout'
 import HeadlineArea from '#molecules/HeadlineArea'
-import Rulebox from '#pages/work-together/Rules/Rulebox'
-import rules from '#pages/work-together/rulesMap'
+import Rulebox from '#pages/_dev/work-together/Rules/Rulebox'
+import rules from '#pages/_dev/work-together/rulesMap'
 
 const CollaborateRules = () => (
   <Layout $fullWidth className="relative pb-100 pixi-hitbox pt-20 z-9">

@@ -40,15 +40,9 @@ const Footer = () => {
                 Emoji-Kitchen
               </Link>
             </p>
+
             <div className="flex justify-between items-center">
-              <Link
-                className="text-primary block p-1 min-w-10 text-center"
-                href="https://vitejs.dev/"
-                label="Link to Vite Website"
-              >
-                Vite
-              </Link>
-              <FooterSeparator />
+              <h3>Page powered by</h3>
               <Link
                 className="text-primary block p-1 min-w-10 text-center"
                 href="https://vike.dev/"

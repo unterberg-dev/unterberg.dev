@@ -1,15 +1,14 @@
 import { useMemo, useRef } from 'react'
 
-import H2Headline from '#atoms/H2Headline'
 import Layout from '#atoms/Layout'
 import usePageHeaderAnimations from '#gsap/usePageHeaderAnimations'
 import BelowHeroGlassArea from '#molecules/BelowHeroGlassArea'
 import HeadlineArea from '#molecules/HeadlineArea'
 import ContactModule from '#organisms/ContactModule'
 import StaggerHeader from '#organisms/StaggerHeader'
-import Case from '#pages/showcase/Case'
-import cases, { CASE_KEY } from '#pages/showcase/cases'
-import MapThemeArea from '#pages/showcase/layouts/MapThemeArea'
+import Case from '#pages/_dev/showcase/Case'
+import cases, { CASE_KEY } from '#pages/_dev/showcase/cases'
+import MapThemeArea from '#pages/_dev/showcase/layouts/MapThemeArea'
 
 const ShowcasePage = () => {
   const staggerContainer = useRef<HTMLDivElement>(null)

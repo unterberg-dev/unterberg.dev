@@ -10,7 +10,7 @@ interface MapThemeAreaProps {
 const MapThemeArea = ({ children }: MapThemeAreaProps) => (
   <Layout $fullWidth className="pixi-hitbox relative z-10 py-30">
     <img
-      src={`${APP_CONFIG.viteMediaUrl}/showcase/mapBg2.webp`}
+      src={`${APP_CONFIG.viteMediaUrl}/_dev/showcase/mapBg2.webp`}
       alt="map theme background"
       className="absolute inset-0 object-cover w-full h-full opacity-100"
     />

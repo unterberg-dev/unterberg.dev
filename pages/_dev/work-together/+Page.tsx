@@ -2,9 +2,9 @@ import { useRef } from 'react'
 
 import usePageHeaderAnimations from '#gsap/usePageHeaderAnimations'
 import StaggerHeader from '#organisms/StaggerHeader'
-import CollaborateHero from '#pages/work-together/Hero'
-import CollaborateRules from '#pages/work-together/Rules/index'
-import Skills from '#pages/work-together/Skills'
+import CollaborateHero from '#pages/_dev/work-together/Hero'
+import CollaborateRules from '#pages/_dev/work-together/Rules/index'
+import Skills from '#pages/_dev/work-together/Skills'
 
 const ShowcasePage = () => {
   const staggerContainer = useRef<HTMLDivElement>(null)

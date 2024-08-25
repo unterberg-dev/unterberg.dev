@@ -4,8 +4,8 @@ import Layout from '#atoms/Layout'
 import { GsapStaggerFunctionComponent } from '#gsap/usePageHeaderAnimations'
 import { APP_CONFIG } from '#lib/constants'
 import HeadlineArea from '#molecules/HeadlineArea'
-import Skillbox from '#pages/work-together/Skills/Skillbox'
-import skillsMap, { SKILL_KEY } from '#pages/work-together/skillsMap'
+import Skillbox from '#pages/_dev/work-together/Skills/Skillbox'
+import skillsMap, { SKILL_KEY } from '#pages/_dev/work-together/skillsMap'
 
 interface SkillProps {
   GsapStaggerElement: GsapStaggerFunctionComponent

@@ -6,7 +6,7 @@ import H4Headline from '#atoms/H4Headline'
 import Link from '#atoms/Link'
 import TagBubble from '#atoms/TagBubble'
 import { APP_CONFIG } from '#lib/constants'
-import { Case, CASE_KEY } from '#pages/showcase/cases'
+import { Case, CASE_KEY } from '#pages/_dev/showcase/cases'
 
 export type ProjectType = {
   name: string

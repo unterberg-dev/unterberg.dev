@@ -3,7 +3,7 @@ import gsap from 'gsap'
 import { useRef } from 'react'
 
 import { APP_CONFIG } from '#lib/constants'
-import { Skill, SKILL_KEY } from '#pages/work-together/skillsMap'
+import { Skill, SKILL_KEY } from '#pages/_dev/work-together/skillsMap'
 
 interface UseSkillboxAnimationsProps {
   skill: Skill

@@ -15,9 +15,6 @@ export default {
     title: {
       env: { server: true, client: true },
     },
-    ssr: {
-      env: { config: true },
-    },
     Page: {
       env: { server: true, client: true },
     },
