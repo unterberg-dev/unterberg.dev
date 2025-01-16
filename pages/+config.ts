@@ -1,12 +1,10 @@
+import vikeReact from 'vike-react/config'
 import type { Config } from 'vike/types'
 
 export default {
-  meta: {
-    title: {
-      env: { server: true, client: true },
-    },
-    description: {
-      env: { server: true, client: true },
-    },
-  },
+  title: 'unterberg.dev',
+  description: "I love to create modern websites and interfaces. Let's build something together ✌️",
+  extends: vikeReact,
+  lang: 'en',
+  clientRouting: true,
 } satisfies Config

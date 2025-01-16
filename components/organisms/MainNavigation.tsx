@@ -1,9 +1,9 @@
-import { HTMLAttributes } from 'react'
+import type { HTMLAttributes } from 'react'
+import { usePageContext } from 'vike-react/usePageContext'
 
 import Icon from '#atoms/Icon'
 import Link from '#atoms/Link'
 import { mainNavigation } from '#pages/navigation'
-import { usePageContext } from '#renderer/usePageContext'
 
 interface MainNavigationProps extends HTMLAttributes<HTMLElement> {
   liProps?: HTMLAttributes<HTMLLIElement>

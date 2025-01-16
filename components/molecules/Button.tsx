@@ -1,7 +1,7 @@
-import { MutableRefObject, useMemo } from 'react'
+import { useMemo, type MutableRefObject } from 'react'
 
 import Icon from '#atoms/Icon'
-import { ICON_ID } from '#lib/icons/iconID'
+import type { ICON_ID } from '#lib/icons/iconID'
 
 interface ButtonProps {
   children?: React.ReactNode

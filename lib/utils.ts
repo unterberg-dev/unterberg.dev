@@ -1,4 +1,4 @@
-import { PixiConfigMultiValue, PixiConfigSingleValue } from '#lib/types'
+import type { PixiConfigMultiValue, PixiConfigSingleValue } from '#lib/types'
 
 export const getPercent = (value: number, min: number, max: number) =>
   Number((((value - min) / (max - min)) * 100).toFixed(2))

@@ -1,8 +1,7 @@
-import tw from 'tailwind-styled-components'
+import rc from 'react-classmate'
 
-const Latch = tw.aside`
+const Latch = rc.aside`
   rounded-sm
-  p-3
   gap-2
   inline-flex
   flex-nowrap

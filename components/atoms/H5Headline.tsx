@@ -1,6 +1,6 @@
-import tw from 'tailwind-styled-components'
+import rc from 'react-classmate'
 
-const H5Headline = tw.h5`
+const H5Headline = rc.h5`
   text-xl
   font-medium
   text-gray

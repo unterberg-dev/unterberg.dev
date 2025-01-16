@@ -1,6 +1,6 @@
-import tw from 'tailwind-styled-components'
+import rc from 'react-classmate'
 
-const H4Headline = tw.h4`
+const H4Headline = rc.h4`
   text-2xl
   text-light
 `

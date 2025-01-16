@@ -1,15 +1,15 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import tw from 'tailwind-styled-components'
+import rc from 'react-classmate'
 
 import { getPercent } from '#lib/utils'
 
-const StyledSlider = tw.div`
+const StyledSlider = rc.div`
   slider
   relative
   w-[150px]
 `
 
-const StyledSliderTrack = tw.div`
+const StyledSliderTrack = rc.div`
   slider__track
   absolute
   rounded-sm
@@ -20,7 +20,7 @@ const StyledSliderTrack = tw.div`
   hover:bg-gray
 `
 
-const StyledSliderRange = tw.div`
+const StyledSliderRange = rc.div`
   slider__range
   absolute
   rounded-sm
@@ -30,7 +30,7 @@ const StyledSliderRange = tw.div`
   hover:bg-amber-600
 `
 
-const StyledThumb = tw.input`
+const StyledThumb = rc.input`
   thumb
   thumb::-webkit-slider-thumb
   -webkit-appearance: none;
@@ -155,9 +155,7 @@ const RangeSlider = ({ multi, step = 1, onChange, initialValue }: RangeSliderPro
     changeSingleStyle,
     initialValue,
     isTouched,
-    max,
     maxVal,
-    min,
     minVal,
     multi,
     singleValue,

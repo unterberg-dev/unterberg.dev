@@ -1,17 +1,17 @@
 import gsap from 'gsap'
 import { useCallback } from 'react'
-import tw from 'tailwind-styled-components'
+import rc from 'react-classmate'
 
 import H6Headline from '#atoms/H6Headline'
 import Icon from '#atoms/Icon'
 import { APP_CONFIG, PixiConfig } from '#lib/constants'
 import { ICON_ID } from '#lib/icons/iconID'
-import { PixiConfigType } from '#lib/types'
+import type { PixiConfigType } from '#lib/types'
 import { getPercentMultiValue, getPercentSingleValue } from '#lib/utils'
 import RangeSlider from '#molecules/RangeSlider'
 import { registerAutoPointer, removeAutoPointer } from '#pixi/autoPointer'
 import { handleUpdateHitboxes } from '#pixi/pointer'
-import { getEmitterStore, getStore, setStore, Store } from '#pixi/store'
+import { getEmitterStore, getStore, setStore, type Store } from '#pixi/store'
 
 interface RangeLabelProps {
   label: string
@@ -64,6 +64,7 @@ const changeScaleModifier = (value: number) => {
   updateStore('scaleModifier', value)
   const newValue = selectStoreReturnNewValue('scaleModifier', value)
 
+  // biome-ignore lint/complexity/noForEach: not now
   getEmitterStore().emitterTiles.forEach(tile => {
     tile.innerContainer.scale.set(
       (getStore().tileWidth /
@@ -89,7 +90,7 @@ const changeScaleIn = (value: number, type?: 'min' | 'max') => updateStore('scal
 const changeRotationIn = (value: number, type?: 'min' | 'max') =>
   updateStore('rotationIn', value, type)
 
-const StyledPixiSettings = tw.div`
+const StyledPixiSettings = rc.div`
   pixi-hitbox
   grid
   gap-y-2

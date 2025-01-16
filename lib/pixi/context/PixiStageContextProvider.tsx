@@ -1,6 +1,6 @@
-import { createContext, ReactNode, useMemo, useState } from 'react'
+import { createContext, useMemo, useState, type ReactNode } from 'react'
 
-import { Store } from '#pixi/store'
+import type { Store } from '#pixi/store'
 
 interface PixiStageContextValues {
   pixiStage: Store['stage'] | undefined

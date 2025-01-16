@@ -1,7 +1,7 @@
-import { LucideProps } from 'lucide-react'
+import type { LucideProps } from 'lucide-react'
 import { useMemo } from 'react'
 
-import { ICON_ID } from '#lib/icons/iconID'
+import type { ICON_ID } from '#lib/icons/iconID'
 import APP_ICON from '#lib/icons/iconMap'
 
 interface AppIconProps extends LucideProps {

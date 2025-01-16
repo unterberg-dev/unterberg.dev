@@ -1,4 +1,4 @@
-import tw from 'tailwind-styled-components'
+import rc from 'react-classmate'
 
 interface TagBubbleProps {
   $size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'
@@ -32,7 +32,7 @@ const mapSizeToPadding = (size: TagBubbleProps['$size']) => {
   }
 }
 
-const TagBubble = tw.div<TagBubbleProps>`
+const TagBubble = rc.div<TagBubbleProps>`
   rounded-lg
   ${p => mapSizeToFontSize(p.$size)}
   ${p => mapSizeToPadding(p.$size)}

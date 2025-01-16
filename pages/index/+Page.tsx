@@ -141,7 +141,7 @@ const StartPage = () => {
         </div>
       )}
       <Layout className="relative z-10">
-        <div className="absolute top-0 left-0 w-full h-auto flex justify-end">
+        <div className="absolute top-0 left-0 w-full h-auto flex justify-end gap-3 -mt-0.25">
           <Tooltip
             id="hide-content-tooltip"
             style={{ backgroundColor: 'var(--color-dark)', color: 'var(--color-light)' }}

@@ -34,8 +34,8 @@ export default defineConfig({
       error: colors.red[500],
     },
     fontSize: {
-      base: ['14px', '24px'],
-      small: ['14px', '20px'],
+      base: ['13.5px', '24px'],
+      small: ['12px', '20px'],
       micro: ['10px', '12px'],
     },
     fontFamily: {
@@ -44,25 +44,27 @@ export default defineConfig({
   },
   preflights: [
     {
+      // to get use of the theme colors as css variables
       getCSS: ({ theme }) => {
         let cssVariables = ''
 
         if (theme.colors) {
-          Object.keys(theme.colors).forEach(color => {
+          // eslint-disable-next-line no-restricted-syntax
+          for (const color of Object.keys(theme.colors)) {
             if (typeof theme.colors?.[color] === 'string') {
               cssVariables += `--color-${color}: ${theme.colors?.[color]};\n`
             }
-          })
+          }
         }
 
         if (theme.fontSize) {
-          Object.keys(theme.fontSize).forEach(size => {
+          // eslint-disable-next-line no-restricted-syntax
+          for (const size of Object.keys(theme.fontSize)) {
             if (Array.isArray(theme.fontSize?.[size])) {
               cssVariables += `--font-size-${size}: ${theme.fontSize?.[size][0]};\n`
             }
-          })
+          }
         }
-
         return `
           body, html {
             background-color: ${theme.colors?.dark};

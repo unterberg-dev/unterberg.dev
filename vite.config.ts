@@ -1,4 +1,4 @@
-import path from 'path'
+import path from 'node:path'
 import react from '@vitejs/plugin-react'
 import { visualizer } from 'rollup-plugin-visualizer'
 import UnoCSS from 'unocss/vite'
@@ -27,15 +27,6 @@ export default defineConfig({
   },
   optimizeDeps: {
     include: ['react/jsx-runtime', 'react', 'react-dom'],
-  },
-  server: {
-    port: parseInt(process.env.VITE_DEV_PORT!, 10),
-  },
-  preview: {
-    port: parseInt(process.env.VITE_PROD_PORT!, 10),
-  },
-  ssr: {
-    noExternal: ['tailwind-styled-components'],
   },
   resolve: {
     alias: {

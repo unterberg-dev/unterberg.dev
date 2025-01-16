@@ -1,6 +1,6 @@
-import tw from 'tailwind-styled-components'
+import rc from 'react-classmate'
 
-const H3Headline = tw.h3`
+const H3Headline = rc.h3`
 text-3xl
 md:font-light
 text-gray

@@ -10,7 +10,7 @@ interface HideContentProps {
 const HideContentToggle = ({ onClick, active }: HideContentProps) => (
   <Latch className="p-0 border-0">
     <Button
-      iconSize={32}
+      iconSize={28}
       icon={active ? ICON_ID.Eye : ICON_ID.EyeOff}
       className="text-white"
       onClick={onClick}

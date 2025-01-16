@@ -1,6 +1,5 @@
 import { useMemo } from 'react'
-
-import { usePageContext } from '#root/renderer/usePageContext'
+import { usePageContext } from 'vike-react/usePageContext'
 
 interface LinkProps {
   href: string

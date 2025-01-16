@@ -1,9 +1,9 @@
-import { PixiConfigType } from '#lib/types'
+import type { PixiConfigType } from '#lib/types'
 
 export const APP_CONFIG = {
-  viteSiteUrl: import.meta.env.PROD ? 'https://unterberg.dev/' : 'http://localhost:5247/',
+  viteSiteUrl: import.meta.env.PROD ? 'https://unterberg.dev/' : 'http://localhost:3000/',
   viteMediaUrl: `${
-    import.meta.env.PROD ? 'https://cdn.unterberg.dev/' : 'http://localhost:5247'
+    import.meta.env.PROD ? 'https://cdn.unterberg.dev/' : 'http://localhost:3000'
   }${import.meta.env.BASE_URL.slice(0, -1)}`,
   viteMailApi: 'https://mail.unterberg.dev/',
   defaultDuration: 0.35,
@@ -11,11 +11,11 @@ export const APP_CONFIG = {
 }
 
 export enum EMITTER_TIMELINE {
-  DEFAULT,
+  DEFAULT = 0,
 }
 
 export enum SPACE_TIMELINE {
-  DEFAULT,
+  DEFAULT = 0,
 }
 
 // path created with figma

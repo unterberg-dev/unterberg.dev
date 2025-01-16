@@ -9,7 +9,7 @@ interface HideContentProps {
 const ShowSettingsToggle = ({ onClick }: HideContentProps) => (
   <Latch className="p-0 bg-warning border-0">
     <Button
-      iconSize={32}
+      iconSize={28}
       icon={ICON_ID.Sparkles}
       className="text-dark "
       onClick={onClick}

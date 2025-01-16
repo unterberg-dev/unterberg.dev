@@ -1,9 +1,9 @@
 import { useRef } from 'react'
-import tw from 'tailwind-styled-components'
+import rc from 'react-classmate'
 
 import { APP_CONFIG } from '#root/lib/constants'
 
-const StyledBlurDot = tw.div`
+const StyledBlurDot = rc.div`
   absolute
   h-full
   w-full
