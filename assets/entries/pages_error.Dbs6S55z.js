@@ -1,4 +1,4 @@
-import{X as o,j as e,L as r,i as l,o as n,a as d}from"../chunks/chunk-DjhChjpS.js";/* empty css                      */import"../chunks/chunk-DDMPbpQm.js";/* empty css                      *//* empty css                      *//* empty css                      */const t=o.h2`
+import{X as o,j as e,L as r,i as l,o as n,a as d}from"../chunks/chunk-BuOZAv-1.js";/* empty css                      */import"../chunks/chunk-DDMPbpQm.js";/* empty css                      *//* empty css                      *//* empty css                      */const t=o.h2`
   text-4xl
   md:text-5xl
   font-bold
