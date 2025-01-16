@@ -1,5 +1,5 @@
-import Icon from '#atoms/Icon'
-import { ICON_ID } from '#lib/icons/iconID'
+import Icon from "#atoms/Icon"
+import { ICON_ID } from "#lib/icons/iconID"
 
 export default ({ children }: { children: React.ReactNode }) => (
   <span className="items-center inline-flex gap-0.5">

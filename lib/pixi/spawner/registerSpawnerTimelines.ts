@@ -1,6 +1,6 @@
-import { getEmitterStore, getStore } from '#pixi/store'
-import { EmitterTile } from '#pixi/types'
-import { R } from '#pixi/utils'
+import { getEmitterStore, getStore } from "#pixi/store"
+import type { EmitterTile } from "#pixi/types"
+import { R } from "#pixi/utils"
 
 interface RegisterPositionTimelineProps {
   timeline: gsap.core.Timeline
@@ -9,8 +9,8 @@ interface RegisterPositionTimelineProps {
 
 // todo: convert to be a timeline -> autoRemoveChildren: true
 export const registerSpawnerTimelines = ({ timeline, tile }: RegisterPositionTimelineProps) => {
-  const inEase = 'power.in'
-  const outEase = 'power.inOut'
+  const inEase = "power.in"
+  const outEase = "power.inOut"
 
   tile.setPosition = (
     x: number,
@@ -67,7 +67,7 @@ export const registerSpawnerTimelines = ({ timeline, tile }: RegisterPositionTim
         alpha: 0,
         rotation: 0,
       },
-      'setup',
+      "setup",
     )
     timeline.set(
       tile.container,
@@ -75,7 +75,7 @@ export const registerSpawnerTimelines = ({ timeline, tile }: RegisterPositionTim
         x: mouseX,
         y: mouseY,
       },
-      'setup',
+      "setup",
     )
     timeline.set(
       tile.innerContainer,
@@ -83,7 +83,7 @@ export const registerSpawnerTimelines = ({ timeline, tile }: RegisterPositionTim
         x: 0,
         y: 0,
       },
-      'setup',
+      "setup",
     )
     timeline.set(
       tile.sprite.skew,
@@ -91,7 +91,7 @@ export const registerSpawnerTimelines = ({ timeline, tile }: RegisterPositionTim
         x: R(skewFromVal, skewFromVal),
         y: R(skewFromVal, skewFromVal),
       },
-      `setup`,
+      "setup",
     )
     timeline.set(
       tile.sprite.scale,
@@ -99,7 +99,7 @@ export const registerSpawnerTimelines = ({ timeline, tile }: RegisterPositionTim
         x: 0,
         y: 0,
       },
-      `setup`,
+      "setup",
     )
     timeline.to(
       tile.sprite,
@@ -109,7 +109,7 @@ export const registerSpawnerTimelines = ({ timeline, tile }: RegisterPositionTim
         alpha: isInHitbox ? 0.3 : R(alphaInVal, alphaInVal),
         rotation: (R(rotationInVal, rotationInVal) * Math.PI) / 180,
       },
-      'in',
+      "in",
     )
     timeline.to(
       tile.sprite.skew,
@@ -119,7 +119,7 @@ export const registerSpawnerTimelines = ({ timeline, tile }: RegisterPositionTim
         x: skewToVal,
         y: skewToVal,
       },
-      'in',
+      "in",
     )
     timeline.to(
       tile.sprite.scale,
@@ -129,7 +129,7 @@ export const registerSpawnerTimelines = ({ timeline, tile }: RegisterPositionTim
         x: !isInHitbox ? scaleInVal : scaleHitboxInVal,
         y: !isInHitbox ? scaleInVal : scaleHitboxInVal,
       },
-      'in',
+      "in",
     )
     timeline.to(
       tile.container,
@@ -139,7 +139,7 @@ export const registerSpawnerTimelines = ({ timeline, tile }: RegisterPositionTim
         x: extendedX, // Use the extended X position
         y: extendedY, // Use the extended Y position
       },
-      'in',
+      "in",
     )
     timeline.to(
       tile.innerContainer,

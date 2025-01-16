@@ -1,19 +1,16 @@
-import gsap from 'gsap'
-import { Application, Assets, Sprite, Texture } from 'pixi.js'
+import gsap from "gsap"
+import { type Application, Assets, type Sprite, type Texture } from "pixi.js"
 
-import { APP_CONFIG } from '#lib/constants'
-import { setSpaceStore } from '#pixi/store'
-import { createContainer } from '#pixi/system/createContainer'
-import { createSprite } from '#pixi/system/createSprite'
-import { SpaceTile } from '#pixi/types'
+import { APP_CONFIG } from "#lib/constants"
+import { setSpaceStore } from "#pixi/store"
+import { createContainer } from "#pixi/system/createContainer"
+import { createSprite } from "#pixi/system/createSprite"
+import type { SpaceTile } from "#pixi/types"
 
 const scaleImageToCoverStage = (sprite: Sprite, app: Application) => {
   const { width, height } = sprite
   const offset = -400
-  const scale = Math.max(
-    app.renderer.width / (width + offset),
-    app.renderer.height / (height + offset),
-  )
+  const scale = Math.max(app.renderer.width / (width + offset), app.renderer.height / (height + offset))
   sprite.scale.set(scale)
 }
 
@@ -56,12 +53,12 @@ const createSpaceBg = async (app: Application) => {
   const tile: SpaceTile = {
     // top layer
     layer1: layer1Sprite,
-    layer1ToX: gsap.quickTo(layer1Sprite, 'x', { duration: 2, ease: 'power.out' }),
-    layer1ToY: gsap.quickTo(layer1Sprite, 'y', { duration: 2, ease: 'power.out' }),
+    layer1ToX: gsap.quickTo(layer1Sprite, "x", { duration: 2, ease: "power.out" }),
+    layer1ToY: gsap.quickTo(layer1Sprite, "y", { duration: 2, ease: "power.out" }),
     // bottom layer
     layer2: layer2Sprite,
-    layer2ToX: gsap.quickTo(layer2Sprite, 'x', { duration: 3, ease: 'power.out' }),
-    layer2ToY: gsap.quickTo(layer2Sprite, 'y', { duration: 3, ease: 'power.out' }),
+    layer2ToX: gsap.quickTo(layer2Sprite, "x", { duration: 3, ease: "power.out" }),
+    layer2ToY: gsap.quickTo(layer2Sprite, "y", { duration: 3, ease: "power.out" }),
   }
   setSpaceStore({
     spaceBg: tile,

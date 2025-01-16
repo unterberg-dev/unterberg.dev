@@ -1,4 +1,4 @@
-import { Application, Text } from 'pixi.js'
+import type { Application, Text } from "pixi.js"
 
 interface CreateTextureProps {
   text: Text

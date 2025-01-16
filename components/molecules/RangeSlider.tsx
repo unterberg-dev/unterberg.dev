@@ -1,7 +1,7 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
-import rc from 'react-classmate'
+import { useCallback, useEffect, useRef, useState } from "react"
+import rc from "react-classmate"
 
-import { getPercent } from '#lib/utils'
+import { getPercent } from "#lib/utils"
 
 const StyledSlider = rc.div`
   slider
@@ -43,7 +43,7 @@ const StyledThumb = rc.input`
 
 interface RangeSliderProps {
   initialValue?: number | [number, number] // must be between 1 and 100 (%)
-  onChange: (value: number, type?: 'min' | 'max') => void
+  onChange: (value: number, type?: "min" | "max") => void
   step?: number
   multi?: boolean
 }
@@ -70,7 +70,7 @@ const RangeSlider = ({ multi, step = 1, onChange, initialValue }: RangeSliderPro
     (singleVal: number) => {
       const percent = getPercent(singleVal, min, max)
       if (rangeRef.current) {
-        rangeRef.current.style.left = '0%'
+        rangeRef.current.style.left = "0%"
         rangeRef.current.style.width = `${percent}%`
       }
     },
@@ -104,23 +104,23 @@ const RangeSlider = ({ multi, step = 1, onChange, initialValue }: RangeSliderPro
   )
 
   const handleChangeMultiType = useCallback(
-    (value: number, type: 'min' | 'max') => {
+    (value: number, type: "min" | "max") => {
       if (!isTouched) {
         setIsTouched(true)
       }
 
       const offsetPercent = 5
 
-      if (type === 'min') {
+      if (type === "min") {
         if (value >= maxValRef.current - offsetPercent) return
         setMinVal(Math.min(value, maxValRef.current - 1))
-        onChange(value, 'min')
+        onChange(value, "min")
         changeMultiStyle(value, maxValRef.current)
         minValRef.current = value
       } else {
         if (value <= minValRef.current + offsetPercent) return
         setMaxVal(Math.max(value, minValRef.current + 1))
-        onChange(value, 'max')
+        onChange(value, "max")
         changeMultiStyle(minValRef.current, value)
         maxValRef.current = value
       }
@@ -150,19 +150,10 @@ const RangeSlider = ({ multi, step = 1, onChange, initialValue }: RangeSliderPro
         setSingleValue(initSingleValue)
       }
     }
-  }, [
-    changeMultiStyle,
-    changeSingleStyle,
-    initialValue,
-    isTouched,
-    maxVal,
-    minVal,
-    multi,
-    singleValue,
-  ])
+  }, [changeMultiStyle, changeSingleStyle, initialValue, isTouched, maxVal, minVal, multi, singleValue])
 
   const thumbDefaultProps = {
-    type: 'range',
+    type: "range",
     min,
     max,
     step,
@@ -180,9 +171,9 @@ const RangeSlider = ({ multi, step = 1, onChange, initialValue }: RangeSliderPro
       const maxDiff = Math.abs(clickValue - maxVal)
 
       if (minDiff < maxDiff) {
-        handleChangeMultiType(clickValue, 'min')
+        handleChangeMultiType(clickValue, "min")
       } else {
-        handleChangeMultiType(clickValue, 'max')
+        handleChangeMultiType(clickValue, "max")
       }
     } else {
       handleChangeSingleType(clickValue)
@@ -195,13 +186,13 @@ const RangeSlider = ({ multi, step = 1, onChange, initialValue }: RangeSliderPro
         <>
           <StyledThumb
             value={minVal}
-            onChange={event => handleChangeMultiType(Number(event.target.value), 'min')}
+            onChange={(event) => handleChangeMultiType(Number(event.target.value), "min")}
             className="thumb thumb--left z-3"
             {...thumbDefaultProps}
           />
           <StyledThumb
             value={maxVal}
-            onChange={event => handleChangeMultiType(Number(event.target.value), 'max')}
+            onChange={(event) => handleChangeMultiType(Number(event.target.value), "max")}
             className="thumb thumb--right z-4"
             {...thumbDefaultProps}
           />
@@ -209,7 +200,7 @@ const RangeSlider = ({ multi, step = 1, onChange, initialValue }: RangeSliderPro
       ) : (
         <StyledThumb
           value={singleValue}
-          onChange={event => handleChangeSingleType(Number(event.target.value))}
+          onChange={(event) => handleChangeSingleType(Number(event.target.value))}
           className="thumb thumb--single z-4"
           {...thumbDefaultProps}
         />

@@ -1,14 +1,14 @@
-import '#components/styles.css'
-import '@unocss/reset/tailwind.css'
-import 'virtual:uno.css'
+import "#components/styles.css"
+import "@unocss/reset/tailwind.css"
+import "virtual:uno.css"
 
-import { StrictMode, useCallback, useMemo, useState, type ReactNode } from 'react'
-import { clientOnly } from 'vike-react/clientOnly'
+import { type ReactNode, StrictMode, useCallback, useMemo, useState } from "react"
+import { clientOnly } from "vike-react/clientOnly"
 
-import Footer from '#organisms/Footer'
-import PixiStageContextProvider from '#pixi/context/PixiStageContextProvider'
+import Footer from "#organisms/Footer"
+import PixiStageContextProvider from "#pixi/context/PixiStageContextProvider"
 
-const PixiStage = clientOnly(() => import('#pixi/PixiStage'))
+const PixiStage = clientOnly(() => import("#pixi/PixiStage"))
 
 const AppLayout = ({ children }: { children: ReactNode }) => {
   const [mouseMoved, setMouseMoved] = useState(false)

@@ -14,15 +14,15 @@ import {
   Handshake,
   Hourglass,
   Linkedin,
-  LucideProps,
+  type LucideProps,
   Mail,
   MousePointerClick,
   Shell,
   Smile,
   Sparkles,
-} from 'lucide-react'
+} from "lucide-react"
 
-import { ICON_ID } from './iconID'
+import { ICON_ID } from "./iconID"
 
 type ICON_TYPE = {
   [key in ICON_ID]: {

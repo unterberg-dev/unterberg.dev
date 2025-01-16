@@ -1,7 +1,7 @@
-import { useMemo, type MutableRefObject } from 'react'
+import { type MutableRefObject, useMemo } from "react"
 
-import Icon from '#atoms/Icon'
-import type { ICON_ID } from '#lib/icons/iconID'
+import Icon from "#atoms/Icon"
+import type { ICON_ID } from "#lib/icons/iconID"
 
 interface ButtonProps {
   children?: React.ReactNode
@@ -17,7 +17,7 @@ interface ButtonProps {
 
 const Button = ({
   children,
-  label = 'Button',
+  label = "Button",
   icon,
   iconSize = 16,
   link,
@@ -27,7 +27,7 @@ const Button = ({
   className,
 }: ButtonProps) => {
   const buttonStyle = useMemo(
-    () => `flex items-center ${noGutter ? 'p-0' : 'px-4 py-2'} rounded-sm gap-2 ${className}`,
+    () => `flex items-center ${noGutter ? "p-0" : "px-4 py-2"} rounded-sm gap-2 ${className}`,
     [className, noGutter],
   )
 

@@ -1,4 +1,4 @@
-import { ICON_ID } from '#lib/icons/iconID'
+import type { ICON_ID } from "#lib/icons/iconID"
 
 export type PixiConfigMinMax = {
   min: number

@@ -1,18 +1,18 @@
-import { useGSAP } from '@gsap/react'
-import { clearAllBodyScrollLocks, disableBodyScroll } from 'body-scroll-lock'
-import gsap from 'gsap'
-import { useRef, useState } from 'react'
+import { useGSAP } from "@gsap/react"
+import { clearAllBodyScrollLocks, disableBodyScroll } from "body-scroll-lock"
+import gsap from "gsap"
+import { useRef, useState } from "react"
 
-import { APP_CONFIG } from '#lib/constants'
-import usePixiStageContext from '#pixi/context/usePixiStageContext'
-import { handleUpdateHitboxes } from '#pixi/pointer'
+import { APP_CONFIG } from "#lib/constants"
+import usePixiStageContext from "#pixi/context/usePixiStageContext"
+import { handleUpdateHitboxes } from "#pixi/pointer"
 
 const enableScroll = () => {
   clearAllBodyScrollLocks()
 }
 
 const disableScroll = () => {
-  disableBodyScroll(document.querySelector('#hamburger') as HTMLElement)
+  disableBodyScroll(document.querySelector("#hamburger") as HTMLElement)
 }
 
 const useHamburgerAnimations = () => {
@@ -51,62 +51,62 @@ const useHamburgerAnimations = () => {
           handleUpdateHitboxes()
         },
       })
-      expandTimeline.current.set('.overlay-wrap', { display: 'block' }, '<')
+      expandTimeline.current.set(".overlay-wrap", { display: "block" }, "<")
       expandTimeline.current.to(
-        '.overlay',
-        { opacity: 1, duration: modifiedDuration, ease: 'sine.inOut' },
-        '<',
+        ".overlay",
+        { opacity: 1, duration: modifiedDuration, ease: "sine.inOut" },
+        "<",
       )
       expandTimeline.current.to(
-        '.burger-button',
+        ".burger-button",
         {
           width: layoutRef.current?.scrollWidth,
           duration: modifiedDuration,
-          ease: 'sine.inOut',
+          ease: "sine.inOut",
         },
-        '<',
+        "<",
       )
       expandTimeline.current.to(
-        '.mid',
-        { width: '0%', left: '50%', duration: modifiedDuration, ease: 'sine.inOut' },
-        '<',
+        ".mid",
+        { width: "0%", left: "50%", duration: modifiedDuration, ease: "sine.inOut" },
+        "<",
       )
       expandTimeline.current.to(
-        '.top',
+        ".top",
         {
-          rotate: '-45%',
+          rotate: "-45%",
           top: 0,
           duration: modifiedDuration,
-          ease: 'sine.inOut',
+          ease: "sine.inOut",
         },
-        '<',
+        "<",
       )
       expandTimeline.current.to(
-        '.bot',
+        ".bot",
         {
-          rotate: '45%',
+          rotate: "45%",
           top: 0,
           duration: modifiedDuration,
-          ease: 'sine.inOut',
+          ease: "sine.inOut",
         },
-        '<',
+        "<",
       )
       expandTimeline.current.to(
-        '.burger-nav-item',
+        ".burger-nav-item",
         {
           left: 0,
-          ease: 'sine.inOut',
+          ease: "sine.inOut",
           opacity: 1,
-          display: 'block',
+          display: "block",
           stagger: {
             each: 0.1,
-            from: 'start',
+            from: "start",
           },
           duration: modifiedDuration - 0.3,
         },
-        '<+.3',
+        "<+.3",
       )
-      expandTimeline.current.set(pixiStage || document.body, { zIndex: 10 }, '>')
+      expandTimeline.current.set(pixiStage || document.body, { zIndex: 10 }, ">")
 
       collapseOnMenuChangeTimeline.current = gsap.timeline({
         paused: true,
@@ -119,96 +119,96 @@ const useHamburgerAnimations = () => {
         },
       })
       collapseOnMenuChangeTimeline.current.to(
-        '.overlay',
+        ".overlay",
         {
           opacity: 0,
           duration: modifiedDuration / 2,
-          ease: 'sine.inOut',
+          ease: "sine.inOut",
         },
-        '>',
+        ">",
       )
-      collapseOnMenuChangeTimeline.current.set(pixiStage || document.body, { zIndex: 1 }, '<')
+      collapseOnMenuChangeTimeline.current.set(pixiStage || document.body, { zIndex: 1 }, "<")
       collapseOnMenuChangeTimeline.current.to(
-        '.burger-button',
+        ".burger-button",
         {
           y: -40,
           opacity: 0,
           duration: modifiedDuration / 2,
-          ease: 'sine.inOut',
+          ease: "sine.inOut",
         },
-        '<',
+        "<",
       )
       collapseOnMenuChangeTimeline.current.set(
-        '.burger-button',
+        ".burger-button",
         {
           width: burgerButtonRef.current?.scrollWidth,
         },
-        '>',
+        ">",
       )
       collapseOnMenuChangeTimeline.current.set(
-        '.burger-nav-item',
+        ".burger-nav-item",
         {
           left: 100,
           opacity: 0,
-          display: 'none',
+          display: "none",
         },
-        '<',
+        "<",
       )
       collapseOnMenuChangeTimeline.current.set(
-        '.mid',
+        ".mid",
         {
-          width: '100%',
-          left: '0%',
+          width: "100%",
+          left: "0%",
         },
-        '<',
+        "<",
       )
       collapseOnMenuChangeTimeline.current.set(
-        '.top',
+        ".top",
         {
-          rotate: '0%',
+          rotate: "0%",
           top: -10,
           left: 0,
         },
-        '<',
+        "<",
       )
       collapseOnMenuChangeTimeline.current.set(
-        '.bot',
+        ".bot",
         {
-          rotate: '0%',
+          rotate: "0%",
           top: 10,
           left: 0,
         },
-        '<',
+        "<",
       )
-      collapseOnMenuChangeTimeline.current.set('.overlay-wrap', { display: 'none' }, '<')
+      collapseOnMenuChangeTimeline.current.set(".overlay-wrap", { display: "none" }, "<")
       collapseOnMenuChangeTimeline.current.to(
-        '.burger-button',
+        ".burger-button",
         {
           y: 0,
           opacity: 1,
           duration: modifiedDuration * 1.3,
-          ease: 'sine.inOut',
+          ease: "sine.inOut",
         },
-        '>',
+        ">",
       )
 
-      gsap.set(['.top', '.mid', '.bot'], { scale: 0.95 })
+      gsap.set([".top", ".mid", ".bot"], { scale: 0.95 })
       hoverTimeline.current = gsap.timeline({
         paused: true,
       })
       hoverTimeline.current.to(
-        ['.top', '.mid', '.bot'],
+        [".top", ".mid", ".bot"],
         {
-          backgroundColor: '#F1B650',
+          backgroundColor: "#F1B650",
           scale: 1.08,
-          ease: 'power1.inOut',
+          ease: "power1.inOut",
           duration: modifiedDuration / 3,
           stagger: {
             each: 0.1,
-            from: 'end',
+            from: "end",
           },
         },
-        '<',
+        "<",
       )
     },
     { scope: hamburgerRef, dependencies: [pixiStage] },

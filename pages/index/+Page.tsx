@@ -1,27 +1,27 @@
-import { useGSAP } from '@gsap/react'
-import { clearAllBodyScrollLocks, disableBodyScroll } from 'body-scroll-lock'
-import gsap from 'gsap'
-import { useCallback, useRef, useState } from 'react'
-import { Tooltip } from 'react-tooltip'
+import { useGSAP } from "@gsap/react"
+import { clearAllBodyScrollLocks, disableBodyScroll } from "body-scroll-lock"
+import gsap from "gsap"
+import { useCallback, useRef, useState } from "react"
+import { Tooltip } from "react-tooltip"
 
-import { GlassItemButton } from '#atoms/GlassItem'
-import Layout from '#atoms/Layout'
-import usePageHeaderAnimations from '#gsap/usePageHeaderAnimations'
-import { APP_CONFIG } from '#lib/constants'
-import { externalNavigation } from '#lib/navigation'
-import HideContentToggle from '#molecules/HideContentToggle'
-import ShowSettingsToggle from '#molecules/ShowSettingsToggle'
-import PixiSettings from '#organisms/PixiSettings'
-import StaggerHeader from '#organisms/StaggerHeader'
-import usePixiStageContext from '#pixi/context/usePixiStageContext'
-import { handleUpdateHitboxes } from '#pixi/pointer'
+import { GlassItemButton } from "#atoms/GlassItem"
+import Layout from "#atoms/Layout"
+import usePageHeaderAnimations from "#gsap/usePageHeaderAnimations"
+import { APP_CONFIG } from "#lib/constants"
+import { externalNavigation } from "#lib/navigation"
+import HideContentToggle from "#molecules/HideContentToggle"
+import ShowSettingsToggle from "#molecules/ShowSettingsToggle"
+import PixiSettings from "#organisms/PixiSettings"
+import StaggerHeader from "#organisms/StaggerHeader"
+import usePixiStageContext from "#pixi/context/usePixiStageContext"
+import { handleUpdateHitboxes } from "#pixi/pointer"
 
 const enableScroll = () => {
   clearAllBodyScrollLocks()
 }
 
 const disableScroll = () => {
-  disableBodyScroll(document.querySelector('#stage') as HTMLElement)
+  disableBodyScroll(document.querySelector("#stage") as HTMLElement)
 }
 
 const configOut: Partial<gsap.TweenVars> = {
@@ -31,11 +31,11 @@ const configOut: Partial<gsap.TweenVars> = {
 
 const configIn: Partial<gsap.TweenVars> = {
   duration: APP_CONFIG.defaultDuration,
-  ease: 'sine.inOut',
+  ease: "sine.inOut",
   stagger: {
-    from: 'start',
+    from: "start",
     amount: APP_CONFIG.defaultDuration,
-    ease: 'sine.inOut',
+    ease: "sine.inOut",
   },
   x: 0,
   autoAlpha: 1,
@@ -69,26 +69,26 @@ const StartPage = () => {
         onReverseComplete: () => {
           setIsAnimatingSettingOpen(false)
           gsap.set(gsapSettingsElement.current, {
-            display: 'none',
+            display: "none",
           })
           handleUpdateHitboxes()
         },
       })
-      tl.set('.gsap-range-label-container', { ...configOut })
-      tl.set('.gsap-bg-pattern ', { autoAlpha: 0 })
+      tl.set(".gsap-range-label-container", { ...configOut })
+      tl.set(".gsap-bg-pattern ", { autoAlpha: 0 })
       tl.set(gsapSettingsElement.current, {
-        display: 'grid',
+        display: "grid",
         autoAlpha: 1,
       })
       tl.to(
-        '.gsap-range-label-container',
+        ".gsap-range-label-container",
         {
           ...configIn,
         },
-        '<',
+        "<",
       )
       tl.to(
-        '.gsap-bg-pattern',
+        ".gsap-bg-pattern",
         {
           autoAlpha: 0.8,
           duration: APP_CONFIG.defaultDuration,
@@ -115,13 +115,13 @@ const StartPage = () => {
       tl.play()
     }
 
-    setIsSettingsOpen(prev => !prev)
+    setIsSettingsOpen((prev) => !prev)
   })
 
   const handleHideContentToggleClick = useCallback(() => {
     if (isAnimating) return
 
-    setIsUIHidden(prev => {
+    setIsUIHidden((prev) => {
       if (prev) {
         enableScroll()
       } else {
@@ -144,11 +144,11 @@ const StartPage = () => {
         <div className="absolute top-0 left-0 w-full h-auto flex justify-end gap-3 -mt-0.25">
           <Tooltip
             id="hide-content-tooltip"
-            style={{ backgroundColor: 'var(--color-dark)', color: 'var(--color-light)' }}
+            style={{ backgroundColor: "var(--color-dark)", color: "var(--color-light)" }}
           />
           <div
             data-tooltip-id="hide-content-tooltip"
-            data-tooltip-content={`${isUIHidden ? 'Show' : 'Hide'} Webpage Content`}
+            data-tooltip-content={`${isUIHidden ? "Show" : "Hide"} Webpage Content`}
           >
             <HideContentToggle active={isUIHidden} onClick={handleHideContentToggleClick} />
           </div>
@@ -156,11 +156,11 @@ const StartPage = () => {
             <>
               <Tooltip
                 id="show-settings-tooltip"
-                style={{ backgroundColor: 'var(--color-dark)', color: 'var(--color-light)' }}
+                style={{ backgroundColor: "var(--color-dark)", color: "var(--color-light)" }}
               />
               <div
                 data-tooltip-id="show-settings-tooltip"
-                data-tooltip-content={`${isSettingsOpen ? 'Hide' : 'Show'} Cursor / Particle Settings`}
+                data-tooltip-content={`${isSettingsOpen ? "Hide" : "Show"} Cursor / Particle Settings`}
               >
                 <ShowSettingsToggle onClick={handleShowSettingToggleClick} />
               </div>
@@ -181,8 +181,8 @@ const StartPage = () => {
         <nav className="mt-10 xl:mt-16">
           <div className="pixi-hitbox relative w-full z-10 flex mx-auto gap-3 lg:gap-6">
             {Object.values(externalNavigation)
-              .filter(item => item.path !== '')
-              .map(item => (
+              .filter((item) => item.path !== "")
+              .map((item) => (
                 <GsapStaggerElement key={item.name} fromBottom className="flex-1">
                   <GlassItemButton icon={item.icon} href={item.path} label={item.name} />
                 </GsapStaggerElement>

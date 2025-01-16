@@ -1,17 +1,17 @@
-import gsap from 'gsap'
-import { useCallback } from 'react'
-import rc from 'react-classmate'
+import gsap from "gsap"
+import { useCallback } from "react"
+import rc from "react-classmate"
 
-import H6Headline from '#atoms/H6Headline'
-import Icon from '#atoms/Icon'
-import { APP_CONFIG, PixiConfig } from '#lib/constants'
-import { ICON_ID } from '#lib/icons/iconID'
-import type { PixiConfigType } from '#lib/types'
-import { getPercentMultiValue, getPercentSingleValue } from '#lib/utils'
-import RangeSlider from '#molecules/RangeSlider'
-import { registerAutoPointer, removeAutoPointer } from '#pixi/autoPointer'
-import { handleUpdateHitboxes } from '#pixi/pointer'
-import { getEmitterStore, getStore, setStore, type Store } from '#pixi/store'
+import H6Headline from "#atoms/H6Headline"
+import Icon from "#atoms/Icon"
+import { APP_CONFIG, PixiConfig } from "#lib/constants"
+import { ICON_ID } from "#lib/icons/iconID"
+import type { PixiConfigType } from "#lib/types"
+import { getPercentMultiValue, getPercentSingleValue } from "#lib/utils"
+import RangeSlider from "#molecules/RangeSlider"
+import { registerAutoPointer, removeAutoPointer } from "#pixi/autoPointer"
+import { handleUpdateHitboxes } from "#pixi/pointer"
+import { type Store, getEmitterStore, getStore, setStore } from "#pixi/store"
 
 interface RangeLabelProps {
   label: string
@@ -32,17 +32,17 @@ const selectStoreReturnNewValue = (selector: string, value: number) => {
   return ((value - inputMinValue) * (max - min)) / (inputMaxValue - inputMinValue) + min
 }
 
-type EmitterKeys = keyof PixiConfigType['emitter']
+type EmitterKeys = keyof PixiConfigType["emitter"]
 
-const updateStore = (key: EmitterKeys, value: number, type?: 'min' | 'max'): void => {
+const updateStore = (key: EmitterKeys, value: number, type?: "min" | "max"): void => {
   const newValue = selectStoreReturnNewValue(key, value)
   const store: Store = getStore()
 
   let updatedValue: number | [number, number]
 
-  if (type === 'min') {
+  if (type === "min") {
     updatedValue = [newValue, (store.emitter[key].value as [number, number])[1]]
-  } else if (type === 'max') {
+  } else if (type === "max") {
     updatedValue = [(store.emitter[key].value as [number, number])[0], newValue]
   } else {
     updatedValue = newValue
@@ -61,34 +61,29 @@ const updateStore = (key: EmitterKeys, value: number, type?: 'min' | 'max'): voi
 }
 
 const changeScaleModifier = (value: number) => {
-  updateStore('scaleModifier', value)
-  const newValue = selectStoreReturnNewValue('scaleModifier', value)
+  updateStore("scaleModifier", value)
+  const newValue = selectStoreReturnNewValue("scaleModifier", value)
 
   // biome-ignore lint/complexity/noForEach: not now
-  getEmitterStore().emitterTiles.forEach(tile => {
+  getEmitterStore().emitterTiles.forEach((tile) => {
     tile.innerContainer.scale.set(
-      (getStore().tileWidth /
-        (tile.sprite.texture.frame.width * getStore().app.renderer.resolution)) *
+      (getStore().tileWidth / (tile.sprite.texture.frame.width * getStore().app.renderer.resolution)) *
         newValue,
     )
   })
 }
-const changeCursorRadius = (value: number) => updateStore('cursorRadius', value)
-const changeGravity = (value: number) => updateStore('gravity', value)
-const changeInertiaModifier = (value: number) => updateStore('pointerInertia', value)
-const changeMissRate = (value: number) => updateStore('pointerMissRate', value)
-const changeInDuration = (value: number, type?: 'min' | 'max') =>
-  updateStore('inDuration', value, type)
-const changeOutDuration = (value: number, type?: 'min' | 'max') =>
-  updateStore('outDuration', value, type)
-const changeAlphaIn = (value: number, type?: 'min' | 'max') => updateStore('alphaIn', value, type)
-const changePixelSpread = (value: number, type?: 'min' | 'max') =>
-  updateStore('pixelSpread', value, type)
-const changeSkewFrom = (value: number, type?: 'min' | 'max') => updateStore('skewFrom', value, type)
-const changeSkewTo = (value: number, type?: 'min' | 'max') => updateStore('skewTo', value, type)
-const changeScaleIn = (value: number, type?: 'min' | 'max') => updateStore('scaleIn', value, type)
-const changeRotationIn = (value: number, type?: 'min' | 'max') =>
-  updateStore('rotationIn', value, type)
+const changeCursorRadius = (value: number) => updateStore("cursorRadius", value)
+const changeGravity = (value: number) => updateStore("gravity", value)
+const changeInertiaModifier = (value: number) => updateStore("pointerInertia", value)
+const changeMissRate = (value: number) => updateStore("pointerMissRate", value)
+const changeInDuration = (value: number, type?: "min" | "max") => updateStore("inDuration", value, type)
+const changeOutDuration = (value: number, type?: "min" | "max") => updateStore("outDuration", value, type)
+const changeAlphaIn = (value: number, type?: "min" | "max") => updateStore("alphaIn", value, type)
+const changePixelSpread = (value: number, type?: "min" | "max") => updateStore("pixelSpread", value, type)
+const changeSkewFrom = (value: number, type?: "min" | "max") => updateStore("skewFrom", value, type)
+const changeSkewTo = (value: number, type?: "min" | "max") => updateStore("skewTo", value, type)
+const changeScaleIn = (value: number, type?: "min" | "max") => updateStore("scaleIn", value, type)
+const changeRotationIn = (value: number, type?: "min" | "max") => updateStore("rotationIn", value, type)
 
 const StyledPixiSettings = rc.div`
   pixi-hitbox
@@ -110,7 +105,7 @@ interface PixiSettingsProps {
   gsapRef?: React.RefObject<HTMLDivElement>
 }
 
-const PixiSettings = ({ className = '', gsapRef }: PixiSettingsProps) => {
+const PixiSettings = ({ className = "", gsapRef }: PixiSettingsProps) => {
   const handleHover = useCallback(() => {
     const { app, stage } = getStore()
     if (!app || !stage) return
@@ -121,11 +116,11 @@ const PixiSettings = ({ className = '', gsapRef }: PixiSettingsProps) => {
     setStore({ ...getStore(), settingsHovered: true })
 
     gsap.set(stage, { zIndex: 9 })
-    gsap.to('.gsap-startpage-content', {
+    gsap.to(".gsap-startpage-content", {
       autoAlpha: 0.5,
       duration: APP_CONFIG.defaultDuration,
-      ease: 'power.in',
-      filter: 'blur(5px)',
+      ease: "power.in",
+      filter: "blur(5px)",
     })
 
     registerAutoPointer({
@@ -143,11 +138,11 @@ const PixiSettings = ({ className = '', gsapRef }: PixiSettingsProps) => {
     setStore({ ...getStore(), settingsHovered: false })
     removeAutoPointer()
     handleUpdateHitboxes()
-    gsap.to('.gsap-startpage-content', {
+    gsap.to(".gsap-startpage-content", {
       autoAlpha: 1,
       duration: APP_CONFIG.defaultDuration,
-      ease: 'power.in',
-      filter: 'blur(0px)',
+      ease: "power.in",
+      filter: "blur(0px)",
     })
 
     gsap.set(stage, { zIndex: 1 })

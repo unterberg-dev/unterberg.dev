@@ -1,4 +1,4 @@
-import rc from 'react-classmate'
+import rc from "react-classmate"
 
 const Latch = rc.aside`
   rounded-sm

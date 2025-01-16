@@ -1,6 +1,6 @@
-import Latch from '#atoms/Latch'
-import { ICON_ID } from '#lib/icons/iconID'
-import Button from '#molecules/Button'
+import Latch from "#atoms/Latch"
+import { ICON_ID } from "#lib/icons/iconID"
+import Button from "#molecules/Button"
 
 interface HideContentProps {
   onClick: () => void

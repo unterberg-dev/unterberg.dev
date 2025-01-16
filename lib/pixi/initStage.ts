@@ -1,18 +1,18 @@
-import gsap from 'gsap'
+import gsap from "gsap"
 
-import { registerAutoPointer } from '#pixi/autoPointer'
-import { registerUserEvents } from '#pixi/events'
-import { createHitboxes } from '#pixi/pointer'
-import createSpaceBg from '#pixi/spaceBg/createSpaceBg'
-import createEmitterTiles from '#pixi/spawner/createEmitterTiles'
-import { getStore, setStore, Store } from '#pixi/store'
-import { createApp } from '#pixi/system/createApp'
-import { createTileGrid, getDimensions } from '#pixi/utils'
-import { APP_CONFIG, PixiConfig } from '#root/lib/constants'
+import { registerAutoPointer } from "#pixi/autoPointer"
+import { registerUserEvents } from "#pixi/events"
+import { createHitboxes } from "#pixi/pointer"
+import createSpaceBg from "#pixi/spaceBg/createSpaceBg"
+import createEmitterTiles from "#pixi/spawner/createEmitterTiles"
+import { type Store, getStore, setStore } from "#pixi/store"
+import { createApp } from "#pixi/system/createApp"
+import { createTileGrid, getDimensions } from "#pixi/utils"
+import { APP_CONFIG, PixiConfig } from "#root/lib/constants"
 
 export const initStage = async (
   stage: HTMLDivElement | null,
-  setPixiStage: React.Dispatch<React.SetStateAction<Store['stage'] | undefined>> | undefined,
+  setPixiStage: React.Dispatch<React.SetStateAction<Store["stage"] | undefined>> | undefined,
 ) => {
   if (!stage) return
 
@@ -56,5 +56,5 @@ export const initStage = async (
   })
 
   // eslint-disable-next-line no-console
-  console.log('grid', getStore())
+  console.log("grid", getStore())
 }

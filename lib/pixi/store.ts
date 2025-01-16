@@ -1,7 +1,7 @@
-import { Application, Renderer } from 'pixi.js'
+import type { Application, Renderer } from "pixi.js"
 
-import { PixiConfigType } from '#lib/types'
-import { EmitterTile, Hitbox, SpaceTile, Tile } from '#pixi/types'
+import type { PixiConfigType } from "#lib/types"
+import type { EmitterTile, Hitbox, SpaceTile, Tile } from "#pixi/types"
 
 export type Store = {
   app: Application<Renderer>
@@ -24,7 +24,7 @@ export const setStore = (newStore: Store) => {
 
 export type EmitterStore = {
   emitterTiles: EmitterTile[]
-  activeEmitterTiles: Set<EmitterTile['id']>
+  activeEmitterTiles: Set<EmitterTile["id"]>
 }
 
 let emitterStore: EmitterStore

@@ -1,4 +1,4 @@
-import { getSpaceStore } from '#pixi/store'
+import { getSpaceStore } from "#pixi/store"
 
 const moveBg = (x: number, y: number) => {
   const { layer1ToX, layer1ToY, layer2ToX, layer2ToY } = getSpaceStore().spaceBg

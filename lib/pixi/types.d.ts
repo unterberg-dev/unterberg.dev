@@ -1,4 +1,4 @@
-import { Container, Sprite } from 'pixi.js'
+import type { Container, Sprite } from "pixi.js"
 
 export type Hitbox = {
   x: number

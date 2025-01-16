@@ -1,8 +1,8 @@
-import axios from 'axios'
-import { Assets, Spritesheet, Texture } from 'pixi.js'
+import axios from "axios"
+import { Assets, Spritesheet, type Texture } from "pixi.js"
 
-import { APP_CONFIG } from '#lib/constants'
-import { GetSpritesheetManifestResponse, GetSpritesheetResponse } from '#lib/types'
+import { APP_CONFIG } from "#lib/constants"
+import type { GetSpritesheetManifestResponse, GetSpritesheetResponse } from "#lib/types"
 
 const getSpritesheetManifest = async <T>(): Promise<T> => {
   const response = await axios.get<T>(`${APP_CONFIG.viteMediaUrl}/pixi/sheets.json`)
@@ -31,7 +31,7 @@ export const getAllSpritesheets = async (): Promise<PixiSpriteSheetParsed[]> => 
   const { sheets } = await getSpritesheetManifest<GetSpritesheetManifestResponse>()
   if (!sheets) return []
 
-  const promises = sheets.map(async sheet => {
+  const promises = sheets.map(async (sheet) => {
     const sheetResponse = await getSpritesheet<GetSpritesheetResponse>(sheet.key)
     const url = `${APP_CONFIG.viteMediaUrl}/pixi/${sheet.key}/${sheetResponse.meta.image}`
     const texture = await Assets.load(url)
@@ -48,11 +48,11 @@ export const getAllSpritesheets = async (): Promise<PixiSpriteSheetParsed[]> => 
   })
 
   const sheetsPromise = await Promise.all(promises)
-  const parsedSheets = sheetsPromise.map(async sheet => {
+  const parsedSheets = sheetsPromise.map(async (sheet) => {
     const source = await sheet.spritesheet.parse()
     return { key: sheet.data.key, sheet: source }
   })
   const parsed = await Promise.all(parsedSheets)
 
-  return parsed.map(sheet => sheet)
+  return parsed.map((sheet) => sheet)
 }

@@ -1,8 +1,8 @@
-import { registerAutoPointer } from '#pixi/autoPointer'
-import { handlePointerMove, handleUpdateHitboxes } from '#pixi/pointer'
-import moveBg from '#pixi/spaceBg/moveBg'
-import { getStore } from '#pixi/store'
-import { R } from '#pixi/utils'
+import { registerAutoPointer } from "#pixi/autoPointer"
+import { handlePointerMove, handleUpdateHitboxes } from "#pixi/pointer"
+import moveBg from "#pixi/spaceBg/moveBg"
+import { getStore } from "#pixi/store"
+import { R } from "#pixi/utils"
 
 export const triggerPointerStopped = (event: PointerEvent) => {
   const randomDim = R(40, 100)
@@ -53,8 +53,8 @@ const handlePointerMoveEvent = (event: PointerEvent) => {
 const handleScrollEndEvent = () => handleUpdateHitboxes()
 
 export const registerUserEvents = () => {
-  window.addEventListener('pointermove', handlePointerMoveEvent)
-  window.addEventListener('scrollend', handleScrollEndEvent)
+  window.addEventListener("pointermove", handlePointerMoveEvent)
+  window.addEventListener("scrollend", handleScrollEndEvent)
 
   // todo:
   // window.addEventListener('pointermove', handleMoveToRocketLaunch)
@@ -64,6 +64,6 @@ export const registerUserEvents = () => {
 }
 
 export const unregisterUserEvents = () => {
-  window.removeEventListener('pointermove', handlePointerMoveEvent)
-  window.removeEventListener('scrollend', handleScrollEndEvent)
+  window.removeEventListener("pointermove", handlePointerMoveEvent)
+  window.removeEventListener("scrollend", handleScrollEndEvent)
 }

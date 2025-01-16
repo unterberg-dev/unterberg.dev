@@ -1,4 +1,4 @@
-import rc from 'react-classmate'
+import rc from "react-classmate"
 
 const H6Headline = rc.h6`
   text-lg

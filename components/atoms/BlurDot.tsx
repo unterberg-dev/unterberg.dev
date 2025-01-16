@@ -1,7 +1,7 @@
-import { useRef } from 'react'
-import rc from 'react-classmate'
+import { useRef } from "react"
+import rc from "react-classmate"
 
-import { APP_CONFIG } from '#root/lib/constants'
+import { APP_CONFIG } from "#root/lib/constants"
 
 const StyledBlurDot = rc.div`
   absolute
@@ -20,8 +20,8 @@ const BlurDot = ({ ...props }: React.HTMLAttributes<HTMLDivElement>) => {
       ref={dotRef}
       style={{
         backgroundImage: `url(${APP_CONFIG.viteMediaUrl}/decorators/bg/4-comp.webp)`,
-        backgroundRepeat: 'no-repeat',
-        backgroundSize: '100% 100%',
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "100% 100%",
         ...props.style,
       }}
     />

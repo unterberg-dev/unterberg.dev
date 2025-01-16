@@ -95,11 +95,11 @@
 //   store.app.destroy(true, { children: true, texture: true })
 // }
 
-import gsap from 'gsap'
-import { Application, Ticker } from 'pixi.js'
+import gsap from "gsap"
+import { Application, Ticker } from "pixi.js"
 
-import { unregisterUserEvents } from '#pixi/events'
-import { getEmitterStore, getStore, setStore } from '#pixi/store'
+import { unregisterUserEvents } from "#pixi/events"
+import { getEmitterStore, getStore, setStore } from "#pixi/store"
 
 const gsapTickerUpdate = (app: Application) => {
   app.ticker.update()
@@ -148,29 +148,26 @@ export const killAllTimelines = () => {
   const store = getStore()
   const emitterStore = getEmitterStore()
 
-  const storeTimelines = [
-    store.autoPointerTimeline,
-    ...emitterStore.emitterTiles.map(e => e.timeline),
-  ]
+  const storeTimelines = [store.autoPointerTimeline, ...emitterStore.emitterTiles.map((e) => e.timeline)]
   const storePixiContainers = [
-    ...emitterStore.emitterTiles.map(e => e.container),
-    ...emitterStore.emitterTiles.map(e => e.innerContainer),
+    ...emitterStore.emitterTiles.map((e) => e.container),
+    ...emitterStore.emitterTiles.map((e) => e.innerContainer),
   ]
 
-  storeTimelines.forEach(timeline => {
+  for (const timeline of storeTimelines) {
     if (timeline) {
       timeline.pause()
       timeline.kill()
     }
-  })
+  }
   emitterStore.emitterTiles = []
   emitterStore.activeEmitterTiles = new Set()
 
-  storePixiContainers.forEach(container => {
+  for (const container of storePixiContainers) {
     if (container) {
       container.destroy({ children: true, texture: true })
     }
-  })
+  }
 
   setStore({ ...store, autoPointerTimeline: undefined })
 }

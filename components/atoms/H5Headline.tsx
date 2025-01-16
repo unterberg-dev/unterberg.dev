@@ -1,4 +1,4 @@
-import rc from 'react-classmate'
+import rc from "react-classmate"
 
 const H5Headline = rc.h5`
   text-xl

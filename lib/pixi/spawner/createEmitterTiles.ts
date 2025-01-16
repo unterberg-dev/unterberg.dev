@@ -1,14 +1,14 @@
-import gsap from 'gsap'
-import { Application, Texture } from 'pixi.js'
+import gsap from "gsap"
+import { type Application, Texture } from "pixi.js"
 
-import { PixiConfig } from '#lib/constants'
-import { registerSpawnerTimelines } from '#pixi/spawner/registerSpawnerTimelines'
-import { getAllSpritesheets } from '#pixi/spritesheet'
-import { setEmitterStore } from '#pixi/store'
-import { createContainer } from '#pixi/system/createContainer'
-import { createSprite } from '#pixi/system/createSprite'
-import { EmitterTile } from '#pixi/types'
-import { R } from '#pixi/utils'
+import { PixiConfig } from "#lib/constants"
+import { registerSpawnerTimelines } from "#pixi/spawner/registerSpawnerTimelines"
+import { getAllSpritesheets } from "#pixi/spritesheet"
+import { setEmitterStore } from "#pixi/store"
+import { createContainer } from "#pixi/system/createContainer"
+import { createSprite } from "#pixi/system/createSprite"
+import type { EmitterTile } from "#pixi/types"
+import { R } from "#pixi/utils"
 
 const getEmitterTimeline = () =>
   gsap.timeline({
@@ -26,9 +26,7 @@ const createEmitterTiles = async (app: Application, tileSize: number) => {
   const { bufferCount, scaleModifier } = PixiConfig.emitter
 
   const sheets = await getAllSpritesheets()
-  const baseTextures = sheets
-    .map(sheet => Object.values(sheet.sheet).map(texture => texture))
-    .flat()
+  const baseTextures = sheets.flatMap((sheet) => Object.values(sheet.sheet).map((texture) => texture))
 
   let tileId = 0
   for (let i = 0; i < bufferCount.value; i += 1) {
@@ -56,8 +54,9 @@ const createEmitterTiles = async (app: Application, tileSize: number) => {
       alpha: 0,
     })
 
+    tileId += 1
     tilesPos.push({
-      id: (tileId += 1),
+      id: tileId,
       sprite,
       container,
       innerContainer,
@@ -73,9 +72,9 @@ const createEmitterTiles = async (app: Application, tileSize: number) => {
     emitterTiles: tilesPos,
     activeEmitterTiles: new Set(),
   })
-  tilesPos.forEach(tile => {
+  for (const tile of tilesPos) {
     registerSpawnerTimelines({ timeline: tile.timeline, tile })
-  })
+  }
 }
 
 export default createEmitterTiles

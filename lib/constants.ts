@@ -1,11 +1,11 @@
-import type { PixiConfigType } from '#lib/types'
+import type { PixiConfigType } from "#lib/types"
 
 export const APP_CONFIG = {
-  viteSiteUrl: import.meta.env.PROD ? 'https://unterberg.dev/' : 'http://localhost:3000/',
+  viteSiteUrl: import.meta.env.PROD ? "https://unterberg.dev/" : "http://localhost:3000/",
   viteMediaUrl: `${
-    import.meta.env.PROD ? 'https://cdn.unterberg.dev/' : 'http://localhost:3000'
+    import.meta.env.PROD ? "https://cdn.unterberg.dev/" : "http://localhost:3000"
   }${import.meta.env.BASE_URL.slice(0, -1)}`,
-  viteMailApi: 'https://mail.unterberg.dev/',
+  viteMailApi: "https://mail.unterberg.dev/",
   defaultDuration: 0.35,
   defaultDurationSlow: 2.5,
 }
@@ -20,8 +20,8 @@ export enum SPACE_TIMELINE {
 
 // path created with figma
 export const defaultCirclePath = {
-  d: 'M200 6.25942e-06C90.3739 1.10182 0.773361 90.3687 0.500015 200C0.225974 309.91 90.0953 398.395 200 399.5C311.004 400.616 399.777 311.009 399.5 200C399.224 89.2669 310.728 -1.11288 200 6.25942e-06Z',
-  viewBox: '0 0 400 400',
+  d: "M200 6.25942e-06C90.3739 1.10182 0.773361 90.3687 0.500015 200C0.225974 309.91 90.0953 398.395 200 399.5C311.004 400.616 399.777 311.009 399.5 200C399.224 89.2669 310.728 -1.11288 200 6.25942e-06Z",
+  viewBox: "0 0 400 400",
 }
 
 export const PixiConfig: PixiConfigType = {

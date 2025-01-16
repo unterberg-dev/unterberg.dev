@@ -1,4 +1,4 @@
-import { getEmitterStore } from '#pixi/store'
+import { getEmitterStore } from "#pixi/store"
 
 interface SpawnTilesProps {
   mouseX: number
@@ -20,7 +20,7 @@ const spawnTile = ({
   isInHitbox,
 }: SpawnTilesProps) => {
   const { emitterTiles, activeEmitterTiles } = getEmitterStore()
-  const target = emitterTiles.find(tile => !activeEmitterTiles.has(tile.id))
+  const target = emitterTiles.find((tile) => !activeEmitterTiles.has(tile.id))
 
   if (!target) return
   activeEmitterTiles.add(target.id)
@@ -28,16 +28,7 @@ const spawnTile = ({
   const { setPosition } = target
 
   if (!setPosition) return
-  setPosition(
-    xPosition,
-    yPosition,
-    accXPosition,
-    accYPosition,
-    mouseX,
-    mouseY,
-    target.id,
-    isInHitbox,
-  )
+  setPosition(xPosition, yPosition, accXPosition, accYPosition, mouseX, mouseY, target.id, isInHitbox)
 }
 
 export default spawnTile

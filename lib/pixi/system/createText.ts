@@ -1,4 +1,4 @@
-import { Text, TextOptions, TextStyle, TextStyleOptions } from 'pixi.js'
+import { Text, type TextOptions, type TextStyle, type TextStyleOptions } from "pixi.js"
 
 export interface CreateTextProps {
   value: string
@@ -11,8 +11,8 @@ export interface CreateTextProps {
 export const createText = ({ value, x = 0, y = 0, anchor = 0.5, size = 20 }: CreateTextProps) => {
   const textBaseAtts = {
     style: {
-      fontFamily: 'Arial',
-      fontWeight: '700',
+      fontFamily: "Arial",
+      fontWeight: "700",
       fontSize: size,
       fill: 0xffffff,
     },

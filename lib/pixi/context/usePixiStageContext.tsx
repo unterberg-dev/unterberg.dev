@@ -1,6 +1,6 @@
-import { useContext } from 'react'
+import { useContext } from "react"
 
-import { PixiStageContext } from '#pixi/context/PixiStageContextProvider'
+import { PixiStageContext } from "#pixi/context/PixiStageContextProvider"
 
 const usePixiStageContext = () => {
   const context = useContext(PixiStageContext)
@@ -8,7 +8,7 @@ const usePixiStageContext = () => {
   const setPixiStage = context?.setPixiStage
 
   if (!context) {
-    throw new Error('pixiStore must be used within the PixiStageContextProvider')
+    throw new Error("pixiStore must be used within the PixiStageContextProvider")
   }
 
   return { pixiStage, setPixiStage }

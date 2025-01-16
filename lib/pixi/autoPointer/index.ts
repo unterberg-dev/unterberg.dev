@@ -1,9 +1,9 @@
-import gsap from 'gsap'
+import gsap from "gsap"
 
-import { defaultCirclePath } from '#lib/constants'
-import { handlePointerMove } from '#pixi/pointer'
-import { getStore, setStore } from '#pixi/store'
-import { generatePathPoints, scalePathToViewBox } from '#pixi/utils'
+import { defaultCirclePath } from "#lib/constants"
+import { handlePointerMove } from "#pixi/pointer"
+import { getStore, setStore } from "#pixi/store"
+import { generatePathPoints, scalePathToViewBox } from "#pixi/utils"
 
 interface AutoPointerProps {
   x?: number
@@ -63,12 +63,12 @@ export const registerAutoPointer = ({
   const posX = (x || stageWidth / 2) - ellipse.width / 2 + (!x ? ellipse.offsetX : 0)
   const posY = (y || stageHeight / 2) - ellipse.height / 2 + (!y ? ellipse.offsetY : 0)
 
-  points.forEach(point => {
+  for (const point of points) {
     tl.to(
       {},
       {
         duration,
-        ease: 'linear',
+        ease: "linear",
         onUpdate: () => {
           handlePointerMove({
             x: posX + point.x,
@@ -76,9 +76,9 @@ export const registerAutoPointer = ({
           })
         },
       },
-      '>',
+      ">",
     )
-  })
+  }
   tl.progress(progress)
   tl.play()
 }

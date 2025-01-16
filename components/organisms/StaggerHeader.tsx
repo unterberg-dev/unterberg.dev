@@ -1,9 +1,9 @@
-import rc from 'react-classmate'
+import rc from "react-classmate"
 
-import BlurDot from '#atoms/BlurDot'
-import H3Headline from '#atoms/H3Headline'
-import Layout from '#atoms/Layout'
-import type { GsapStaggerFunctionComponent } from '#gsap/usePageHeaderAnimations'
+import BlurDot from "#atoms/BlurDot"
+import H3Headline from "#atoms/H3Headline"
+import Layout from "#atoms/Layout"
+import type { GsapStaggerFunctionComponent } from "#gsap/usePageHeaderAnimations"
 
 interface StaggerHeaderProps {
   GsapStaggerElement: GsapStaggerFunctionComponent
@@ -13,7 +13,7 @@ interface StaggerHeaderProps {
 }
 
 const dropShadowStyle = {
-  textShadow: 'rgba(2, 6, 23, 0.7) 2px 1px 3px',
+  textShadow: "rgba(2, 6, 23, 0.7) 2px 1px 3px",
 }
 
 const CustomBlurDot = rc.extend(BlurDot)`
@@ -38,9 +38,7 @@ const StaggerHeader = ({ GsapStaggerElement, postTitle, subtitle, title }: Stagg
       <header className="pointer-events-none relative z-10 flex flex-col mx-auto items-center">
         {postTitle && (
           <GsapStaggerElement>
-            <h1 className="pixi-hitbox text-grayDark font-mono mb-8 text-center text-sm">
-              {postTitle}
-            </h1>
+            <h1 className="pixi-hitbox text-grayDark font-mono mb-8 text-center text-sm">{postTitle}</h1>
           </GsapStaggerElement>
         )}
         {title && (

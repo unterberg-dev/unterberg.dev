@@ -1,5 +1,5 @@
-import H2Headline from '#atoms/H2Headline'
-import Layout from '#atoms/Layout'
+import H2Headline from "#atoms/H2Headline"
+import Layout from "#atoms/Layout"
 
 const ErrorPage = ({ is404, errorInfo }: { is404: boolean; errorInfo?: string }) => (
   <Layout className="mt-20">

@@ -29,7 +29,7 @@
       "#components/*": ["./components/*"],
       "#lib/*": ["./lib/*"],
       "#src/*": ["./src/*"],
-      "#root/*": ["./*"],
+      "#root/*": ["./*"]
     }
   },
   "exclude": ["dist", "*.js", "*.cjs", "**/*.js", "**/*.cjs", "node_modules", "public", "dist"]

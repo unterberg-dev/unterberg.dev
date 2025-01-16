@@ -1,11 +1,11 @@
-import { Application } from 'pixi.js'
+import type { Application } from "pixi.js"
 
-import { createText } from '#pixi/system/createText'
-import { createTexture } from '#pixi/system/createTexture'
+import { createText } from "#pixi/system/createText"
+import { createTexture } from "#pixi/system/createTexture"
 
 /* todo: test if this text-texture-sprite conversion affects the SEO TBT score */
 const createtextureFromText = (app: Application, size: number, input: string[]) =>
-  input.map(icon => {
+  input.map((icon) => {
     const text = createText({
       value: icon,
       size,

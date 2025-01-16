@@ -1,10 +1,10 @@
-import spawnTile from '#pixi/spawner/spawnTile'
-import { getStore, setStore } from '#pixi/store'
-import { Hitbox } from '#pixi/types'
-import { R } from '#pixi/utils'
+import spawnTile from "#pixi/spawner/spawnTile"
+import { getStore, setStore } from "#pixi/store"
+import type { Hitbox } from "#pixi/types"
+import { R } from "#pixi/utils"
 
 export const createHitboxes: () => Hitbox[] | undefined = () => {
-  const hitboxes = document.querySelectorAll('.pixi-hitbox ')
+  const hitboxes = document.querySelectorAll(".pixi-hitbox ")
   if (!hitboxes || hitboxes.length === 0) return undefined
 
   return Object.values(hitboxes).flatMap((hitbox: Element) => {
@@ -33,13 +33,7 @@ interface TriggerAnimateHoverProps {
   accY?: number
 }
 
-export const triggerAnimateHover = ({
-  triggerIDs,
-  mouseX,
-  mouseY,
-  accX,
-  accY,
-}: TriggerAnimateHoverProps) => {
+export const triggerAnimateHover = ({ triggerIDs, mouseX, mouseY, accX, accY }: TriggerAnimateHoverProps) => {
   const {
     hitboxes,
     tileWidth,
@@ -55,7 +49,7 @@ export const triggerAnimateHover = ({
   const chance = Math.random() < pointerMissRate
   if (chance) return
 
-  triggerIDs.forEach(() => {
+  for (const _triggerID of triggerIDs) {
     const movementX = accX || 0
     const movementY = accY || 0
 
@@ -73,15 +67,11 @@ export const triggerAnimateHover = ({
     const xPosition = newX + R(-allActiveTilesSize, allActiveTilesSize)
     const yPosition = newY + R(-allActiveTilesSize, allActiveTilesSize)
 
-    const accXPosition =
-      xPosition + clampedMovementX * pointerMomentumModifier + R(-tileWidth, tileWidth)
+    const accXPosition = xPosition + clampedMovementX * pointerMomentumModifier + R(-tileWidth, tileWidth)
     const accYPosition =
-      yPosition +
-      clampedMovementY * pointerMomentumModifier +
-      R(-tileWidth, tileWidth) +
-      gravityModifier
+      yPosition + clampedMovementY * pointerMomentumModifier + R(-tileWidth, tileWidth) + gravityModifier
 
-    const isInHitbox = hitboxes?.some(hitbox => {
+    const isInHitbox = hitboxes?.some((hitbox) => {
       const minX = hitbox.x - tileWidth * cursorRadius
       const maxX = hitbox.x + hitbox.width + tileWidth * cursorRadius
       const minY = hitbox.y - tileWidth * cursorRadius
@@ -103,7 +93,7 @@ export const triggerAnimateHover = ({
       accYPosition,
       isInHitbox: !!isInHitbox,
     })
-  })
+  }
 }
 
 interface GetAllNeighborsProps {
