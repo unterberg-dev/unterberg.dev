@@ -1,4 +1,4 @@
-name: Deploy Documentation
+name: Deploy Page
 
 on:
   push:
@@ -22,7 +22,7 @@ jobs:
       - name: Install Dependencies
         run: npm install
 
-      - name: Build Documentation
+      - name: Build Page
         run: npm run build
 
       - name: Deploy to GitHub Pages
