@@ -192,7 +192,7 @@ const StartPage = () => {
         {!pixiStage && (
           <div className="hidden md:block fixed inset-0 opacity-30 pointer-events-none z-100">
             <div
-              className="gsap-bg-pattern absolute inset-0 opacity-100 animate-pulse "
+              className="gsap-bg-pattern absolute inset-0 opacity-100"
               style={{ backgroundImage: `url(${APP_CONFIG.viteMediaUrl}/pattern-big.svg)` }}
             />
             <p className="text-center font-light text-6xl text-gray animate-pulse absolute flex items-center justify-center text-center w-full h-full">
